@@ -1,0 +1,97 @@
+entity Post {
+    content String,
+    createdAt ZonedDateTime,
+    updatedAt ZonedDateTime
+}
+
+entity Message {
+    text String,
+    createdAt ZonedDateTime,
+    updatedAt ZonedDateTime,
+    deletedAt ZonedDateTime,
+    createdBy User,
+    messageStatus MessageStatus,
+}
+
+entity Attachment {
+	createdAt ZonedDateTime,
+    attachmentType AttachmentType
+}
+
+entity Reaction {
+    createdAt ZonedDateTime,
+    deletedAt ZonedDateTime,
+    reactionType ReactionType
+}
+
+entity Notification{
+    notifDate ZonedDateTime,
+    notifType NotifType,
+    notifStatus NotifStatus
+}
+
+entity Account {
+    birthdate LocalDate,
+    theme Theme,
+    description String maxlength (144)
+}
+
+enum Theme {
+	LIGHT, DARK
+}
+
+enum NotifStatus {
+	SEEN, NOTSEEN
+}
+
+enum MessageStatus {
+	SEND, DISTRIBUTED, SEEN
+}
+
+enum NotifType {
+    FOLLOW, MESSAGE, LIKE, SHARE
+}
+
+enum AttachmentType {
+    VIDEO, IMAGE
+}
+
+enum ReactionType {
+    LIKE, SHARE
+}
+
+relationship ManyToOne{
+    Post{createdBy} to User,
+    Message{createdBy} to User,
+    Reaction to Post,
+    Reaction{reactedBy} to User,
+    Notification to User,
+    Notification to Reaction,
+    Post{postCommented} to Post
+}
+
+relationship OneToOne{
+    Message to Attachment,
+    Post to Attachment,
+    Notification to Message,
+    Notification to Post,
+    Notification to User,
+    Image to Attachment,
+    Video to Attachment,
+    Account to User,
+    Account{profilePicture} to Attachment
+}
+
+relationship ManyToMany {
+	User{follower} to User{followed}
+}
+
+// Set pagination options
+paginate Post, Message, Notification with infinite-scroll
+
+
+// Use Data Transfert Objects (DTO)
+dto * with mapstruct
+
+// Set service options to all except few
+service all with serviceImpl
