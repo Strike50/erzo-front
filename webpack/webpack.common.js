@@ -74,7 +74,7 @@ module.exports = options => ({
         loader: 'source-map-loader'
       },
       {
-        test: /\.(j|t)sx?$/,
+        test: /\.([jt])sx?$/,
         enforce: 'pre',
         loader: 'eslint-loader',
         exclude: [utils.root('node_modules')]
