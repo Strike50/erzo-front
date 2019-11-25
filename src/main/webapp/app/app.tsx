@@ -27,10 +27,10 @@ const baseHref = document
 export interface IAppProps extends StateProps, DispatchProps {}
 
 export const App = (props: IAppProps) => {
-  useEffect(() => {
-    props.getSession();
-    props.getProfile();
-  }, []);
+  // useEffect(() => {
+  //   props.getSession();
+  //   props.getProfile();
+  // }, []);
 
   const paddingTop = '60px';
   return (

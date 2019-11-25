@@ -62,7 +62,8 @@ export default (state: AuthenticationState = initialState, action): Authenticati
         loading: false,
         loginError: false,
         showModalLogin: false,
-        loginSuccess: true
+        loginSuccess: true,
+        isAuthenticated: true
       };
     case ACTION_TYPES.LOGOUT:
       return {
@@ -115,9 +116,9 @@ export const getSession = () => async (dispatch, getState) => {
 export const login = (username, password, rememberMe = false) => async (dispatch, getState) => {
   const result = await dispatch({
     type: ACTION_TYPES.LOGIN,
-    payload: axios.post('api/authenticate', { username, password, rememberMe })
+    payload: axios.post('/login', { username, password, rememberMe })
   });
-  const bearerToken = result.value.headers.authorization;
+  const bearerToken = result.value.data.token.accessToken;
   if (bearerToken && bearerToken.slice(0, 7) === 'Bearer ') {
     const jwt = bearerToken.slice(7, bearerToken.length);
     if (rememberMe) {
@@ -126,7 +127,6 @@ export const login = (username, password, rememberMe = false) => async (dispatch
       Storage.session.set(AUTH_TOKEN_KEY, jwt);
     }
   }
-  await dispatch(getSession());
 };
 
 export const clearAuthToken = () => {
