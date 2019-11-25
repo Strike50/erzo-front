@@ -3,6 +3,7 @@ import { Translate, translate } from 'react-jhipster';
 import { connect } from 'react-redux';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
 import { Row, Col, Alert, Button } from 'reactstrap';
+import { Redirect } from 'react-router-dom';
 
 import PasswordStrengthBar from 'app/shared/layout/password/password-strength-bar';
 import { IRootState } from 'app/shared/reducers';
@@ -16,13 +17,14 @@ export const RegisterPage = (props: IRegisterProps) => {
   useEffect(() => () => props.reset(), []);
 
   const handleValidSubmit = (event, values) => {
-    props.handleRegister(values.username, values.email, values.firstPassword, props.currentLocale);
+    props.handleRegister(values.username, values.email, values.firstPassword, values.firstName, values.lastName, props.currentLocale);
     event.preventDefault();
   };
 
   const updatePassword = event => setPassword(event.target.value);
 
-  return (
+  return props.registrationSuccess ?
+    <Redirect to={`/`}/> : (
     <div>
       <Row className="justify-content-center">
         <Col md="8">
@@ -56,6 +58,32 @@ export const RegisterPage = (props: IRegisterProps) => {
                 maxLength: { value: 254, errorMessage: translate('global.messages.validate.email.maxlength') }
               }}
             />
+            <Row>
+              <Col>
+                <AvField
+                  name="firstName"
+                  label={translate('global.form.firstname.label')}
+                  placeholder={translate('global.form.firstname.placeholder')}
+                  validate={{
+                    required: { value: true, errorMessage: translate('global.messages.validate.email.required') },
+                    minLength: { value: 5, errorMessage: translate('global.messages.validate.email.minlength') },
+                    maxLength: { value: 50, errorMessage: translate('global.messages.validate.email.maxlength') }
+                  }}
+                />
+              </Col>
+              <Col>
+                <AvField
+                  name="lastName"
+                  label={translate('global.form.lastname.label')}
+                  placeholder={translate('global.form.lastname.placeholder')}
+                  validate={{
+                    required: { value: true, errorMessage: translate('global.messages.validate.email.required') },
+                    minLength: { value: 5, errorMessage: translate('global.messages.validate.email.minlength') },
+                    maxLength: { value: 50, errorMessage: translate('global.messages.validate.email.maxlength') }
+                  }}
+                />
+              </Col>
+            </Row>
             <AvField
               name="firstPassword"
               label={translate('global.form.newpassword.label')}
@@ -107,8 +135,9 @@ export const RegisterPage = (props: IRegisterProps) => {
   );
 };
 
-const mapStateToProps = ({ locale }: IRootState) => ({
-  currentLocale: locale.currentLocale
+const mapStateToProps = ({ locale, register }: IRootState) => ({
+  currentLocale: locale.currentLocale,
+  registrationSuccess: register.registrationSuccess
 });
 
 const mapDispatchToProps = { handleRegister, reset };
