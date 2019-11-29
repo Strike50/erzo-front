@@ -1,17 +1,17 @@
 import React from 'react';
-import {Card, CardBody, CardFooter, CardText, CardTitle} from 'reactstrap';
 import PropTypes from 'prop-types';
+import Card from "react-bootstrap/Card";
 
 export const Post = props => {
   return (
     <Card>
-      <CardBody>
-        <CardTitle>{props.author} - {props.creationDate}</CardTitle>
-        <CardText>{props.content}</CardText>
-      </CardBody>
-      <CardFooter>
+      <div>
+        <div>{props.author} - {props.creationDate}</div>
+        <div>{props.content}</div>
+      </div>
+      <div>
         Reactions
-      </CardFooter>
+      </div>
     </Card>
   );
 };
