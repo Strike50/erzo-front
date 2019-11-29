@@ -1,17 +1,24 @@
+import 'bootstrap/dist/css/bootstrap.css';
+import './index.css';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Keycloak from "keycloak-js";
+import axios from "axios";
 import {createStore} from "redux";
 import {Provider} from "react-redux";
-import Keycloak from "keycloak-js";
 import {KeycloakProvider} from "react-keycloak";
 import rootReducer from "./reducers";
-import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 const store = createStore(rootReducer);
 
 const keycloak = Keycloak('/keycloak.json');
+
+const TIMEOUT = 60 * 1000;
+axios.defaults.timeout = TIMEOUT;
+axios.defaults.baseURL = "api.erzo.wtf";
 
 ReactDOM.render(
   <KeycloakProvider keycloak={keycloak} initConfig={{
