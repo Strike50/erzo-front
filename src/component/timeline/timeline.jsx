@@ -15,8 +15,7 @@ export const Timeline = (props)  => {
 };
 
 const mapStateToProps = (storeState) => ({
-  listPost: storeState.timeline.listPost
-});
+  listPost: storeState.timeline.listPost});
 
 const mapDispatchToProps = { fetchTimeline };
 

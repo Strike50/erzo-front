@@ -1,15 +1,16 @@
 import React from 'react';
 import {Route, Switch} from 'react-router-dom';
-import {Timeline} from '../timeline/timeline';
+import Timeline from '../timeline/timeline';
+import Profile from "../profile/profile";
 
 const Routes = () => (
   <div className="view-routes">
     <Switch>
-      <Route>Profil</Route>
+      <Route path="/profil"><Profile/></Route>
       <Route>Notification</Route>
       <Route>Message</Route>
       <Route path="logout">logout</Route>
-      <Route path="/"><Timeline /></Route>
+      <Route path="/" exact><Timeline /></Route>
     </Switch>
   </div>
 );
