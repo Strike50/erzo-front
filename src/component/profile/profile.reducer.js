@@ -32,6 +32,6 @@ export default (state = initialState, action) => {
 }
 export const fetchProfile = () => ({
     type: ACTION_TYPES.FETCH_PROFILE,
-    payload: axios.get('http://localhost:3000/users/')
+    payload: axios.get('http://localhost:3000/users/2326187c-a7ed-489a-991b-53d35da2cc28')
 });
 
