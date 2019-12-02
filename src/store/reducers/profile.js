@@ -28,10 +28,10 @@ const fetchProfileFail = (state, action) => {
 };
 
 const fetchProfileSuccess = (state, action) => {
+    console.log(action.profileDetail.users);
     return {
         ...state,
-        profile: action.profile
+        profileDetail: action.profileDetail.users
     }
 };
-
 export default reducer;

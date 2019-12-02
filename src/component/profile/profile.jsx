@@ -1,33 +1,36 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import Card from "react-bootstrap/Card";
 import {connect} from "react-redux";
 
 import * as actions from '../../store/actions/index'
 
-export const Profile = props => {
+class Profile extends React.Component {
 
-    useEffect(() => {
-        props.fetchProfile();
-    });
+    componentDidMount() {
+        this.props.fetchProfile();
+    };
 
-    const profileDetail = props.profileDetail;
+    render() {
+        const profileDetail = this.props.profileDetail;
+        console.log(this.props);
+        return (
+            <Card>
+                <div>
+                    <div>{profileDetail.description}</div>
+                    <div>{profileDetail.birthday}</div>
+                    <div>{profileDetail.picture}</div>
+                </div>
+            </Card>
+        );
+    }
+}
 
-    console.log(props);
-
-    return (
-        <Card>
-            <div>
-                <div>{profileDetail.description}</div>
-                <div>{profileDetail.birthday}</div>
-                <div>{profileDetail.picture}</div>
-            </div>
-        </Card>
-    );
+const mapStateToProps = state => {
+    return {
+        profileDetail: state.profile.profileDetail,
+        errorMessage: state.profile.errorMessage
+    }
 };
-const mapStateToProps = state => ({
-    profileDetail: state.profile.profileDetail,
-    errorMessage: state.profile.errorMessage
-});
 
 const mapDispatchToProps = dispatch => {
     return {

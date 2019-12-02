@@ -2,14 +2,10 @@ import axios from "axios";
 import * as actionTypes from "./actionTypes";
 
 export const fetchProfile = () => {
-    console.log('oui');
     return dispatch => {
-        console.log('azeaze');
         dispatch(fetchProfileStart());
-        console.log('non');
-        return axios.get('http://localhost:3000/users/2326187c-a7ed-489a-991b-53d35da2cc28')
+        axios.get('http://localhost:3000/users/2326187c-a7ed-489a-991b-53d35da2cc28')
             .then(res => {
-                console.log(res);
                 dispatch(fetchProfileSuccess(res));
             })
             .catch(error => {
@@ -31,9 +27,9 @@ export const fetchProfileFail = error => {
     }
 };
 
-export const fetchProfileSuccess = profile => {
+export const fetchProfileSuccess = response => {
     return {
         type: actionTypes.FETCH_PROFILE_SUCCESS,
-        profile: profile
+        profileDetail: response.data
     }
 };

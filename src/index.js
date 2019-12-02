@@ -5,18 +5,23 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Keycloak from "keycloak-js";
 import axios from "axios";
-import {combineReducers, createStore} from "redux";
+import {applyMiddleware, combineReducers, createStore, compose} from "redux";
 import {Provider} from "react-redux";
 import {KeycloakProvider} from "react-keycloak";
+import thunk from 'redux-thunk';
+
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import profileReducer from "./store/reducers/profile";
+import timelineReducer from "./store/reducers/timeline";
+const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : (null || compose);
 
 const rootReducer = combineReducers({
-    profile: profileReducer
+    profile: profileReducer,
+    timeline: timelineReducer
 });
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
 
 const keycloak = Keycloak('/keycloak.json');
 
