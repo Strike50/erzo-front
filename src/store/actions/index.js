@@ -1,0 +1,3 @@
+export {
+    fetchProfile
+} from './profile';
