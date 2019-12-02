@@ -1,23 +1,31 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
-import {fetchTimeline} from './timeline.reducer';
+import * as actions from '../../store/actions/index'
 import Post from '../post/post';
 
-export const Timeline = (props)  => {
+class Timeline extends React.Component {
 
-  useEffect(() => {
-    props.fetchTimeline();
-  });
-
-  return props.listPost.map((post,i) => (
-    <Post key={`post-${i}`} author={post.author} content={post.content} creationDate={post.creationDate} reactions={post.reactions}/>
-  ));
+componentDidMount() {
+  this.props.fetchTimeline();
 };
+
+render() {
+  const listPost = this.props.listPost;
+  return props.listPost.map((post,i) => (
+      <Post key={`post-${i}`} author={post.author} content={post.content} creationDate={post.creationDate} reactions={post.reactions}/>
+  ));
+}
+
+}
 
 const mapStateToProps = (storeState) => ({
   listPost: storeState.timeline.listPost});
 
-const mapDispatchToProps = { fetchTimeline };
+const mapDispatchToProps = dispatch => {
+    return {
+      fetchTimeline: () => dispatch(actions.fetchTimeline())
+    }
+};
 
 export default connect(
   mapStateToProps,
