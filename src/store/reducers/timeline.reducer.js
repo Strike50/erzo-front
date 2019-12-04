@@ -5,7 +5,7 @@ const initialState = {
     errorMessage: null
 };
 
-const reducer = (state = initialState, action) => {
+const timelineReducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.FETCH_TIMELINE_START: return fetchTimelineStart(state, action);
         case actionTypes.FETCH_TIMELINE_FAIL: return fetchTimelineFail(state, action);
@@ -34,4 +34,4 @@ const fetchTimelineSuccess = (state, action) => {
         profileDetail: action.profileDetail.timeline
     }
 };
-export default reducer;
+export default timelineReducer;

@@ -1,8 +1,8 @@
 import React from 'react';
-import Card from "react-bootstrap/Card";
 import {connect} from "react-redux";
 
 import * as actions from '../../store/actions/index'
+import {Card} from "reactstrap";
 
 class Profile extends React.Component {
 

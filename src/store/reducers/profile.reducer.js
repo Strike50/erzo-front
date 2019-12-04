@@ -5,7 +5,7 @@ const initialState = {
     errorMessage: null
 };
 
-const reducer = (state = initialState, action) => {
+const profileReducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.FETCH_PROFILE_START: return fetchProfileStart(state, action);
         case actionTypes.FETCH_PROFILE_FAIL: return fetchProfileFail(state, action);
@@ -34,4 +34,4 @@ const fetchProfileSuccess = (state, action) => {
         profileDetail: action.profileDetail.users
     }
 };
-export default reducer;
+export default profileReducer;
