@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Card from "react-bootstrap/Card";
+import {Card} from "reactstrap";
 
 export const Post = props => {
   return (

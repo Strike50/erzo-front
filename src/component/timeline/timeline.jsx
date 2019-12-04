@@ -1,20 +1,31 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {Col, Row} from "reactstrap";
 import * as actions from '../../store/actions/index'
 import Post from '../post/post';
+import CreatePost from "../create-post/create-post";
 
 class Timeline extends React.Component {
 
-componentDidMount() {
-  this.props.fetchTimeline();
-};
+  componentDidMount() {
+    this.props.fetchTimeline();
+  };
 
-render() {
-  const listPost = this.props.listPost;
-  return props.listPost.map((post,i) => (
-      <Post key={`post-${i}`} author={post.author} content={post.content} creationDate={post.creationDate} reactions={post.reactions}/>
-  ));
-}
+  render() {
+    const listPost = this.props.listPost;
+    return (
+      <Row>
+        <Col/>
+        <Col>
+          <CreatePost/>
+          {listPost.map((post,i) => (
+          <Post key={`post-${i}`} author={post.author} content={post.content} creationDate={post.creationDate} reactions={post.reactions}/>
+          ))}
+        </Col>
+        <Col/>
+      </Row>
+  );
+  }
 
 }
 

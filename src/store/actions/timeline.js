@@ -1,10 +1,10 @@
-import axios from "axios";
+import axios from "../../axios-order";
 import * as actionTypes from "./actionTypes";
 
 export const fetchTimeline = () => {
     return dispatch => {
         dispatch(fetchTimelineStart());
-        axios.get('http://localhost:3000/posts/timeline')
+        axios.get('posts/timeline')
             .then(res => {
                 dispatch(fetchTimelineSuccess(res));
             })

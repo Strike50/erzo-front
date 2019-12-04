@@ -1,34 +1,69 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './header.css';
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
-import NavDropdown from "react-bootstrap/NavDropdown";
-import Form from "react-bootstrap/Form";
-import FormControl from "react-bootstrap/FormControl";
-import Button from "react-bootstrap/Button";
+import {
+  Button,
+  Collapse,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  Form,
+  FormGroup,
+  Input,
+  Nav,
+  Navbar,
+  NavbarBrand,
+  NavbarToggler,
+  NavItem,
+  NavLink
+} from 'reactstrap';
+import {useKeycloak} from 'react-keycloak';
 
 const Header = () => {
 
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const toggle = () => setDropdownOpen(!dropdownOpen);
+
+  const { keycloak } = useKeycloak();
+
   return (
-    <Navbar bg="light" expand="lg">
-      <Navbar.Brand href="/">Erzo</Navbar.Brand>
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav">
+    <>
+    <Navbar color="light" light expand="lg">
+      <NavbarBrand href="/">Erzo</NavbarBrand>
+      <NavbarToggler  />
+      <Collapse isOpen navbar>
         <Nav className="mr-auto">
-          <Nav.Link href="/">Accueil</Nav.Link>
-          <Nav.Link href="/profil">Profil</Nav.Link>
-          <Nav.Link href="/notifications">Notifications</Nav.Link>
-          <Nav.Link href="/messages">Messages</Nav.Link>
-          <NavDropdown title="" id="basic-nav-dropdown">
-            <NavDropdown.Item href="/logout">Logout</NavDropdown.Item>
-          </NavDropdown>
+          <NavItem>
+            <NavLink href="/">Accueil</NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink href="/profil">Profil</NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink href="/notifications">Notifications</NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink href="/messages">Messages</NavLink>
+          </NavItem>
+          <Dropdown nav isOpen={dropdownOpen} toggle={toggle}>
+            <DropdownToggle nav caret>
+              Compte
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem onClick={keycloak.logout}>Se déconnecter</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
         </Nav>
         <Form inline>
-          <FormControl type="text" placeholder="Rechercher ..." className="mr-sm-2" />
-          <Button variant="outline-success">Rechercher</Button>
+          <FormGroup>
+            <Input type="text" placeholder="Rechercher ..." className="mr-sm-2" />
+            <Button variant="outline-success">Rechercher</Button>
+          </FormGroup>
         </Form>
-      </Navbar.Collapse>
+      </Collapse>
     </Navbar>
+  </>
   );
 };
 
