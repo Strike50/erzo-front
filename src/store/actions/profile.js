@@ -4,7 +4,7 @@ import * as actionTypes from "./actionTypes";
 export const fetchProfile = () => {
     return dispatch => {
         dispatch(fetchProfileStart());
-        axios.get('users/2326187c-a7ed-489a-991b-53d35da2cc28')
+        axios.get('/users/2326187c-a7ed-489a-991b-53d35da2cc28')
             .then(res => {
                 dispatch(fetchProfileSuccess(res));
             })

@@ -28,7 +28,6 @@ const fetchTimelineFail = (state, action) => {
 };
 
 const fetchTimelineSuccess = (state, action) => {
-    console.log(action.profileDetail.timeline);
     return {
         ...state,
         profileDetail: action.profileDetail.timeline

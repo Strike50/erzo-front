@@ -18,6 +18,8 @@ import {
   NavLink
 } from 'reactstrap';
 import {useKeycloak} from 'react-keycloak';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {NavLink as Link} from "react-router-dom";
 
 const Header = () => {
 
@@ -35,16 +37,25 @@ const Header = () => {
       <Collapse isOpen navbar>
         <Nav className="mr-auto">
           <NavItem>
-            <NavLink href="/">Accueil</NavLink>
+            <NavLink to="/" tag={Link}>
+              <FontAwesomeIcon icon="home"/>
+              <span>Accueil</span>
+            </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink href="/profil">Profil</NavLink>
+            <NavLink to="/profil" tag={Link}>
+              Profil
+            </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink href="/notifications">Notifications</NavLink>
+            <NavLink to="/notifications" tag={Link}>
+              Notifications
+            </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink href="/messages">Messages</NavLink>
+            <NavLink to="/messages" tag={Link}>
+              Messages
+            </NavLink>
           </NavItem>
           <Dropdown nav isOpen={dropdownOpen} toggle={toggle}>
             <DropdownToggle nav caret>
@@ -57,7 +68,7 @@ const Header = () => {
         </Nav>
         <Form inline>
           <FormGroup>
-            <Input type="text" placeholder="Rechercher ..." className="mr-sm-2" />
+            <Input type="text" placeholder="Rechercher un utilisateur ..." className="mr-sm-2" />
             <Button variant="outline-success">Rechercher</Button>
           </FormGroup>
         </Form>

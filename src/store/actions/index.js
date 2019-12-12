@@ -3,4 +3,7 @@ export {
 } from './profile';
 export {
     fetchTimeline
-}from './timeline';
+} from './timeline';
+export {
+    postTweet
+} from './create-post'

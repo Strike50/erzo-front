@@ -13,17 +13,18 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import profileReducer from "./store/reducers/profile.reducer";
 import timelineReducer from "./store/reducers/timeline.reducer";
-
-const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : (null || compose);
+import {loadIcons} from "./config/icon-loader";
 
 const rootReducer = combineReducers({
     profile: profileReducer,
     timeline: timelineReducer
 });
 
-const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
+const store = createStore(rootReducer, compose(applyMiddleware(thunk)));
 
-const keycloak = Keycloak('/keycloak.json');
+loadIcons();
+
+const keycloak = Keycloak();
 
 ReactDOM.render(
   <KeycloakProvider keycloak={keycloak} initConfig={{
