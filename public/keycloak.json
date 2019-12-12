@@ -2,7 +2,7 @@
   "realm": "master",
   "auth-server-url": "http://keycloak.erzo.wtf/auth",
   "ssl-required": "external",
-  "resource": "erzoClient",
+  "resource": "erzo-front",
   "public-client": true,
   "confidential-port": 0
 }
