@@ -1,15 +1,11 @@
 import React, {useState} from 'react';
 import './header.css';
 import {
-  Button,
   Collapse,
   Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
-  Form,
-  FormGroup,
-  Input,
   Nav,
   Navbar,
   NavbarBrand,
@@ -20,6 +16,7 @@ import {
 import {useKeycloak} from 'react-keycloak';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {NavLink as Link} from "react-router-dom";
+import Search from "../search/search";
 
 const Header = () => {
 
@@ -68,12 +65,7 @@ const Header = () => {
             </DropdownMenu>
           </Dropdown>
         </Nav>
-        <Form inline>
-          <FormGroup>
-            <Input type="text" placeholder="Rechercher un utilisateur ..." className="mr-sm-2" />
-            <Button variant="outline-success">Rechercher</Button>
-          </FormGroup>
-        </Form>
+        <Search />
       </Collapse>
     </Navbar>
   </>

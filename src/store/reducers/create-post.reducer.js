@@ -1,15 +1,25 @@
+import * as actionTypes from "../actions/actionTypes";
+
 const initialState = {
-  loading: false
+  loading: false,
+  errorMessage: null,
+  success: false
 };
 
 const createPostReducer = (state = initialState, action) => {
-
+  switch (action.type) {
+    case actionTypes.POST_TWEET_START: return postTweetStart(state, action);
+    case actionTypes.POST_TWEET_FAIL: return postTweetFail(state, action);
+    case actionTypes.POST_TWEET_SUCCESS: return postTweetSuccess(state, action);
+    default: return state;
+  }
 };
 
 const postTweetStart = (state, action) => {
   return {
     ...state,
-    loading: true
+    loading: true,
+    success: false,
   }
 };
 
@@ -24,7 +34,8 @@ const postTweetFail = (state, action) => {
 const postTweetSuccess = (state, action) => {
   return {
     ...state,
-    loading: false
+    loading: false,
+    success: true
   }
 };
 
