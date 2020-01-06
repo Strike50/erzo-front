@@ -27,6 +27,11 @@ class CreatePost extends React.Component {
     handleSubmitTweet = () => {
         if (this.state.content !== '' || this.state.media !== '') {
             this.props.postTweet(this.state.content, this.state.media);
+            this.setState({
+                ...this.state,
+                content: '',
+                media: ''
+            });
         }
     };
 
@@ -41,6 +46,10 @@ class CreatePost extends React.Component {
     }
 }
 
+const mapStateToProps = (storeState) => ({
+    success: storeState.createPost.success
+});
+
 const mapDispatchToProps = dispatch => {
     return {
         postTweet: (content, media) => dispatch(actions.postTweet(content, media))
@@ -48,6 +57,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
 )(CreatePost);

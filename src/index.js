@@ -14,10 +14,14 @@ import * as serviceWorker from './serviceWorker';
 import profileReducer from "./store/reducers/profile.reducer";
 import timelineReducer from "./store/reducers/timeline.reducer";
 import {loadIcons} from "./config/icon-loader";
+import createPostReducer from "./store/reducers/create-post.reducer";
+import searchReducer from "./store/reducers/search.reducer";
 
 const rootReducer = combineReducers({
     profile: profileReducer,
-    timeline: timelineReducer
+    timeline: timelineReducer,
+    createPost: createPostReducer,
+    search: searchReducer
 });
 
 const store = createStore(rootReducer, compose(applyMiddleware(thunk)));

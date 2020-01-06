@@ -6,4 +6,7 @@ export {
 } from './timeline';
 export {
     postTweet
-} from './create-post'
+} from './create-post';
+export {
+    searchUser
+} from './search';
