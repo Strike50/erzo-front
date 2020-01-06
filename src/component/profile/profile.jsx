@@ -13,15 +13,16 @@ class Profile extends React.Component {
     render() {
         const profileDetail = this.props.profileDetail;
         console.log(this.props);
-        return (
+        return profileDetail != null? (
             <Card>
                 <div>
-                    <div>{profileDetail.description}</div>
-                    <div>{profileDetail.birthday}</div>
-                    <div>{profileDetail.picture}</div>
+                    <div>{profileDetail.username}</div>
+                    <div>{profileDetail.email}</div>
+                    <div>{profileDetail.firstName}</div>
+                    <div>{profileDetail.lastName}</div>
                 </div>
             </Card>
-        );
+        ) :null;
     }
 }
 
