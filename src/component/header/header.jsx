@@ -32,7 +32,9 @@ const Header = () => {
   return (
     <>
     <Navbar color="light" light expand="lg">
-      <NavbarBrand href="/">Erzo</NavbarBrand>
+      <NavbarBrand href="/">
+        <img src={"erzo.png"} className="logo" alt="Logo de Erzo"/>
+      </NavbarBrand>
       <NavbarToggler  />
       <Collapse isOpen navbar>
         <Nav className="mr-auto">
