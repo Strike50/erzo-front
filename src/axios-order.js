@@ -3,7 +3,7 @@ import axios from 'axios';
 const TIMEOUT = 60 * 1000;
 
 const axiosOrder = axios.create({
-  baseURL: 'http://api.erzo.wtf/',
+  baseURL: 'http://localhost:3001/',
   timeout: TIMEOUT,
 });
 
