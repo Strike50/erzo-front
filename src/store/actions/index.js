@@ -10,3 +10,6 @@ export {
 export {
     fetchFollowers
 } from './profile';
+export {
+    searchUser
+} from './search';

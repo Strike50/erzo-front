@@ -32,7 +32,6 @@ export const postTweetFail = error => {
 
 export const postTweetSuccess = () => {
   return {
-    type: actionTypes.POST_TWEET_SUCCESS,
-    successMessage: 'Votre tweet a bien été tweeté !'
+    type: actionTypes.POST_TWEET_SUCCESS
   }
 };
