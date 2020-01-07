@@ -7,3 +7,6 @@ export {
 export {
     postTweet
 } from './create-post'
+export {
+    fetchFollowers
+} from './profile';

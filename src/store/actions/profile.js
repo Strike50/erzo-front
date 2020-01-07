@@ -33,3 +33,35 @@ export const fetchProfileSuccess = response => {
         profileDetail: response.data
     }
 };
+export const fetchFollowers = () => {
+    return dispatch => {
+        dispatch(fetchFollowersStart());
+        axios.get('/users/followers/')
+            .then(res => {
+                dispatch(fetchFollowersSuccess(res));
+            })
+            .catch(error => {
+                dispatch(fetchFollowersFail(error));
+            })
+    }
+};
+
+export const fetchFollowersStart = () => {
+    return {
+        type: actionTypes.FETCH_FOLLOWERS_START
+    }
+};
+
+export const fetchFollowersFail = error => {
+    return {
+        type: actionTypes.FETCH_FOLLOWERS_FAIL,
+        errorMessage: error
+    }
+};
+
+export const fetchFollowersSuccess = response => {
+    return {
+        type: actionTypes.FETCH_FOLLOWERS_SUCCESS,
+        followersDetail: response.data
+    }
+};
