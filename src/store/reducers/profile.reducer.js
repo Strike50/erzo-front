@@ -3,6 +3,7 @@ import * as actionTypes from "../actions/actionTypes";
 const initialState = {
     profileDetail: {},
     followersDetail: [],
+    followingDetail: [],
     errorMessage: null
 };
 
@@ -14,6 +15,9 @@ const profileReducer = (state = initialState, action) => {
         case actionTypes.FETCH_FOLLOWERS_START: return fetchFollowersStart(state, action);
         case actionTypes.FETCH_FOLLOWERS_FAIL: return fetchFollowersFail(state, action);
         case actionTypes.FETCH_FOLLOWERS_SUCCESS: return fetchFollowersSuccess(state, action);
+        case actionTypes.FETCH_FOLLOWING_START: return fetchFollowingStart(state, action);
+        case actionTypes.FETCH_FOLLOWING_FAIL: return fetchFollowingFail(state, action);
+        case actionTypes.FETCH_FOLLOWING_SUCCESS: return fetchFollowingSuccess(state, action);
         default: return state;
     }
 };
@@ -32,7 +36,6 @@ const fetchProfileFail = (state, action) => {
 };
 
 const fetchProfileSuccess = (state, action) => {
-    console.log(action.profileDetail.user);
     return {
         ...state,
         profileDetail: action.profileDetail.user
@@ -52,10 +55,28 @@ const fetchFollowersFail = (state, action) => {
 };
 
 const fetchFollowersSuccess = (state, action) => {
-    console.log(action.followersDetail);
     return {
         ...state,
-        followersDetail: action.followersDetail
+        followersDetail: action.followersDetail.followers
+    }
+};
+const fetchFollowingStart = (state, action) => {
+    return {
+        ...state
+    }
+};
+
+const fetchFollowingFail = (state, action) => {
+    return {
+        ...state,
+        errorMessage: action.errorMessage
+    }
+};
+
+const fetchFollowingSuccess = (state, action) => {
+    return {
+        ...state,
+        followingDetail: action.followingDetail.follows
     }
 };
 export default profileReducer;

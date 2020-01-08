@@ -33,10 +33,42 @@ export const fetchProfileSuccess = response => {
         profileDetail: response.data
     }
 };
+export const fetchFollowing = () => {
+    return dispatch => {
+        dispatch(fetchFollowingStart());
+        axios.get('/users/follows')
+            .then(res => {
+                dispatch(fetchFollowingSuccess(res));
+            })
+            .catch(error => {
+                dispatch(fetchFollowingFail(error));
+            })
+    }
+};
+
+export const fetchFollowingStart = () => {
+    return {
+        type: actionTypes.FETCH_FOLLOWING_START
+    }
+};
+
+export const fetchFollowingFail = error => {
+    return {
+        type: actionTypes.FETCH_FOLLOWING_FAIL,
+        errorMessage: error
+    }
+};
+
+export const fetchFollowingSuccess = response => {
+    return {
+        type: actionTypes.FETCH_FOLLOWING_SUCCESS,
+        followingDetail: response.data
+    }
+};
 export const fetchFollowers = () => {
     return dispatch => {
         dispatch(fetchFollowersStart());
-        axios.get('/users/followers/')
+        axios.get('/users/followers')
             .then(res => {
                 dispatch(fetchFollowersSuccess(res));
             })
