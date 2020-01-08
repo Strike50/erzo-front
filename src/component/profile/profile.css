@@ -1,0 +1,24 @@
+.test{
+    width: 30%;
+    height: 20%;
+    margin: 2%;
+    display: inline-block;
+}
+
+.following{
+    float: right;
+    margin: 5%;
+}
+.followers{
+    float: left;
+    margin: 5%;
+}
+.number{
+    border: 1px solid #282c34;
+    border-radius: 2px;
+    margin-top: 2%;
+}
+.username{
+    border-bottom: 1px solid gray;
+    padding-bottom: 3%;
+}
