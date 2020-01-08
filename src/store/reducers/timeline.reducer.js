@@ -30,7 +30,7 @@ const fetchTimelineFail = (state, action) => {
 const fetchTimelineSuccess = (state, action) => {
     return {
         ...state,
-        profileDetail: action.profileDetail.timeline
+        listPost: action.listPost
     }
 };
 export default timelineReducer;
