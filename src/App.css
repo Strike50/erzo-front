@@ -20,3 +20,51 @@
 .App-link {
   color: #09d3ac;
 }
+
+.navbar{
+  height:90px;
+  border-bottom: 2px solid #FF7632;
+  padding: 10px 50px;
+}
+
+.mr-auto {
+  font-size:19px;
+  float: right;
+}
+
+.form-inline{
+  width:40%;
+  float: left;
+  padding-top: 5px;
+}
+
+.navbar-collapse {
+  display: inline-block;
+  flex-basis: auto;
+}
+
+.navbar .navbar-collapse {
+  display: inline!important;
+  flex-basis: auto;
+}
+
+
+.form-group{
+  width: 100%!important;
+}
+
+.form-control{
+  width: calc(100% - 130px)!important;
+  border-radius: 25px;
+}
+
+.btn{
+  border-radius: 25px;
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.row{
+  margin-left: 0px;
+  margin-right: 0px;
+}

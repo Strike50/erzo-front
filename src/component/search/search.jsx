@@ -23,7 +23,6 @@ class Search extends React.Component {
     };
 
     render() {
-        console.log(this.props.userList);
         return (
             <Form inline>
                 <FormGroup>
@@ -32,7 +31,7 @@ class Search extends React.Component {
                            <ListGroup>
                                {this.props.userList !== null && this.state.contentSearch !== '' ? this.props.userList.map((user, i) => (
                                    <ListGroupItem key={`userSearch-${i}`}>
-                                       <NavLink to={`/profil/${user.id}`}>
+                                       <NavLink to={`/profil/${user.username}`}>
                                            {user.firstName} {user.lastName} - {user.username}
                                        </NavLink>
                                    </ListGroupItem>
