@@ -25,7 +25,7 @@ const Header = () => {
   const toggle = () => setDropdownOpen(!dropdownOpen);
 
   const { keycloak } = useKeycloak();
-
+  const username = keycloak.tokenParsed.preferred_username;
   return (
     <>
     <Navbar color="light" light expand="lg">
@@ -42,7 +42,7 @@ const Header = () => {
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink to="/profil" tag={Link}>
+            <NavLink to={`/profil/${username}`} tag={Link}>
               Profil
             </NavLink>
           </NavItem>
