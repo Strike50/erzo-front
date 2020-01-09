@@ -13,7 +13,7 @@ export const Subscriptions = props => {
                 <ListGroup>
                     {props.profileList.map((user, i) => (
                         <ListGroupItem key={`userSearch-${i}`}>
-                            <NavLink to={`/profil/${user.username}`}>
+                            <NavLink to={`/profil/${user.username}`} exact>
                                 {user.firstName} {user.lastName} - {user.username}
                             </NavLink>
                         </ListGroupItem>

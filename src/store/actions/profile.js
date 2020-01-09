@@ -1,10 +1,10 @@
 import axios from "../../axios-order";
 import * as actionTypes from "./actionTypes";
 
-export const fetchProfile = () => {
+export const fetchProfileInfo = username => {
     return dispatch => {
         dispatch(fetchProfileStart());
-        axios.get('/users/me')
+        axios.get(`/users${username}`)
             .then(res => {
                 dispatch(fetchProfileSuccess(res));
             })
@@ -33,10 +33,10 @@ export const fetchProfileSuccess = response => {
         profileDetail: response.data
     }
 };
-export const fetchFollowing = () => {
+export const fetchFollowing = username => {
     return dispatch => {
         dispatch(fetchFollowingStart());
-        axios.get('/users/follows')
+        axios.get(`/users/follows${username}`)
             .then(res => {
                 dispatch(fetchFollowingSuccess(res));
             })
@@ -65,10 +65,10 @@ export const fetchFollowingSuccess = response => {
         followingDetail: response.data
     }
 };
-export const fetchFollowers = () => {
+export const fetchFollowers = username => {
     return dispatch => {
         dispatch(fetchFollowersStart());
-        axios.get('/users/followers')
+        axios.get(`/users/followers${username}`)
             .then(res => {
                 dispatch(fetchFollowersSuccess(res));
             })
@@ -95,5 +95,67 @@ export const fetchFollowersSuccess = response => {
     return {
         type: actionTypes.FETCH_FOLLOWERS_SUCCESS,
         followersDetail: response.data
+    }
+};
+export const postFollowSomeoneStart = () => {
+    return {
+        type: actionTypes.POST_FOLLOWSOMEONE_START
+    }
+};
+
+export const postFollowSomeoneFail = error => {
+    return {
+        type: actionTypes.POST_FOLLOWSOMEONE_FAIL,
+        errorMessage: error
+    }
+};
+
+export const postFollowSomeoneSuccess = response => {
+    return {
+        type: actionTypes.POST_FOLLOWSOMEONE_SUCCESS,
+        followSomeoneDetail: response.data
+    }
+};
+export const postFollowSomeone = username => {
+    return dispatch => {
+        dispatch(postFollowSomeoneStart());
+        axios.post(`/subscriptions/${username}`)
+            .then(res => {
+                dispatch(postFollowSomeoneSuccess(res));
+            })
+            .catch(error => {
+                dispatch(postFollowSomeoneFail(error));
+            })
+    }
+};
+export const postUnfollowSomeoneStart = () => {
+    return {
+        type: actionTypes.POST_UNFOLLOWSOMEONE_START
+    }
+};
+
+export const postUnfollowSomeoneFail = error => {
+    return {
+        type: actionTypes.POST_UNFOLLOWSOMEONE_FAIL,
+        errorMessage: error
+    }
+};
+
+export const postUnfollowSomeoneSuccess = response => {
+    return {
+        type: actionTypes.POST_UNFOLLOWSOMEONE_SUCCESS,
+        unfollowSomeoneDetail: response.data
+    }
+};
+export const postUnfollowSomeone = username => {
+    return dispatch => {
+        dispatch(postUnfollowSomeoneStart());
+        axios.delete(`/subscriptions/${username}`)
+            .then(res => {
+                dispatch(postUnfollowSomeoneSuccess(res));
+            })
+            .catch(error => {
+                dispatch(postUnfollowSomeoneFail(error));
+            })
     }
 };

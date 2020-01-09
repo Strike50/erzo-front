@@ -1,100 +1,133 @@
 import './profile.css';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {connect} from "react-redux";
 
 import * as actions from '../../store/actions/index'
-import {Card, CardBody, CardTitle, CardSubtitle, CardText} from "reactstrap"
+import {Button, Card, CardBody, CardTitle, CardSubtitle, CardText} from "reactstrap"
 import Subscriptions from "./subscriptions/subscriptions";
+import {useParams} from "react-router";
+import {useKeycloak} from "react-keycloak";
 
-class Profile extends React.Component {
-    state = {
-        modal: false,
-        isFollowing: null
-    };
-    componentDidMount() {
-        this.props.fetchProfile();
-        this.props.fetchFollowers();
-        this.props.fetchFollowing();
-        // Test des routes existantes
-    };
+export const Profile = props => {
+    const {fetchProfileInfo,fetchFollowing, fetchFollowers, postFollowSomeone, postUnfollowSomeone} = props;
+    const [modal, setModal] = useState(false);
+    const [isFollowing, setIsFollowing] = useState(null);
+    const {username} = useParams();
+    const {preferred_username} = useKeycloak().keycloak.tokenParsed;
+    let followSomeone = null;
 
-    toggle = type => {
-        let isFollowing = null;
-        if (typeof type === "string") {
-            isFollowing = type === 'following';
+    checkProfileButtonStatus
+    useEffect(() => {
+        if (username === preferred_username) {
+            fetchProfileInfo("/me");
+            fetchFollowing("");
+            fetchFollowers("");
+            checkProfileButtonStatus(true);
+        } else {
+            fetchProfileInfo(`/${username}`);
+            fetchFollowing(`/${username}`);
+            fetchFollowers(`/${username}`);
+            checkProfileButtonStatus(false)
         }
-        const modal = !this.state.modal;
-        this.setState({
-            ...this.state,
-            modal,
-            isFollowing
-        })
+    }, [username, preferred_username, fetchProfileInfo, fetchFollowing, fetchFollowers, checkProfileButtonStatus]);
+
+    const checkProfileButtonStatus = isOwnProfile => {
+        if (isOwnProfile) {
+            followSomeone = <Button>Modifier mon profil</Button>;
+        } else {
+            if (username === 'remi') {
+                followSomeone = <Button onClick={onClickUnfollow}>Abonné</Button>
+            } else {
+                followSomeone = <Button onClick={onClickFollow}>M'abonner</Button>;
+            }
+        }
     };
 
-    render() {
-        const profileDetail = this.props.profileDetail !== null ? (
-            <Card>
-                <CardBody>
-                    <CardTitle><h1 className="username">{this.props.profileDetail.username}</h1></CardTitle>
-                    <CardSubtitle className="mb-2 text-muted"><h3>{this.props.profileDetail.firstName} {this.props.profileDetail.lastName}</h3></CardSubtitle>
-                    <CardText>
-                        {this.props.profileDetail.email}
-                    </CardText>
-                </CardBody>
-            </Card>
-        ) : null;
+    const toggle = type => {
+        if (typeof type === "string") {
+            setIsFollowing(type === 'following');
+        }
+        setModal(!modal);
+    };
 
-        const followersDetail = this.props.followersDetail !== null ? (
-                <div className="followers">
-                    Abonnés :
-                    <div className="number">
-                        <button name="followers" onClick={() => this.toggle("followers")}>
-                            {this.props.followersDetail.length}
-                        </button>
-                    </div>
-                </div>
-        ) : null;
+    const onClickFollow = () => {
+        postFollowSomeone(username);
+    };
 
-        const followingDetail = this.props.followingDetail !== null ? (
-                <div className="following">
-                    Abonnements:
-                    <div className="number">
-                        <button name="following" onClick={() => this.toggle("following")}>
-                            {this.props.followingDetail.length}
-                        </button>
-                    </div>
-                </div>
-        ) : null;
+    const onClickUnfollow = () => {
+        postUnfollowSomeone(username);
+    };
 
-        const sub = this.state.isFollowing !== null ?
-            <Subscriptions profileList={this.state.isFollowing ? this.props.followingDetail : this.props.followersDetail}
-                           isOpen={this.state.modal}
-                           toggle={this.toggle}
-                           isFollowing={this.state.isFollowing}/> : null;
+    const profileDetail = props.profileDetail !== null ? (
+        <Card>
+            <CardBody>
+                <CardTitle><h1 className="username">{props.profileDetail.username}</h1></CardTitle>
+                <CardSubtitle className="mb-2 text-muted">
+                    <h3>{props.profileDetail.firstName} {props.profileDetail.lastName}</h3>
+                </CardSubtitle>
+                <CardText>
+                    {props.profileDetail.email}
+                </CardText>
+            </CardBody>
+        </Card>
+    ) : null;
 
-        return (
-            <Card className="test">
-                {profileDetail}
-                {followersDetail}
-                {followingDetail}
-                {sub}
-            </Card>
-        )
-    }
-}
+    const followersDetail = props.followersDetail !== null ? (
+        <div className="followers">
+            Abonnés :
+            <div>
+                <Button name="followers" onClick={() => toggle("followers")}>
+                    {props.followersDetail.length}
+                </Button>
+            </div>
+        </div>
+    ) : null;
+
+    const followingDetail = props.followingDetail !== null ? (
+        <div className="following">
+            Abonnements:
+            <div>
+                <Button name="following" onClick={() => toggle("following")}>
+                    {props.followingDetail.length}
+                </Button>
+            </div>
+        </div>
+    ) : null;
+
+    const sub = isFollowing !== null ?
+            <Subscriptions profileList={isFollowing ? props.followingDetail : props.followersDetail}
+                           isOpen={modal}
+                           toggle={toggle}
+                           isFollowing={isFollowing}/> : null;
+
+    return (
+        <Card className="test">
+            {profileDetail}
+            {followersDetail}
+            {followingDetail}
+            {sub}
+            {followSomeone}
+        </Card>
+    )
+};
+
 const mapStateToProps = state => {
     return {
         profileDetail: state.profile.profileDetail,
         followersDetail: state.profile.followersDetail,
         followingDetail: state.profile.followingDetail,
+        followSomeone: state.profile.followSomeoneDetail,
+        unfollowSomeone: state.profile.unfollowSomeoneDetail,
         errorMessage: state.profile.errorMessage
     }
 };
 const mapDispatchToProps = dispatch => {
     return {
-        fetchProfile: () => dispatch(actions.fetchProfile()),
-        fetchFollowers: () => dispatch(actions.fetchFollowers()),
-        fetchFollowing: () => dispatch(actions.fetchFollowing())
+        fetchProfileInfo: username => dispatch(actions.fetchProfileInfo(username)),
+        fetchFollowing: username => dispatch(actions.fetchFollowing(username)),
+        fetchFollowers: username => dispatch(actions.fetchFollowers(username)),
+        postFollowSomeone: username => dispatch(actions.postFollowSomeone(username)),
+        postUnfollowSomeone: username => dispatch(actions.postUnfollowSomeone(username)),
     }
 };
 export default connect(

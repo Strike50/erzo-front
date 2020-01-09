@@ -1,7 +1,9 @@
 export {
-    fetchProfile,
+    fetchProfileInfo,
     fetchFollowers,
-    fetchFollowing
+    fetchFollowing,
+    postFollowSomeone,
+    postUnfollowSomeone
 } from './profile';
 export {
     fetchTimeline

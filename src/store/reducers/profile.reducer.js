@@ -4,6 +4,8 @@ const initialState = {
     profileDetail: {},
     followersDetail: [],
     followingDetail: [],
+    followSomeoneDetail: {},
+    unfollowSomeoneDetail: {},
     errorMessage: null
 };
 
@@ -18,6 +20,12 @@ const profileReducer = (state = initialState, action) => {
         case actionTypes.FETCH_FOLLOWING_START: return fetchFollowingStart(state, action);
         case actionTypes.FETCH_FOLLOWING_FAIL: return fetchFollowingFail(state, action);
         case actionTypes.FETCH_FOLLOWING_SUCCESS: return fetchFollowingSuccess(state, action);
+        case actionTypes.POST_FOLLOWSOMEONE_START: return postFollowSomeoneStart(state, action);
+        case actionTypes.POST_FOLLOWSOMEONE_FAIL: return postFollowSomeoneFail(state, action);
+        case actionTypes.POST_FOLLOWSOMEONE_SUCCESS: return postFollowSomeoneSuccess(state, action);
+        case actionTypes.POST_UNFOLLOWSOMEONE_START: return postUnfollowSomeoneStart(state, action);
+        case actionTypes.POST_UNFOLLOWSOMEONE_FAIL: return postUnfollowSomeoneFail(state, action);
+        case actionTypes.POST_UNFOLLOWSOMEONE_SUCCESS: return postUnfollowSomeoneSuccess(state, action);
         default: return state;
     }
 };
@@ -77,6 +85,44 @@ const fetchFollowingSuccess = (state, action) => {
     return {
         ...state,
         followingDetail: action.followingDetail.follows
+    }
+};
+const postFollowSomeoneStart = (state, action) => {
+    return {
+        ...state
+    }
+};
+
+const postFollowSomeoneFail = (state, action) => {
+    return {
+        ...state,
+        errorMessage: action.errorMessage
+    }
+};
+
+const postFollowSomeoneSuccess = (state, action) => {
+    return {
+        ...state,
+        followSomeoneDetail: action.followSomeoneDetail
+    }
+};
+const postUnfollowSomeoneStart = (state, action) => {
+    return {
+        ...state
+    }
+};
+
+const postUnfollowSomeoneFail = (state, action) => {
+    return {
+        ...state,
+        errorMessage: action.errorMessage
+    }
+};
+
+const postUnfollowSomeoneSuccess = (state, action) => {
+    return {
+        ...state,
+        unfollowSomeoneDetail: action.unfollowSomeoneDetail
     }
 };
 export default profileReducer;
