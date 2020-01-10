@@ -9,36 +9,40 @@ import {useParams} from "react-router";
 import {useKeycloak} from "react-keycloak";
 
 export const Profile = props => {
-    const {fetchProfileInfo,fetchFollowing, fetchFollowers, postFollowSomeone, postUnfollowSomeone} = props;
+    const {fetchProfileInfo,fetchFollowing, fetchFollowers, postFollowSomeone, postUnfollowSomeone, loading} = props;
     const [modal, setModal] = useState(false);
     const [isFollowing, setIsFollowing] = useState(null);
+    const [followSomeone, setFollowSomeone] = useState(null);
     const {username} = useParams();
     const {preferred_username} = useKeycloak().keycloak.tokenParsed;
-    let followSomeone = null;
 
-    checkProfileButtonStatus
     useEffect(() => {
+        console.log('oui');
         if (username === preferred_username) {
+            console.log('me');
             fetchProfileInfo("/me");
             fetchFollowing("");
-            fetchFollowers("");
             checkProfileButtonStatus(true);
         } else {
+            console.log('distant');
             fetchProfileInfo(`/${username}`);
             fetchFollowing(`/${username}`);
-            fetchFollowers(`/${username}`);
-            checkProfileButtonStatus(false)
+            checkProfileButtonStatus(false);
         }
-    }, [username, preferred_username, fetchProfileInfo, fetchFollowing, fetchFollowers, checkProfileButtonStatus]);
+    }, [username, loading]);
 
-    const checkProfileButtonStatus = isOwnProfile => {
+    const checkProfileButtonStatus =  async isOwnProfile => {
         if (isOwnProfile) {
-            followSomeone = <Button>Modifier mon profil</Button>;
+            fetchFollowers('');
+            setFollowSomeone(<Button>Modifier mon profil</Button>);
         } else {
-            if (username === 'remi') {
-                followSomeone = <Button onClick={onClickUnfollow}>Abonné</Button>
+            await fetchFollowers(`/${username}`);
+            if (props.followersDetail.filter(follower => {
+                return follower.username.includes(preferred_username)
+            }).length === 1) {
+                setFollowSomeone(<Button onClick={onClickUnfollow}>Abonné</Button>);
             } else {
-                followSomeone = <Button onClick={onClickFollow}>M'abonner</Button>;
+                setFollowSomeone(<Button onClick={onClickFollow}>M'abonner</Button>);
             }
         }
     };
@@ -99,7 +103,6 @@ export const Profile = props => {
                            isOpen={modal}
                            toggle={toggle}
                            isFollowing={isFollowing}/> : null;
-
     return (
         <Card className="test">
             {profileDetail}
@@ -118,9 +121,11 @@ const mapStateToProps = state => {
         followingDetail: state.profile.followingDetail,
         followSomeone: state.profile.followSomeoneDetail,
         unfollowSomeone: state.profile.unfollowSomeoneDetail,
-        errorMessage: state.profile.errorMessage
+        errorMessage: state.profile.errorMessage,
+        loadingFollowers: state.profile.loading
     }
 };
+
 const mapDispatchToProps = dispatch => {
     return {
         fetchProfileInfo: username => dispatch(actions.fetchProfileInfo(username)),

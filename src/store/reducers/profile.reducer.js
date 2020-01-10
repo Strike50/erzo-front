@@ -6,7 +6,8 @@ const initialState = {
     followingDetail: [],
     followSomeoneDetail: {},
     unfollowSomeoneDetail: {},
-    errorMessage: null
+    errorMessage: null,
+    loading: false,
 };
 
 const profileReducer = (state = initialState, action) => {
@@ -51,21 +52,24 @@ const fetchProfileSuccess = (state, action) => {
 };
 const fetchFollowersStart = (state, action) => {
     return {
-        ...state
+        ...state,
+        loading: true,
     }
 };
 
 const fetchFollowersFail = (state, action) => {
     return {
         ...state,
-        errorMessage: action.errorMessage
+        errorMessage: action.errorMessage,
+        loading: false,
     }
 };
 
 const fetchFollowersSuccess = (state, action) => {
     return {
         ...state,
-        followersDetail: action.followersDetail.followers
+        followersDetail: action.followersDetail.followers,
+        loading: false,
     }
 };
 const fetchFollowingStart = (state, action) => {
