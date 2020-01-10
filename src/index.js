@@ -1,24 +1,31 @@
-import 'bootstrap/dist/css/bootstrap.css';
-import './index.css';
-
-import React from 'react';
-import ReactDOM from 'react-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Keycloak from "keycloak-js";
-import axios from "axios";
-import {createStore} from "redux";
+
+import {applyMiddleware, combineReducers, compose, createStore} from "redux";
 import {Provider} from "react-redux";
 import {KeycloakProvider} from "react-keycloak";
-import rootReducer from "./reducers";
+import thunk from 'redux-thunk';
+
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import profileReducer from "./store/reducers/profile.reducer";
+import timelineReducer from "./store/reducers/timeline.reducer";
+import {loadIcons} from "./config/icon-loader";
+import createPostReducer from "./store/reducers/create-post.reducer";
+import searchReducer from "./store/reducers/search.reducer";
 
-const store = createStore(rootReducer);
+const rootReducer = combineReducers({
+    profile: profileReducer,
+    timeline: timelineReducer,
+    createPost: createPostReducer,
+    search: searchReducer
+});
 
-const keycloak = Keycloak('/keycloak.json');
+const store = createStore(rootReducer, compose(applyMiddleware(thunk)));
 
-const TIMEOUT = 60 * 1000;
-axios.defaults.timeout = TIMEOUT;
-axios.defaults.baseURL = "api.erzo.wtf";
+loadIcons();
+
+const keycloak = Keycloak();
 
 ReactDOM.render(
   <KeycloakProvider keycloak={keycloak} initConfig={{
