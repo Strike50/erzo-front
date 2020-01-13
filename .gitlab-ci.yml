@@ -10,7 +10,6 @@ variables:
 
 stages:
   - build
-  - test
   - dockerbuild
   - sonardev
   - sonar
@@ -23,14 +22,6 @@ build:
   stage: build
   image: node:latest
   script: npm i && npm run build
-
-
-test:
-  stage: test
-  image: node:latest
-  script:
-    - npm run testgit
-
 
 dockerbuild:
   stage: dockerbuild
