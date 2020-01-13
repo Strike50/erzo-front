@@ -6,27 +6,40 @@ import Post from '../post/post';
 import CreatePost from "../create-post/create-post";
 
 export const Timeline = props => {
-    useEffect (() => {
-        props.fetchTimeline();
-    });
 
-    const listPost = props.listPost;
+    const { fetchTimeline } = props;
+
+    useEffect (() => {
+        fetchTimeline();
+    }, [fetchTimeline]);
+
+    const listPost = props.listPost !== null ? (
+        props.listPost.map((post, i) => (
+                <Post key={`post-${i}`}
+                      author={post.userId}
+                      content={post.content}
+                      creationDate={post.createdAt}
+                      reactions={post.reactions}/>
+            ))
+    ) : null;
+
     return (
         <Row>
             <Col/>
             <Col>
                 <CreatePost/>
-                {listPost.map((post,i) => (
-                    <Post key={`post-${i}`} author={post.author} content={post.content} creationDate={post.creationDate} reactions={post.reactions}/>
-                    ))}
+                {listPost}
             </Col>
             <Col/>
         </Row>
     );
 };
 
-const mapStateToProps = (storeState) => ({
-  listPost: storeState.timeline.listPost});
+const mapStateToProps = state => {
+    return {
+        listPost: state.timeline.listPost
+    }
+};
 
 const mapDispatchToProps = dispatch => {
     return {

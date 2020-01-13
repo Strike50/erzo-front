@@ -28,8 +28,10 @@ import {faTimesCircle} from '@fortawesome/free-solid-svg-icons/faTimesCircle';
 import {faSearch} from '@fortawesome/free-solid-svg-icons/faSearch';
 import {faRoad} from '@fortawesome/free-solid-svg-icons/faRoad';
 import {faCloud} from '@fortawesome/free-solid-svg-icons/faCloud';
+import {faRetweet} from "@fortawesome/free-solid-svg-icons/faRetweet";
 
 import {library} from '@fortawesome/fontawesome-svg-core';
+import {faComment} from "@fortawesome/free-solid-svg-icons/faComment";
 
 export const loadIcons = () => {
   library.add(
@@ -62,6 +64,8 @@ export const loadIcons = () => {
     faRoad,
     faCloud,
     faTimesCircle,
-    faSearch
+    faSearch,
+    faComment,
+    faRetweet
   );
 };

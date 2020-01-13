@@ -30,6 +30,6 @@ export const fetchTimelineFail = error => {
 export const fetchTimelineSuccess = response => {
     return {
         type: actionTypes.FETCH_TIMELINE_SUCCESS,
-        profileDetail: response.data
+        listPost: response.data.posts
     }
 };
