@@ -15,18 +15,23 @@ const profileReducer = (state = initialState, action) => {
         case actionTypes.FETCH_PROFILE_START: return fetchProfileStart(state, action);
         case actionTypes.FETCH_PROFILE_FAIL: return fetchProfileFail(state, action);
         case actionTypes.FETCH_PROFILE_SUCCESS: return fetchProfileSuccess(state, action);
+
         case actionTypes.FETCH_FOLLOWERS_START: return fetchFollowersStart(state, action);
         case actionTypes.FETCH_FOLLOWERS_FAIL: return fetchFollowersFail(state, action);
         case actionTypes.FETCH_FOLLOWERS_SUCCESS: return fetchFollowersSuccess(state, action);
+
         case actionTypes.FETCH_FOLLOWING_START: return fetchFollowingStart(state, action);
         case actionTypes.FETCH_FOLLOWING_FAIL: return fetchFollowingFail(state, action);
         case actionTypes.FETCH_FOLLOWING_SUCCESS: return fetchFollowingSuccess(state, action);
+
         case actionTypes.POST_FOLLOWSOMEONE_START: return postFollowSomeoneStart(state, action);
         case actionTypes.POST_FOLLOWSOMEONE_FAIL: return postFollowSomeoneFail(state, action);
         case actionTypes.POST_FOLLOWSOMEONE_SUCCESS: return postFollowSomeoneSuccess(state, action);
+
         case actionTypes.POST_UNFOLLOWSOMEONE_START: return postUnfollowSomeoneStart(state, action);
         case actionTypes.POST_UNFOLLOWSOMEONE_FAIL: return postUnfollowSomeoneFail(state, action);
         case actionTypes.POST_UNFOLLOWSOMEONE_SUCCESS: return postUnfollowSomeoneSuccess(state, action);
+
         default: return state;
     }
 };
@@ -66,6 +71,7 @@ const fetchFollowersFail = (state, action) => {
 };
 
 const fetchFollowersSuccess = (state, action) => {
+    console.log('reducer', action.followersDetail.followers.length);
     return {
         ...state,
         followersDetail: action.followersDetail.followers,

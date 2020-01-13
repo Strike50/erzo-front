@@ -1,48 +1,34 @@
 import './profile.css';
-import React, { useState, useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import {connect} from "react-redux";
-
 import * as actions from '../../store/actions/index'
-import {Button, Card, CardBody, CardTitle, CardSubtitle, CardText} from "reactstrap"
+import {Button, Card, CardBody, CardSubtitle, CardText, CardTitle} from "reactstrap"
 import Subscriptions from "./subscriptions/subscriptions";
 import {useParams} from "react-router";
 import {useKeycloak} from "react-keycloak";
 
 export const Profile = props => {
-    const {fetchProfileInfo,fetchFollowing, fetchFollowers, postFollowSomeone, postUnfollowSomeone, loading} = props;
+    const {fetchProfile, postFollowSomeone, postUnfollowSomeone, loading} = props;
     const [modal, setModal] = useState(false);
     const [isFollowing, setIsFollowing] = useState(null);
-    const [followSomeone, setFollowSomeone] = useState(null);
     const {username} = useParams();
     const {preferred_username} = useKeycloak().keycloak.tokenParsed;
 
     useEffect(() => {
-        console.log('oui');
-        if (username === preferred_username) {
-            console.log('me');
-            fetchProfileInfo("/me");
-            fetchFollowing("");
-            checkProfileButtonStatus(true);
-        } else {
-            console.log('distant');
-            fetchProfileInfo(`/${username}`);
-            fetchFollowing(`/${username}`);
-            checkProfileButtonStatus(false);
-        }
+        fetchProfile(username);
     }, [username, loading]);
 
-    const checkProfileButtonStatus =  async isOwnProfile => {
+    const checkProfileButtonStatus = isOwnProfile => {
+        console.log('followers', props.followersDetail);
         if (isOwnProfile) {
-            fetchFollowers('');
-            setFollowSomeone(<Button>Modifier mon profil</Button>);
+            return (<Button>Modifier mon profil</Button>);
         } else {
-            await fetchFollowers(`/${username}`);
             if (props.followersDetail.filter(follower => {
                 return follower.username.includes(preferred_username)
             }).length === 1) {
-                setFollowSomeone(<Button onClick={onClickUnfollow}>Abonné</Button>);
+                return (<Button onClick={onClickUnfollow}>Abonné</Button>);
             } else {
-                setFollowSomeone(<Button onClick={onClickFollow}>M'abonner</Button>);
+                return (<Button onClick={onClickFollow}>M'abonner</Button>);
             }
         }
     };
@@ -55,11 +41,11 @@ export const Profile = props => {
     };
 
     const onClickFollow = () => {
-        postFollowSomeone(username);
+        postFollowSomeone(props.profileDetail.id);
     };
 
     const onClickUnfollow = () => {
-        postUnfollowSomeone(username);
+        postUnfollowSomeone(props.profileDetail.id);
     };
 
     const profileDetail = props.profileDetail !== null ? (
@@ -71,12 +57,13 @@ export const Profile = props => {
                 </CardSubtitle>
                 <CardText>
                     {props.profileDetail.email}
+                    {props.profileDetail.description}
                 </CardText>
             </CardBody>
         </Card>
     ) : null;
 
-    const followersDetail = props.followersDetail !== null ? (
+    const followersDetailDiv = props.followersDetail !== null ? (
         <div className="followers">
             Abonnés :
             <div>
@@ -98,7 +85,7 @@ export const Profile = props => {
         </div>
     ) : null;
 
-    const sub = isFollowing !== null ?
+    const subOui = isFollowing !== null ?
             <Subscriptions profileList={isFollowing ? props.followingDetail : props.followersDetail}
                            isOpen={modal}
                            toggle={toggle}
@@ -106,10 +93,10 @@ export const Profile = props => {
     return (
         <Card className="test">
             {profileDetail}
-            {followersDetail}
+            {followersDetailDiv}
             {followingDetail}
-            {sub}
-            {followSomeone}
+            {subOui}
+            {checkProfileButtonStatus(username === preferred_username)}
         </Card>
     )
 };
@@ -128,9 +115,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchProfileInfo: username => dispatch(actions.fetchProfileInfo(username)),
-        fetchFollowing: username => dispatch(actions.fetchFollowing(username)),
-        fetchFollowers: username => dispatch(actions.fetchFollowers(username)),
+        fetchProfile: username => dispatch(actions.fetchProfile(username)),
         postFollowSomeone: username => dispatch(actions.postFollowSomeone(username)),
         postUnfollowSomeone: username => dispatch(actions.postUnfollowSomeone(username)),
     }

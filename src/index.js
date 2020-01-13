@@ -1,7 +1,8 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Keycloak from "keycloak-js";
-
-import {applyMiddleware, combineReducers, compose, createStore} from "redux";
+import ReactDOM from 'react-dom';
+import React from 'react';
+import {applyMiddleware, combineReducers, createStore} from "redux";
 import {Provider} from "react-redux";
 import {KeycloakProvider} from "react-keycloak";
 import thunk from 'redux-thunk';
@@ -21,7 +22,7 @@ const rootReducer = combineReducers({
     search: searchReducer
 });
 
-const store = createStore(rootReducer, compose(applyMiddleware(thunk)));
+const store = createStore(rootReducer, applyMiddleware(thunk));
 
 loadIcons();
 

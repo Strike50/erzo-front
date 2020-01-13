@@ -1,7 +1,5 @@
 export {
-    fetchProfileInfo,
-    fetchFollowers,
-    fetchFollowing,
+    fetchProfile,
     postFollowSomeone,
     postUnfollowSomeone
 } from './profile';
