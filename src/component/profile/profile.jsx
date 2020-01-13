@@ -42,10 +42,13 @@ export const Profile = props => {
 
     const onClickFollow = () => {
         postFollowSomeone(props.profileDetail.id);
+        this.forceUpdate();
+
     };
 
     const onClickUnfollow = () => {
         postUnfollowSomeone(props.profileDetail.id);
+        this.forceUpdate();
     };
 
     const profileDetail = props.profileDetail !== null ? (

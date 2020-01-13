@@ -136,10 +136,10 @@ export const postFollowSomeoneSuccess = response => {
     }
 };
 
-export const postFollowSomeone = username => {
+export const postFollowSomeone = id => {
     return async dispatch => {
         dispatch(postFollowSomeoneStart());
-        axios.post(`/subscriptions/${username}`)
+        axios.post(`/subscriptions/${id}`)
             .then(res => {
                 dispatch(postFollowSomeoneSuccess(res));
             })
@@ -169,10 +169,10 @@ export const postUnfollowSomeoneSuccess = response => {
     }
 };
 
-export const postUnfollowSomeone = username => {
+export const postUnfollowSomeone = id => {
     return async dispatch => {
         dispatch(postUnfollowSomeoneStart());
-        axios.delete(`/subscriptions/${username}`)
+        axios.delete(`/subscriptions/${id}`)
             .then(res => {
                 dispatch(postUnfollowSomeoneSuccess(res));
             })
