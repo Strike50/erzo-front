@@ -5,7 +5,6 @@ export const fetchProfile = username => {
     return dispatch => {
         return dispatch(fetchProfileInfo(username))
             .then(res => {
-                console.log(res);
                 dispatch(fetchFollowing(res.data.user.id));
                 return dispatch(fetchFollowers(res.data.user.id));
         });
@@ -178,6 +177,38 @@ export const postUnfollowSomeone = id => {
             })
             .catch(error => {
                 dispatch(postUnfollowSomeoneFail(error));
+            })
+    }
+};
+export const putEditProfileStart = () => {
+    return {
+        type: actionTypes.PUT_EDITPROFILE_START
+    }
+};
+
+export const putEditProfileFail = error => {
+    return {
+        type: actionTypes.PUT_EDITPROFILE_FAIL,
+        errorMessage: error
+    }
+};
+
+export const putEditProfileSuccess = response => {
+    return {
+        type: actionTypes.PUT_EDITPROFILE_SUCCESS,
+        editProfileDetail: response.data
+    }
+};
+
+export const putEditProfile = user => {
+    return async dispatch => {
+        dispatch(putEditProfileStart());
+        axios.put(`/users`,user)
+            .then(res => {
+                dispatch(putEditProfileSuccess(res));
+            })
+            .catch(error => {
+                dispatch(putEditProfileFail(error));
             })
     }
 };

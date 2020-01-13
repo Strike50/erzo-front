@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import Routes from './component/routes/routes';
 import Header from "./component/header/header";
-import {BrowserRouter} from "react-router-dom";
+import {BrowserRouter as Router} from "react-router-dom";
 import {useKeycloak} from "react-keycloak";
 import axiosOrder from "./axios-order";
 
@@ -16,10 +16,10 @@ function App() {
 
     return initialized ? (
         <div className="App">
-            <BrowserRouter>
+            <Router>
                 <Header/>
                 <Routes/>
-            </BrowserRouter>
+            </Router>
         </div>
     ) : null;
 }

@@ -6,6 +6,7 @@ const initialState = {
     followingDetail: [],
     followSomeoneDetail: {},
     unfollowSomeoneDetail: {},
+    editProfileDetail: {},
     errorMessage: null,
     loading: false,
 };
@@ -31,6 +32,10 @@ const profileReducer = (state = initialState, action) => {
         case actionTypes.POST_UNFOLLOWSOMEONE_START: return postUnfollowSomeoneStart(state, action);
         case actionTypes.POST_UNFOLLOWSOMEONE_FAIL: return postUnfollowSomeoneFail(state, action);
         case actionTypes.POST_UNFOLLOWSOMEONE_SUCCESS: return postUnfollowSomeoneSuccess(state, action);
+
+        case actionTypes.PUT_EDITPROFILE_START: return putEditProfileStart(state, action);
+        case actionTypes.PUT_EDITPROFILE_FAIL: return putEditProfileFail(state, action);
+        case actionTypes.PUT_EDITPROFILE_SUCCESS: return putEditProfileSuccess(state, action);
 
         default: return state;
     }
@@ -133,6 +138,26 @@ const postUnfollowSomeoneSuccess = (state, action) => {
     return {
         ...state,
         unfollowSomeoneDetail: action.unfollowSomeoneDetail
+    }
+};
+
+const putEditProfileStart = (state, action) => {
+    return {
+        ...state
+    }
+};
+
+const putEditProfileFail = (state, action) => {
+    return {
+        ...state,
+        errorMessage: action.errorMessage
+    }
+};
+
+const putEditProfileSuccess = (state, action) => {
+    return {
+        ...state,
+        editProfileDetail: action.editProfileDetail
     }
 };
 export default profileReducer;

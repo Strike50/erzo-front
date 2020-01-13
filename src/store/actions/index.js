@@ -1,5 +1,6 @@
 export {
     fetchProfile,
+    putEditProfile,
     postFollowSomeone,
     postUnfollowSomeone
 } from './profile';
