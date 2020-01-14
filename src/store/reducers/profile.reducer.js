@@ -7,6 +7,8 @@ const initialState = {
     followSomeoneDetail: {},
     unfollowSomeoneDetail: {},
     editProfileDetail: {},
+    patchThemeDetail: {},
+    patchPictureDetail: {},
     errorMessage: null,
     loading: false,
 };
@@ -36,6 +38,14 @@ const profileReducer = (state = initialState, action) => {
         case actionTypes.PUT_EDITPROFILE_START: return putEditProfileStart(state, action);
         case actionTypes.PUT_EDITPROFILE_FAIL: return putEditProfileFail(state, action);
         case actionTypes.PUT_EDITPROFILE_SUCCESS: return putEditProfileSuccess(state, action);
+
+        case actionTypes.PATCH_THEME_START: return patchThemeStart(state, action);
+        case actionTypes.PATCH_THEME_FAIL: return patchThemeFail(state, action);
+        case actionTypes.PATCH_THEME_SUCCESS: return patchThemeSuccess(state, action);
+
+        case actionTypes.PATCH_PICTURE_START: return patchPictureStart(state, action);
+        case actionTypes.PATCH_PICTURE_FAIL: return patchPictureFail(state, action);
+        case actionTypes.PATCH_PICTURE_SUCCESS: return patchPictureSuccess(state, action);
 
         default: return state;
     }
@@ -158,6 +168,45 @@ const putEditProfileSuccess = (state, action) => {
     return {
         ...state,
         editProfileDetail: action.editProfileDetail
+    }
+};
+const patchThemeStart = (state, action) => {
+    return {
+        ...state
+    }
+};
+
+const patchThemeFail = (state, action) => {
+    return {
+        ...state,
+        errorMessage: action.errorMessage
+    }
+};
+
+const patchThemeSuccess = (state, action) => {
+    return {
+        ...state,
+        patchThemeDetail: action.patchThemeDetail
+    }
+};
+
+const patchPictureStart = (state, action) => {
+    return {
+        ...state
+    }
+};
+
+const patchPictureFail = (state, action) => {
+    return {
+        ...state,
+        errorMessage: action.errorMessage
+    }
+};
+
+const patchPictureSuccess = (state, action) => {
+    return {
+        ...state,
+        patchPictureDetail: action.patchPictureDetail
     }
 };
 export default profileReducer;

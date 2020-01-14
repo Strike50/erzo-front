@@ -8,7 +8,7 @@ import {
     CardBody,
     CardSubtitle,
     CardText,
-    CardTitle, Form, Input,
+    CardTitle,
 } from "reactstrap"
 import Subscriptions from "./subscriptions/subscriptions";
 import {useParams} from "react-router";
@@ -16,6 +16,9 @@ import {useKeycloak} from "react-keycloak";
 import EditProfile from "./edit-profile";
 import Switch from "react-switch";
 import {eTheme} from "../../enum/theme";
+import {patchTheme} from "../../store/actions/index";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import Files from "react-files";
 
 export const Profile = props => {
     const {fetchProfile, postFollowSomeone, postUnfollowSomeone, loading} = props;
@@ -68,30 +71,21 @@ export const Profile = props => {
 
     const handleChange = () => {
         setTheme(move ? eTheme.DARK : eTheme.BASIC);
+        patchTheme(theme);
         setMove(!move);
     };
 
     const profileDetail = props.profileDetail !== null ? (
         <Card>
             <div className="editPictureClass">
-                <img alt='' src={'emptyProfile.png'} width={100} height={100} />
-                <Input type="file" accept="image/*,video/*"/>
-                <h6>Theme</h6>
-                <label>
-                    <span>Basic</span>
-                    <Switch onChange={handleChange} checked={move} onColor="#86d3ff"
-                            onHandleColor="#2693e6"
-                            handleDiameter={30}
-                            uncheckedIcon={false}
-                            checkedIcon={false}
-                            boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-                            activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-                            height={20}
-                            width={48}
-                            className="react-switch"
-                            id="material-switch"/>
-                    <span>Dark</span>
-                </label>
+                <img alt='' src={'../../emptyProfile.png'} width={100} height={100}/>
+                <Files
+                    className="file"
+                    accepts={['image/*', 'video/*']}
+                    multiple={false}
+                >
+                    <FontAwesomeIcon icon="file-image"/>
+                </Files>
             </div>
             <CardBody>
                 <CardTitle><h1 className="username">{props.profileDetail.username}</h1></CardTitle>
@@ -139,6 +133,23 @@ export const Profile = props => {
     const editProfile = editModal ?
         <EditProfile profileDetail={props.profileDetail} editModal={editModal} toggleEdit={toggleEdit}/> : null;
 
+    const changeTheme =
+        <label>
+        <span>Basic</span>
+        <Switch onChange={handleChange} checked={move} onColor="#86d3ff"
+                onHandleColor="#2693e6"
+                handleDiameter={30}
+                uncheckedIcon={false}
+                checkedIcon={false}
+                boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                height={20}
+                width={48}
+                className="react-switch"
+                id="material-switch"/>
+        <span>Dark</span>
+</label>;
+
     return (
         <Card className="test">
             {profileDetail}
@@ -147,6 +158,7 @@ export const Profile = props => {
             {subscriptions}
             {checkProfileButtonStatus(username === preferred_username)}
             {editProfile}
+            {changeTheme}
         </Card>
     )
 };
@@ -159,6 +171,8 @@ const mapStateToProps = state => {
         followSomeone: state.profile.followSomeoneDetail,
         unfollowSomeone: state.profile.unfollowSomeoneDetail,
         editProfileDetail: state.profile.editProfileDetail,
+        patchThemeDetail: state.profile.patchThemeDetail,
+        patchPictureDetail: state.profile.patchPictureDetail,
         errorMessage: state.profile.errorMessage,
         loadingFollowers: state.profile.loading
     }
@@ -169,6 +183,8 @@ const mapDispatchToProps = dispatch => {
         fetchProfile: username => dispatch(actions.fetchProfile(username)),
         postFollowSomeone: username => dispatch(actions.postFollowSomeone(username)),
         postUnfollowSomeone: username => dispatch(actions.postUnfollowSomeone(username)),
+        patchTheme: theme => dispatch(actions.patchTheme(theme)),
+        patchPicture: picture => dispatch(actions.patchPicture(picture))
     }
 };
 export default connect(

@@ -1,8 +1,6 @@
 import React, {useState} from 'react';
 import {Button, Form, FormGroup, Input, Modal, ModalBody} from "reactstrap";
-import Switch from "react-switch";
 import * as actions from '../../store/actions/index'
-import {eTheme} from '../../enum/theme';
 import {connect} from "react-redux";
 import {useKeycloak} from "react-keycloak";
 
@@ -32,8 +30,6 @@ export const EditProfile = props => {
 
     const handleSubmit = e => {
         console.log(" Nom : "+ lastName+ " Prenom : " + firstName + " mail : " + description + " naissance : "+ dateOfBirth);
-
-        //if (username && firstName && lastName && email && description && dateOfBirth) {
             const user = {
                 id: sub,
                 firstName,
@@ -42,7 +38,6 @@ export const EditProfile = props => {
                 dateOfBirth,
             };
             props.putEditProfile(user);
-        //}
         e.preventDefault();
     };
     

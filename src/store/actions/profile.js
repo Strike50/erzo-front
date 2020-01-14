@@ -212,3 +212,68 @@ export const putEditProfile = user => {
             })
     }
 };
+
+export const patchThemeStart = () => {
+    return {
+        type: actionTypes.PATCH_THEME_START
+    }
+};
+
+export const patchThemeFail = error => {
+    return {
+        type: actionTypes.PATCH_THEME_FAIL,
+        errorMessage: error
+    }
+};
+
+export const patchThemeSuccess = response => {
+    return {
+        type: actionTypes.PATCH_THEME_SUCCESS,
+        patchThemeDetail: response.data
+    }
+};
+
+export const patchTheme = theme => {
+    return dispatch => {
+        dispatch(patchThemeStart());
+        axios.patch(`/users`, theme)
+            .then(res => {
+                dispatch(patchThemeSuccess(res));
+            })
+            .catch(error => {
+                dispatch(patchThemeFail(error));
+            })
+    }
+};
+export const patchPictureStart = () => {
+    return {
+        type: actionTypes.PATCH_PICTURE_START
+    }
+};
+
+export const patchPictureFail = error => {
+    return {
+        type: actionTypes.PATCH_PICTURE_FAIL,
+        errorMessage: error
+    }
+};
+
+export const patchPictureSuccess = response => {
+    return {
+        type: actionTypes.PATCH_PICTURE_SUCCESS,
+        patchPictureDetail: response.data
+    }
+};
+
+export const patchPicture = picture => {
+    return dispatch => {
+        dispatch(patchPictureStart());
+        axios.patch(`/users`, picture)
+            .then(res => {
+                dispatch(patchPictureSuccess(res));
+            })
+            .catch(error => {
+                dispatch(patchPictureFail(error));
+            })
+    }
+};
