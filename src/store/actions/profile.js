@@ -278,4 +278,3 @@ export const patchPicture = picture => {
             })
     }
 };
-
