@@ -1,4 +1,4 @@
 export const eMediaType = {
-    VIDEO: 0,
-    IMAGE: 1
+    VIDEO: 'VIDEO',
+    IMAGE: 'IMAGE'
 };

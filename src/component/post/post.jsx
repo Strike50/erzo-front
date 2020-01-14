@@ -1,20 +1,55 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {Card, CardBody, CardFooter, CardHeader} from "reactstrap";
+import {Card, CardBody, CardFooter, CardHeader, Col, Row} from "reactstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import * as actions from '../../store/actions'
+import {eMediaType} from "../../enum/mediaType";
+import {connect} from "react-redux";
+import axiosOrder from "../../axios-order";
 
 export const Post = props => {
+    const {media, author, getProfileInfo} = props;
+
+    useEffect(() => {
+        if (author !== null) {
+            getProfileInfo(author);
+        }
+    },[author, getProfileInfo]);
+
+    const checkMediaPlayer = () => {
+        if (media !== null) {
+            const baseURL = axiosOrder.defaults.baseURL;
+            if (media.type === eMediaType.IMAGE) {
+                const src = process.env.NODE_ENV === 'production' ? `${baseURL}/images/${media.id}`
+                : `http://localhost:3002/images/${media.id}`;
+                return <img alt='post' src={src}/>
+            } else {
+                const src = process.env.NODE_ENV === 'production' ? `${baseURL}/videos/${media.id}`
+                    : `http://localhost:3002/videos/${media.id}`;
+                return <video controls src={src} />
+            }
+        }
+    };
+
     const creationDate = new Date(props.creationDate).toLocaleString();
-    const media = props.media !== null ? '' : null;
     return (
         <Card>
             <CardHeader>
-                <div>{props.author}</div>
-                <div>{creationDate}</div>
+                <div>
+                    <strong>
+                        {props.profileDetail.lastName} {props.profileDetail.firstName}
+                    </strong>&nbsp;
+                    {props.profileDetail.username}
+                </div>
+                <div>{`Publié le ${creationDate}`}</div>
             </CardHeader>
             <CardBody>
-                {media}
-                <div>{props.content}</div>
+                <Row>{props.content}</Row>
+                <Row>
+                    <Col>
+                        {checkMediaPlayer()}
+                    </Col>
+                </Row>
             </CardBody>
             <CardFooter>
                 <div textalign="left">
@@ -27,7 +62,22 @@ export const Post = props => {
     );
 };
 
-export default Post;
+export const mapStateToProps = state => {
+    return {
+        profileDetail: state.profile.profileDetail
+    }
+};
+
+export const mapDispatchToProps = dispatch => {
+    return {
+        getProfileInfo: id => dispatch(actions.fetchProfileInfo(id)),
+    }
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Post);
 
 Post.propTypes = {
     content: PropTypes.string.isRequired,

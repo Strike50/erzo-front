@@ -11,15 +11,17 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import profileReducer from "./store/reducers/profile.reducer";
 import timelineReducer from "./store/reducers/timeline.reducer";
-import {loadIcons} from "./config/icon-loader";
 import createPostReducer from "./store/reducers/create-post.reducer";
 import searchReducer from "./store/reducers/search.reducer";
+import mediaReducer from "./store/reducers/media.reducer";
+import {loadIcons} from "./config/icon-loader";
 
 const rootReducer = combineReducers({
     profile: profileReducer,
     timeline: timelineReducer,
     createPost: createPostReducer,
-    search: searchReducer
+    search: searchReducer,
+    media: mediaReducer
 });
 
 const store = createStore(rootReducer, applyMiddleware(thunk));

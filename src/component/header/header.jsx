@@ -58,7 +58,7 @@ const Header = () => {
           </NavItem>
           <Dropdown nav isOpen={dropdownOpen} toggle={toggle}>
             <DropdownToggle nav caret>
-              Compte
+              {username}
             </DropdownToggle>
             <DropdownMenu>
               <DropdownItem onClick={keycloak.logout}>Se déconnecter</DropdownItem>

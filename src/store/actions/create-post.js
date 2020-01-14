@@ -1,20 +1,21 @@
 import * as actionTypes from "./actionTypes";
 import axios from "../../axios-order";
 import {eMediaType} from "../../enum/mediaType";
+import {postMedia} from "./media";
 
 export const postTweet = (content, file) => {
     return dispatch => {
         if (file) {
             const typeFile = file.type.includes('image')
-                ? 'IMAGE'
-                : file.type.includes('video') ? 'VIDEO' : null;
+                ? eMediaType.IMAGE
+                : file.type.includes('video') ? eMediaType.VIDEO : null;
             return dispatch(postMedia(file, typeFile))
                 .then(res => {
                     const tweetToPost = {
                         content,
                         media: {
                             id: res.headers['content-location'],
-                            type: typeFile === 'IMAGE' ? eMediaType.IMAGE : eMediaType.VIDEO
+                            type: typeFile
                         }
                     };
                     return dispatch(postContent(tweetToPost));
@@ -23,48 +24,6 @@ export const postTweet = (content, file) => {
             dispatch(postContent(content));
         }
 
-    }
-};
-
-export const postMedia = (file, typeFile) => {
-    return dispatch => {
-        dispatch(postMediaStart());
-        if (typeFile !== null) {
-            const url = typeFile === 'IMAGE' ? 'images' : 'videos';
-            const data = new FormData();
-            data.append('file', file);
-            return axios.post(url, data)
-                .then(res => {
-                    dispatch(postMediaSuccess());
-                    return res;
-                })
-                .catch(error => {
-                    dispatch(postMediaFail(error));
-                    return error;
-                })
-        } else {
-            dispatch(postMediaFail({message: 'Wrong file type'}));
-        }
-    }
-
-};
-
-export const postMediaStart = () => {
-    return {
-        type: actionTypes.POST_MEDIA_START
-    }
-};
-
-export const postMediaFail = error => {
-    return {
-        type: actionTypes.POST_MEDIA_FAIL,
-        errorMessage: error
-    }
-};
-
-export const postMediaSuccess = () => {
-    return {
-        type: actionTypes.POST_MEDIA_SUCCESS
     }
 };
 

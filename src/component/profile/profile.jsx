@@ -1,7 +1,7 @@
 import './profile.css';
 import React, {useEffect, useState,} from 'react';
 import {connect} from "react-redux";
-import * as actions from '../../store/actions/index'
+import * as actions from '../../store/actions'
 import {
     Button,
     Card,
@@ -57,6 +57,7 @@ export const Profile = props => {
         }
         setModal(!modal);
     };
+
     const toggleEdit = () => {
         setEditModal(!editModal);
     };

@@ -1,5 +1,6 @@
 export {
     fetchProfile,
+    fetchProfileInfo,
     putEditProfile,
     patchTheme,
     patchPicture,
@@ -15,3 +16,6 @@ export {
 export {
     searchUser
 } from './search';
+export {
+    postMedia
+} from './media';

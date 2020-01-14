@@ -26,12 +26,12 @@ export const Timeline = props => {
 
     return (
         <Row>
-            <Col/>
+            <Col sm="2"/>
             <Col>
                 <CreatePost/>
                 {listPost}
             </Col>
-            <Col/>
+            <Col sm="2"/>
         </Row>
     );
 };
