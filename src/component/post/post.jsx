@@ -1,20 +1,22 @@
 import React, {useEffect} from 'react';
+import {connect} from "react-redux";
+import {NavLink} from "react-router-dom";
 import PropTypes from 'prop-types';
 import {Card, CardBody, CardFooter, CardHeader, Col, Row} from "reactstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+
 import * as actions from '../../store/actions'
 import {eMediaType} from "../../enum/mediaType";
-import {connect} from "react-redux";
 import axiosOrder from "../../axios-order";
 
 export const Post = props => {
-    const {media, author, getProfileInfo} = props;
+    const {media, author, fetchProfileInfo} = props;
 
     useEffect(() => {
         if (author !== null) {
-            getProfileInfo(author);
+            fetchProfileInfo(author);
         }
-    },[author, getProfileInfo]);
+    },[author, fetchProfileInfo]);
 
     const checkMediaPlayer = () => {
         if (media !== null) {
@@ -36,9 +38,12 @@ export const Post = props => {
         <Card>
             <CardHeader>
                 <div>
-                    <strong>
-                        {props.profileDetail.lastName} {props.profileDetail.firstName}
-                    </strong>&nbsp;
+                    <NavLink to={`/profil/${props.profileDetail.username}`}>
+                        <strong>
+                            {props.profileDetail.lastName} {props.profileDetail.firstName}
+                        </strong>
+                    </NavLink>
+                    &nbsp;
                     {props.profileDetail.username}
                 </div>
                 <div>{`Publié le ${creationDate}`}</div>
@@ -70,7 +75,7 @@ export const mapStateToProps = state => {
 
 export const mapDispatchToProps = dispatch => {
     return {
-        getProfileInfo: id => dispatch(actions.fetchProfileInfo(id)),
+        fetchProfileInfo: id => dispatch(actions.fetchProfileInfo(id)),
     }
 };
 
@@ -81,7 +86,7 @@ export default connect(
 
 Post.propTypes = {
     content: PropTypes.string.isRequired,
-    author: PropTypes.object.isRequired,
+    author: PropTypes.string.isRequired,
     creationDate: PropTypes.string.isRequired,
     media: PropTypes.object,
     reactions: PropTypes.arrayOf(PropTypes.object).isRequired,
