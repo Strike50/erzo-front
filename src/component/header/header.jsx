@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
 import './header.css';
+
+import React, {useState} from 'react';
 import {
   Collapse,
   Dropdown,
@@ -21,19 +22,21 @@ import Search from "../search/search";
 const Header = () => {
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState (false);
 
   const toggle = () => setDropdownOpen(!dropdownOpen);
+  const handleClickToggle = () => setIsOpen(!isOpen);
 
   const { keycloak } = useKeycloak();
   const username = keycloak.tokenParsed.preferred_username;
   return (
     <>
-    <Navbar color="light" light expand="lg">
+    <Navbar color="warning" expand fixed={"top"} sticky={"top"}>
       <NavbarBrand href="/">
         <img src={"erzo.png"} className="logo" alt="Logo de Erzo"/>
       </NavbarBrand>
-      <NavbarToggler  />
-      <Collapse isOpen navbar>
+      <NavbarToggler onClick={handleClickToggle} />
+      <Collapse isOpen={isOpen} navbar>
         <Nav className="mr-auto">
           <NavItem>
             <NavLink to="/" tag={Link}>
@@ -43,21 +46,25 @@ const Header = () => {
           </NavItem>
           <NavItem>
             <NavLink to={`/profil/${username}`} tag={Link}>
+              <FontAwesomeIcon icon="user"/>
               Profil
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink to="/notifications" tag={Link}>
+              <FontAwesomeIcon icon="bell"/>
               Notifications
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink to="/messages" tag={Link}>
+              <FontAwesomeIcon icon="envelope"/>
               Messages
             </NavLink>
           </NavItem>
           <Dropdown nav isOpen={dropdownOpen} toggle={toggle}>
             <DropdownToggle nav caret>
+              <FontAwesomeIcon icon="cog"/>
               {username}
             </DropdownToggle>
             <DropdownMenu>

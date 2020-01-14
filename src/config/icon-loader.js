@@ -29,10 +29,12 @@ import {faSearch} from '@fortawesome/free-solid-svg-icons/faSearch';
 import {faRoad} from '@fortawesome/free-solid-svg-icons/faRoad';
 import {faCloud} from '@fortawesome/free-solid-svg-icons/faCloud';
 import {faRetweet} from "@fortawesome/free-solid-svg-icons/faRetweet";
+import {faComment} from "@fortawesome/free-solid-svg-icons/faComment";
+import {faCog} from "@fortawesome/free-solid-svg-icons/faCog";
+import {faEnvelope} from "@fortawesome/free-solid-svg-icons/faEnvelope";
+import {faFileImage} from "@fortawesome/free-solid-svg-icons/faFileImage";
 
 import {library} from '@fortawesome/fontawesome-svg-core';
-import {faComment} from "@fortawesome/free-solid-svg-icons/faComment";
-import {faFileImage} from "@fortawesome/free-solid-svg-icons";
 
 export const loadIcons = () => {
   library.add(
@@ -68,6 +70,8 @@ export const loadIcons = () => {
       faSearch,
       faComment,
       faRetweet,
-      faFileImage
+      faFileImage,
+      faEnvelope,
+      faCog
   );
 };
