@@ -201,9 +201,9 @@ export const putEditProfileSuccess = response => {
 };
 
 export const putEditProfile = user => {
-    return async dispatch => {
+    return dispatch => {
         dispatch(putEditProfileStart());
-        axios.put(`/users`,user)
+        axios.put(`/users`, user)
             .then(res => {
                 dispatch(putEditProfileSuccess(res));
             })

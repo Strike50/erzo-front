@@ -22,3 +22,15 @@
     border-bottom: 1px solid gray;
     padding-bottom: 3%;
 }
+.profilePicture{
+    float: left;
+}
+.editPictureClass
+{
+    float: right;
+    margin-top: 5%;
+}
+.editPictureClass button
+{
+    margin-top: 2%;
+}
