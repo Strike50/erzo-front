@@ -8,14 +8,17 @@ const initialState = {
 
 const createPostReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.POST_TWEET_START: return postTweetStart(state, action);
-    case actionTypes.POST_TWEET_FAIL: return postTweetFail(state, action);
-    case actionTypes.POST_TWEET_SUCCESS: return postTweetSuccess(state, action);
+    case actionTypes.POST_MEDIA_START: return postMediaStart(state, action);
+    case actionTypes.POST_MEDIA_FAIL: return postMediaFail(state, action);
+    case actionTypes.POST_MEDIA_SUCCESS: return postMediaSuccess(state, action);
+    case actionTypes.POST_CONTENT_START: return postContentStart(state, action);
+    case actionTypes.POST_CONTENT_FAIL: return postContentFail(state, action);
+    case actionTypes.POST_CONTENT_SUCCESS: return postContentSuccess(state, action);
     default: return state;
   }
 };
 
-const postTweetStart = (state, action) => {
+const postMediaStart = (state, action) => {
   return {
     ...state,
     loading: true,
@@ -23,7 +26,7 @@ const postTweetStart = (state, action) => {
   }
 };
 
-const postTweetFail = (state, action) => {
+const postMediaFail = (state, action) => {
   return {
     ...state,
     errorMessage: action.errorMessage,
@@ -31,7 +34,31 @@ const postTweetFail = (state, action) => {
   }
 };
 
-const postTweetSuccess = (state, action) => {
+const postMediaSuccess = (state, action) => {
+  return {
+    ...state,
+    loading: false,
+    success: true
+  }
+};
+
+const postContentStart = (state, action) => {
+  return {
+    ...state,
+    loading: true,
+    success: false,
+  }
+};
+
+const postContentFail = (state, action) => {
+  return {
+    ...state,
+    errorMessage: action.errorMessage,
+    loading: false
+  }
+};
+
+const postContentSuccess = (state, action) => {
   return {
     ...state,
     loading: false,

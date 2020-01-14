@@ -13,12 +13,13 @@ export const Timeline = props => {
         fetchTimeline();
     }, [fetchTimeline]);
 
-    const listPost = props.listPost !== null ? (
+    const listPost = props.listPost !== null && props.listPost !== undefined ? (
         props.listPost.map((post, i) => (
                 <Post key={`post-${i}`}
                       author={post.userId}
                       content={post.content}
                       creationDate={post.createdAt}
+                      media={post.media}
                       reactions={post.reactions}/>
             ))
     ) : null;

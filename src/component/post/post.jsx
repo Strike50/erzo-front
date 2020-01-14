@@ -30,9 +30,10 @@ export const Post = props => {
 export default Post;
 
 Post.propTypes = {
-  content: PropTypes.string.isRequired,
-  author: PropTypes.object.isRequired,
-  creationDate: PropTypes.string.isRequired,
-  reactions: PropTypes.arrayOf(PropTypes.object).isRequired,
-  comments: PropTypes.arrayOf(PropTypes.shape(Post.propTypes))
+    content: PropTypes.string.isRequired,
+    author: PropTypes.object.isRequired,
+    creationDate: PropTypes.string.isRequired,
+    media: PropTypes.object,
+    reactions: PropTypes.arrayOf(PropTypes.object).isRequired,
+    comments: PropTypes.arrayOf(PropTypes.shape(Post.propTypes))
 };
