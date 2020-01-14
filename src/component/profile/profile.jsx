@@ -8,12 +8,14 @@ import {
     CardBody,
     CardSubtitle,
     CardText,
-    CardTitle,
+    CardTitle, Form, Input,
 } from "reactstrap"
 import Subscriptions from "./subscriptions/subscriptions";
 import {useParams} from "react-router";
 import {useKeycloak} from "react-keycloak";
 import EditProfile from "./edit-profile";
+import Switch from "react-switch";
+import {eTheme} from "../../enum/theme";
 
 export const Profile = props => {
     const {fetchProfile, postFollowSomeone, postUnfollowSomeone, loading} = props;
@@ -22,9 +24,12 @@ export const Profile = props => {
     const [isFollowing, setIsFollowing] = useState(null);
     const {username} = useParams();
     const {preferred_username} = useKeycloak().keycloak.tokenParsed;
+    const [theme, setTheme] = useState(eTheme.BASIC);
+    const [move, setMove] = useState(false);
 
     useEffect(() => {
         fetchProfile(username);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [username, loading]);
 
     const checkProfileButtonStatus = isOwnProfile => {
@@ -51,8 +56,6 @@ export const Profile = props => {
         setEditModal(!editModal);
     };
 
-
-
     const onClickFollow = () => {
         postFollowSomeone(props.profileDetail.id);
         checkProfileButtonStatus(false);
@@ -62,17 +65,44 @@ export const Profile = props => {
         postUnfollowSomeone(props.profileDetail.id);
         checkProfileButtonStatus(false);
     };
+
+    const handleChange = () => {
+        setTheme(move ? eTheme.DARK : eTheme.BASIC);
+        setMove(!move);
+    };
+
     const profileDetail = props.profileDetail !== null ? (
         <Card>
+            <div className="editPictureClass">
+                <img alt='' src={'emptyProfile.png'} width={100} height={100} />
+                <Input type="file" accept="image/*,video/*"/>
+                <h6>Theme</h6>
+                <label>
+                    <span>Basic</span>
+                    <Switch onChange={handleChange} checked={move} onColor="#86d3ff"
+                            onHandleColor="#2693e6"
+                            handleDiameter={30}
+                            uncheckedIcon={false}
+                            checkedIcon={false}
+                            boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                            activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                            height={20}
+                            width={48}
+                            className="react-switch"
+                            id="material-switch"/>
+                    <span>Dark</span>
+                </label>
+            </div>
             <CardBody>
-                <img alt="Photo de profil" src={ require('./emptyProfile.png') } width={100} height={100} className="profilePicture"/>
                 <CardTitle><h1 className="username">{props.profileDetail.username}</h1></CardTitle>
                 <CardSubtitle className="mb-2 text-muted">
                     <h3>{props.profileDetail.firstName} {props.profileDetail.lastName}</h3>
                 </CardSubtitle>
                 <CardText>
                     {props.profileDetail.email}
-                    {props.profileDetail.description}
+                </CardText>
+                <CardText>
+                {props.profileDetail.description}
                 </CardText>
             </CardBody>
         </Card>

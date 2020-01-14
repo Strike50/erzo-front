@@ -196,7 +196,7 @@ export const putEditProfileFail = error => {
 export const putEditProfileSuccess = response => {
     return {
         type: actionTypes.PUT_EDITPROFILE_SUCCESS,
-        editProfileDetail: response.data
+        editProfileDetail: response.status
     }
 };
 

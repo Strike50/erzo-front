@@ -1,6 +1,6 @@
 import * as actionTypes from "./actionTypes";
 import axios from "../../axios-order";
-import {eMediaType} from "../../enum/MediaType";
+import {eMediaType} from "../../enum/mediaType";
 
 export const postTweet = (content, file) => {
     return dispatch => {
