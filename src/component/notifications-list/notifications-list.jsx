@@ -23,7 +23,6 @@ export const NotificationsList = props => {
             <Notification key={`notification-${i}`}
                           notificationType={notification.notificationType}
                           notifierId={notification.notifierId}
-                          notifierName={notification.notifierName}
                           postId={notification.postId}
                           postContent={notification.postContent}
                           notificationTimestamp={notification.notificationTimestamp}

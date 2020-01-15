@@ -29,15 +29,14 @@ export const EditProfile = props => {
     };
 
     const handleSubmit = e => {
-        console.log(" Nom : "+ lastName+ " Prenom : " + firstName + " mail : " + description + " naissance : "+ dateOfBirth);
-            const user = {
-                id: sub,
-                firstName,
-                lastName,
-                description,
-                dateOfBirth,
-            };
-            props.putEditProfile(user);
+        const user = {
+            id: sub,
+            firstName,
+            lastName,
+            description,
+            dateOfBirth,
+        };
+        props.putEditProfile(user);
         e.preventDefault();
     };
     

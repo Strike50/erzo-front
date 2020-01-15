@@ -32,7 +32,6 @@ export const Profile = props => {
     useEffect(() => {
         fetchProfile(username);
         let themeDatabaseValue = profileDetail.theme;
-        console.log("theme ", profileDetail);
         setTheme(themeDatabaseValue === eTheme.BASIC ? eTheme.BASIC : eTheme.DARK );
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [username, loading]);
@@ -74,7 +73,6 @@ export const Profile = props => {
 
     const handleChange = () => {
         setTheme(move ? theme = eTheme.BASIC : theme = eTheme.DARK);
-        console.log(theme);
         patchTheme(theme);
         setMove(!move);
     };

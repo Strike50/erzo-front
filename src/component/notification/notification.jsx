@@ -1,22 +1,32 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {Card, CardBody, CardHeader} from "reactstrap";
+import * as actions from "../../store/actions";
+import {connect} from "react-redux";
 
 export const Notification = props => {
+    const {notifierId, fetchProfileInfoById} = props;
+
     const creationDate = new Date(props.notificationTimestamp).toLocaleString();
+
+    useEffect(() => {
+        if (notifierId !== null) {
+            fetchProfileInfoById(notifierId);
+        }
+    },[notifierId, fetchProfileInfoById]);
 
     const notificationBody = () => {
         if (props.notificationType === eNotificationType.FOLLOWS) {
             return (
                 <p>
-                    {props.notifierName} vous suit désormais !
+                    {props.profileDetail.username} vous suit désormais !
                 </p>
             );
         } else {
             const notificationVerb = props.notificationType === eNotificationType.LIKES ? 'aimé' : 'retweeté';
             return (
                 <p>
-                    <span>{props.notifierName} a {notificationVerb} votre post !</span>
+                    <span>{props.profileDetail.username} a {notificationVerb} votre post !</span>
                     <span>{props.postContent}</span>
                 </p>
             );
@@ -36,8 +46,22 @@ export const Notification = props => {
     );
 };
 
+const mapStateToProps = state => {
+    return {
+        profileDetail: state.profile.profileDetail
+    }
+};
 
-export default Notification;
+const mapDispatchToProps = dispatch => {
+    return {
+        fetchProfileInfoById: id => dispatch(actions.fetchProfileInfoById(id))
+    }
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Notification);
 
 const eNotificationType = {
     LIKES: 'LIKES',

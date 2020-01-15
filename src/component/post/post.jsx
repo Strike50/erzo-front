@@ -37,7 +37,6 @@ export const Post = props => {
     };
 
     const creationDate = new Date(props.creationDate).toLocaleString();
-    console.log(props.profileDetail);
     return (
         <Card className="card-post">
             <CardHeader>

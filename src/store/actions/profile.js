@@ -29,7 +29,7 @@ export const fetchProfileInfoByUsername = username => {
 export const fetchProfileInfoById = id => {
     return dispatch => {
         dispatch(fetchProfileStart());
-        return axios.get(`http://localhost:3003/users?id=${id}`)
+        return axios.get(`http://localhost:3001/users?id=${id}`)
             .then(res => {
                 dispatch(fetchProfileSuccess(res));
                 return res
@@ -123,7 +123,6 @@ export const fetchFollowersFail = error => {
 };
 
 export const fetchFollowersSuccess = response => {
-    console.log('action', response.data);
     return {
         type: actionTypes.FETCH_FOLLOWERS_SUCCESS,
         followersDetail: response.data
@@ -251,7 +250,6 @@ export const patchThemeSuccess = response => {
 export const patchTheme = theme => {
     return dispatch => {
         dispatch(patchThemeStart());
-        console.log('theme' + theme);
         axios.patch(`/users/theme`, {theme})
             .then(res => {
                 dispatch(patchThemeSuccess(res));

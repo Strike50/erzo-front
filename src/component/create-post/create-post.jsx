@@ -21,7 +21,6 @@ const CreatePost = props =>{
     };
 
     const handleMediaError = e => {
-        console.log(e);
     };
 
     const handleSubmitTweet = () => {
