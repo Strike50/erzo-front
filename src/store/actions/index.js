@@ -12,7 +12,10 @@ export {
     fetchTimeline
 } from './timeline';
 export {
-    postTweet
+    postTweet,
+    getPostById,
+    postReaction,
+    deleteReaction
 } from './create-post';
 export {
     searchUser

@@ -1,4 +1,5 @@
 export const eReactionType = {
     LIKE: 'LIKE',
-    RETWEET: 'RETWEET'
+    RETWEET: 'RETWEET',
+    NONE: 'NONE'
 };

@@ -37,7 +37,7 @@ const CreatePost = props =>{
                 <Input type="textarea" className="textarea" value={content} onChange={handleContentChange}/>
             </Row>
             <Row className="buttonSend">
-                <Col sm="6">
+                <Col md="6">
                     <Files
                         className="file"
                         onChange={handleMedia}
@@ -49,7 +49,7 @@ const CreatePost = props =>{
                     </Files>
                     {media !== null ? media.name : null}
                 </Col>
-                <Col sm="6">
+                <Col md="6">
                     <Button disabled={content === ''}>Tweeter</Button>
                 </Col>
             </Row>

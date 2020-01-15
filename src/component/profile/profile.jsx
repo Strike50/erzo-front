@@ -11,7 +11,7 @@ import {
     CardTitle,
 } from "reactstrap"
 import Subscriptions from "./subscriptions/subscriptions";
-import {useParams} from "react-router";
+import {Redirect, useParams} from "react-router";
 import {useKeycloak} from "react-keycloak";
 import EditProfile from "./edit-profile";
 import Switch from "react-switch";
@@ -21,20 +21,40 @@ import Files from "react-files";
 
 export const Profile = props => {
     const {fetchProfile, postFollowSomeone, postUnfollowSomeone, loading, patchTheme, profileDetail} = props;
+    const [wrongUsernameRedirect, setWrongUsernameRedirect] = useState(null);
     const [modal, setModal] = useState(false);
     const [editModal, setEditModal] = useState(false);
     const [isFollowing, setIsFollowing] = useState(null);
+    const [theme, setTheme] = useState(eTheme.BASIC);
+    const [move, setMove] = useState(false);
     const {username} = useParams();
     const {preferred_username} = useKeycloak().keycloak.tokenParsed;
-    let [theme, setTheme] = useState(eTheme.BASIC);
-    const [move, setMove] = useState(false);
 
     useEffect(() => {
-        fetchProfile(username);
-        let themeDatabaseValue = profileDetail.theme;
-        setTheme(themeDatabaseValue === eTheme.BASIC ? eTheme.BASIC : eTheme.DARK );
+        fetchProfile(username)
+            .then(res => {
+                checkSwitchThemeStatus(res.data.user.theme);
+            })
+            .catch(error => {
+                setWrongUsernameRedirect(
+                    <Redirect to={"/"} />
+                );
+            });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [username, loading]);
+
+    const checkSwitchThemeStatus = theme => {
+        if(theme !== undefined) {
+            console.log(theme);
+            theme === eTheme.DARK ? setMove(true): setMove(false);
+            setTheme(theme === eTheme.DARK ? eTheme.DARK : eTheme.BASIC );
+
+        }
+        else
+        {
+            console.log('On est dans le ELSE');
+        }
+    };
 
     const checkProfileButtonStatus = isOwnProfile => {
         if (isOwnProfile) {
@@ -49,7 +69,6 @@ export const Profile = props => {
             }
         }
     };
-
     const toggle = type => {
         if (typeof type === "string") {
             setIsFollowing(type === 'following');
@@ -72,7 +91,8 @@ export const Profile = props => {
     };
 
     const handleChange = () => {
-        setTheme(move ? theme = eTheme.BASIC : theme = eTheme.DARK);
+        setTheme(move ? eTheme.DARK : eTheme.BASIC);
+        console.log("handle change theme " + theme);
         patchTheme(theme);
         setMove(!move);
     };
@@ -154,6 +174,7 @@ export const Profile = props => {
 
     return (
         <Card className="test">
+            {wrongUsernameRedirect}
             {profileDetailDisplay}
             {followersDetailDiv}
             {followingDetail}

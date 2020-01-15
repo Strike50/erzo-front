@@ -2,9 +2,10 @@ import React from 'react';
 import './App.css';
 import Routes from './component/routes/routes';
 import Header from "./component/header/header";
-import {BrowserRouter as Router} from "react-router-dom";
+import {Router} from "react-router-dom";
 import {useKeycloak} from "react-keycloak";
 import axiosOrder from "./axios-order";
+import history from './history';
 
 function App() {
 
@@ -16,7 +17,7 @@ function App() {
 
     return initialized ? (
         <div className="App">
-            <Router>
+            <Router history={ history }>
                 <Header/>
                 <Routes/>
             </Router>
