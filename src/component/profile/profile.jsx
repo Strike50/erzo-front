@@ -16,22 +16,24 @@ import {useKeycloak} from "react-keycloak";
 import EditProfile from "./edit-profile";
 import Switch from "react-switch";
 import {eTheme} from "../../enum/theme";
-import {patchTheme} from "../../store/actions/index";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import Files from "react-files";
 
 export const Profile = props => {
-    const {fetchProfile, postFollowSomeone, postUnfollowSomeone, loading} = props;
+    const {fetchProfile, postFollowSomeone, postUnfollowSomeone, loading, patchTheme, profileDetail} = props;
     const [modal, setModal] = useState(false);
     const [editModal, setEditModal] = useState(false);
     const [isFollowing, setIsFollowing] = useState(null);
     const {username} = useParams();
     const {preferred_username} = useKeycloak().keycloak.tokenParsed;
-    const [theme, setTheme] = useState(eTheme.BASIC);
+    let [theme, setTheme] = useState(eTheme.BASIC);
     const [move, setMove] = useState(false);
 
     useEffect(() => {
         fetchProfile(username);
+        let themeDatabaseValue = profileDetail.theme;
+        console.log("theme ", profileDetail);
+        setTheme(themeDatabaseValue === eTheme.BASIC ? eTheme.BASIC : eTheme.DARK );
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [username, loading]);
 
@@ -60,22 +62,23 @@ export const Profile = props => {
     };
 
     const onClickFollow = () => {
-        postFollowSomeone(props.profileDetail.id);
+        postFollowSomeone(profileDetail.id);
         checkProfileButtonStatus(false);
     };
 
     const onClickUnfollow = () => {
-        postUnfollowSomeone(props.profileDetail.id);
+        postUnfollowSomeone(profileDetail.id);
         checkProfileButtonStatus(false);
     };
 
     const handleChange = () => {
-        setTheme(move ? eTheme.DARK : eTheme.BASIC);
+        setTheme(move ? theme = eTheme.BASIC : theme = eTheme.DARK);
+        console.log(theme);
         patchTheme(theme);
         setMove(!move);
     };
 
-    const profileDetail = props.profileDetail !== null ? (
+    const profileDetailDisplay = profileDetail !== null ? (
         <Card>
             <div className="editPictureClass">
                 <img alt='' src={'../../emptyProfile.png'} width={100} height={100}/>
@@ -88,15 +91,15 @@ export const Profile = props => {
                 </Files>
             </div>
             <CardBody>
-                <CardTitle><h1 className="username">{props.profileDetail.username}</h1></CardTitle>
+                <CardTitle><h1 className="username">{profileDetail.username}</h1></CardTitle>
                 <CardSubtitle className="mb-2 text-muted">
-                    <h3>{props.profileDetail.firstName} {props.profileDetail.lastName}</h3>
+                    <h3>{profileDetail.firstName} {profileDetail.lastName}</h3>
                 </CardSubtitle>
                 <CardText>
-                    {props.profileDetail.email}
+                    {profileDetail.email}
                 </CardText>
                 <CardText>
-                {props.profileDetail.description}
+                {profileDetail.description}{profileDetail.theme}
                 </CardText>
             </CardBody>
         </Card>
@@ -131,7 +134,7 @@ export const Profile = props => {
                        isFollowing={isFollowing}/> : null;
 
     const editProfile = editModal ?
-        <EditProfile profileDetail={props.profileDetail} editModal={editModal} toggleEdit={toggleEdit}/> : null;
+        <EditProfile profileDetail={profileDetailDisplay} editModal={editModal} toggleEdit={toggleEdit}/> : null;
 
     const changeTheme =
         <label>
@@ -152,7 +155,7 @@ export const Profile = props => {
 
     return (
         <Card className="test">
-            {profileDetail}
+            {profileDetailDisplay}
             {followersDetailDiv}
             {followingDetail}
             {subscriptions}

@@ -14,7 +14,7 @@ export const fetchProfile = username => {
 export const fetchProfileInfo = username => {
     return dispatch => {
         dispatch(fetchProfileStart());
-        return axios.get(`/users/${username}`)
+        return axios.get(`/users?username=${username}`)
             .then(res => {
                 dispatch(fetchProfileSuccess(res));
                 return res
@@ -236,7 +236,8 @@ export const patchThemeSuccess = response => {
 export const patchTheme = theme => {
     return dispatch => {
         dispatch(patchThemeStart());
-        axios.patch(`/users`, theme)
+        console.log('theme' + theme);
+        axios.patch(`/users/theme`, {theme})
             .then(res => {
                 dispatch(patchThemeSuccess(res));
             })
@@ -277,3 +278,4 @@ export const patchPicture = picture => {
             })
     }
 };
+
