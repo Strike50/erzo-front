@@ -47,25 +47,25 @@ const Header = () => {
           <NavItem>
             <NavLink to={`/profil/${username}`} tag={Link}>
               <FontAwesomeIcon icon="user"/>
-              Profil
+              <span>Profil</span>
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink to="/notifications" tag={Link}>
               <FontAwesomeIcon icon="bell"/>
-              Notifications
+              <span>Notifications</span>
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink to="/messages" tag={Link}>
               <FontAwesomeIcon icon="envelope"/>
-              Messages
+              <span>Messages</span>
             </NavLink>
           </NavItem>
           <Dropdown nav isOpen={dropdownOpen} toggle={toggle}>
             <DropdownToggle nav caret>
               <FontAwesomeIcon icon="cog"/>
-              {username}
+              <span>{username}</span>
             </DropdownToggle>
             <DropdownMenu>
               <DropdownItem onClick={keycloak.logout}>Se déconnecter</DropdownItem>

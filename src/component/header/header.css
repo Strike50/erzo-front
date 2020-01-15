@@ -3,7 +3,7 @@
 }
 
 .navbar{
-  height:90px;
+  height:20%;
   border-bottom: 2px solid #FF7632;
   padding: 10px 50px;
 }
@@ -35,7 +35,7 @@
 }
 
 .form-control{
-  width: calc(100% - 130px)!important;
+  width: calc(100% - 130px);
   border-radius: 25px;
 }
 
@@ -46,6 +46,22 @@
 }
 
 .row{
-  margin-left: 0px;
-  margin-right: 0px;
+  margin-left: 0;
+  margin-right: 0;
 }
+
+@media (max-width: 600px){
+  .mr-auto span{
+    display: none;
+  }
+  .logo{
+    height: 60px;
+    left: 18px;
+    position: absolute;
+    top: 0;
+  }
+}
+
+
+
+

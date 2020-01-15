@@ -38,7 +38,7 @@ export const Profile = props => {
 
     const checkProfileButtonStatus = isOwnProfile => {
         if (isOwnProfile) {
-            return (<Button onClick={toggleEdit}>Modifier mon profil</Button>);
+            return (<Button onClick={toggleEdit} id="modifprof">Modifier mon profil</Button>);
         } else {
             if (props.followersDetail.filter(follower => {
                 return follower.username.includes(preferred_username)

@@ -3,9 +3,10 @@
 }
 
 .form {
+  border: 1px solid white;
   padding-top: 20px;
   padding-bottom: 20px;
-  background: lightgray;
+  margin-top: 20px
 }
 
 .textarea {
