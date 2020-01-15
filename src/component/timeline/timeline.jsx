@@ -7,22 +7,23 @@ import CreatePost from "../create-post/create-post";
 
 export const Timeline = props => {
 
-    const { fetchTimeline } = props;
+    const { listPost, fetchTimeline } = props;
 
     useEffect (() => {
         fetchTimeline();
     }, [fetchTimeline]);
 
-    const listPost = props.listPost !== null && props.listPost !== undefined ? (
-        props.listPost.map((post, i) => (
-                <Post key={`post-${i}`}
-                      author={post.userId}
-                      content={post.content}
-                      creationDate={post.createdAt}
-                      media={post.media}
-                      reactions={post.reactions}
-                      comments={post.comments}/>
-            ))
+    const listPostDisplay = listPost !== null && listPost !== undefined ? (
+        listPost.map((post, i) => (
+            <Post key={`post-${i}`}
+                  id={post.id}
+                  author={post.userId}
+                  content={post.content}
+                  creationDate={post.createdAt}
+                  media={post.media}
+                  reactions={post.reactions}
+                  comments={post.comments}/>
+                  ))
     ) : null;
 
     return (
@@ -30,7 +31,7 @@ export const Timeline = props => {
             <Col sm="2"/>
             <Col>
                 <CreatePost/>
-                {listPost}
+                {listPostDisplay}
             </Col>
             <Col sm="2"/>
         </Row>

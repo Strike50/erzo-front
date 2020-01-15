@@ -30,7 +30,7 @@ export const fetchProfileInfoByUsername = username => {
 export const fetchProfileInfoById = id => {
     return dispatch => {
         dispatch(fetchProfileStart());
-        return axios.get(`http://localhost:3001/users?id=${id}`)
+        return axios.get(`http://localhost:3003/users?id=${id}`)
             .then(res => {
                 dispatch(fetchProfileSuccess(res));
                 return res

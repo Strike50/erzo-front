@@ -91,3 +91,69 @@ export const getPostSuccess = () => {
         type: actionTypes.GET_POST_SUCCESS
     }
 };
+
+export const postReaction = reaction => {
+    return dispatch => {
+        dispatch(postReactionStart());
+        return axios.post('/reactions', reaction)
+            .then(response => {
+                dispatch(postReactionSuccess(response));
+                return response;
+            })
+            .catch(error => {
+                dispatch(postReactionFail(error));
+                return error;
+            })
+    }
+};
+
+export const postReactionStart = () => {
+    return {
+        type: actionTypes.POST_REACTION_START
+    }
+};
+
+export const postReactionFail = error => {
+    return {
+        type: actionTypes.POST_REACTION_FAIL,
+        errorMessage: error
+    }
+};
+
+export const postReactionSuccess = response => {
+    return {
+        type: actionTypes.POST_REACTION_SUCCESS
+    }
+};
+
+export const deleteReaction = id => {
+    return dispatch => {
+        dispatch(deleteReactionStart());
+        axios.delete(`/reactions/${id}`)
+            .then(response => {
+                dispatch(deleteReactionSuccess(response));
+            })
+            .catch(error => {
+                dispatch(deleteReactionFail(error));
+            })
+    }
+};
+
+export const deleteReactionStart = () => {
+    return {
+        type: actionTypes.DELETE_REACTION_START
+    }
+};
+
+export const deleteReactionFail = error => {
+    return {
+        type: actionTypes.DELETE_REACTION_FAIL,
+        errorMessage: error
+    }
+};
+
+export const deleteReactionSuccess = response => {
+    return {
+        type: actionTypes.DELETE_REACTION_SUCCESS
+    }
+};

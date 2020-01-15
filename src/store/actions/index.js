@@ -13,7 +13,9 @@ export {
 } from './timeline';
 export {
     postTweet,
-    getPostById
+    getPostById,
+    postReaction,
+    deleteReaction
 } from './create-post';
 export {
     searchUser

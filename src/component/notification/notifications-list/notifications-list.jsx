@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 import {Col, Row} from "reactstrap";
-import * as actions from '../../store/actions/index'
-import Notification from '../notification/notification';
+import * as actions from '../../../store/actions/index'
+import Notification from '../../notification/notification';
 
 export const NotificationsList = props => {
 

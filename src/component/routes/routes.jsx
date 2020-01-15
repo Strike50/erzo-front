@@ -2,7 +2,7 @@ import React from 'react';
 import {Redirect, Route, Switch} from 'react-router';
 import Timeline from '../timeline/timeline';
 import Profile from '../profile/profile';
-import NotificationsList from '../notifications-list/notifications-list';
+import NotificationsList from '../notification/notifications-list/notifications-list';
 
 const Routes = () => (
   <div className="view-routes">

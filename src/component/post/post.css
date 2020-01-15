@@ -1,3 +1,7 @@
 .card-post {
   margin-top: 3%;
 }
+
+.icon {
+  cursor: pointer;
+}
