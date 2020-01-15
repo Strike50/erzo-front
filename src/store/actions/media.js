@@ -42,7 +42,7 @@ export const postMedia = (file, typeFile) => {
     return dispatch => {
         dispatch(postMediaStart());
         if (typeFile !== null) {
-            const url = typeFile === eMediaType.IMAGE ? '/images' : '/videos';
+            const url = typeFile === eMediaType.IMAGE ? 'http://localhost:3002/images' : 'http://localhost:3002/videos';
             const data = new FormData();
             data.append('file', file);
             return axios.post(url, data)

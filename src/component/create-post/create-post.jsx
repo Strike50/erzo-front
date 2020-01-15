@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import {Button, Col, Form, Input, Row} from "reactstrap";
 import Files from 'react-files'
 import {connect} from "react-redux";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as actions from "../../store/actions";
 
 const CreatePost = props =>{
@@ -31,8 +32,20 @@ const CreatePost = props =>{
         }
     };
 
+    const onClickRemoveMedia = () => {
+        setMedia(null);
+    };
+
+    const mediaNameDisplay = media !== null ? (
+        <div>
+            {media.name}&nbsp;
+            <FontAwesomeIcon className="icon" icon="times" onClick={onClickRemoveMedia}/>
+        </div>
+        )
+        : null;
+
     return (
-        <Form className="form" onSubmit={handleSubmitTweet}>
+        <Form className="form">
             <Row>
                 <Input type="textarea" className="textarea" value={content} onChange={handleContentChange}/>
             </Row>
@@ -47,10 +60,10 @@ const CreatePost = props =>{
                     >
                         <Button onClick={e => e.preventDefault()}>Sélectionner photo / vidéo</Button>
                     </Files>
-                    {media !== null ? media.name : null}
+                    {mediaNameDisplay}
                 </Col>
                 <Col md="6">
-                    <Button disabled={content === ''}>Tweeter</Button>
+                    <Button disabled={content === ''} onClick={handleSubmitTweet}>Tweeter</Button>
                 </Col>
             </Row>
         </Form>

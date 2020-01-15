@@ -33,6 +33,7 @@ import {faComment} from "@fortawesome/free-solid-svg-icons/faComment";
 import {faCog} from "@fortawesome/free-solid-svg-icons/faCog";
 import {faEnvelope} from "@fortawesome/free-solid-svg-icons/faEnvelope";
 import {faFileImage} from "@fortawesome/free-solid-svg-icons/faFileImage";
+import {faTimes} from "@fortawesome/free-solid-svg-icons/faTimes";
 
 import {library} from '@fortawesome/fontawesome-svg-core';
 
@@ -72,6 +73,7 @@ export const loadIcons = () => {
       faRetweet,
       faFileImage,
       faEnvelope,
-      faCog
+      faCog,
+      faTimes
   );
 };
