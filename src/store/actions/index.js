@@ -1,6 +1,7 @@
 export {
     fetchProfile,
-    fetchProfileInfo,
+    fetchProfileInfoByUsername,
+    fetchProfileInfoById,
     putEditProfile,
     patchTheme,
     patchPicture,

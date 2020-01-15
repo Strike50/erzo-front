@@ -31,7 +31,7 @@ const Header = () => {
   const username = keycloak.tokenParsed.preferred_username;
   return (
     <>
-    <Navbar color="warning" expand fixed={"top"} sticky={"top"}>
+    <Navbar color="light" expand fixed={"top"} sticky={"top"}>
       <NavbarBrand href="/">
         <img src={"erzo.png"} className="logo" alt="Logo de Erzo"/>
       </NavbarBrand>

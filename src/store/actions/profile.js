@@ -3,7 +3,7 @@ import * as actionTypes from "./actionTypes";
 
 export const fetchProfile = username => {
     return dispatch => {
-        return dispatch(fetchProfileInfo(username))
+        return dispatch(fetchProfileInfoByUsername(username))
             .then(res => {
                 dispatch(fetchFollowing(res.data.user.id));
                 return dispatch(fetchFollowers(res.data.user.id));
@@ -11,10 +11,25 @@ export const fetchProfile = username => {
     }
 };
 
-export const fetchProfileInfo = username => {
+export const fetchProfileInfoByUsername = username => {
     return dispatch => {
         dispatch(fetchProfileStart());
-        return axios.get(`/users?username=${username}`)
+        return axios.get(`http://localhost:3003/users?username=${username}`)
+            .then(res => {
+                dispatch(fetchProfileSuccess(res));
+                return res
+            })
+            .catch(error => {
+                dispatch(fetchProfileFail(error));
+                return error
+            })
+    }
+};
+
+export const fetchProfileInfoById = id => {
+    return dispatch => {
+        dispatch(fetchProfileStart());
+        return axios.get(`http://localhost:3003/users?id=${id}`)
             .then(res => {
                 dispatch(fetchProfileSuccess(res));
                 return res

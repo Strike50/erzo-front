@@ -1,4 +1,6 @@
-import React, {useEffect} from 'react';
+import './post.css';
+
+import React, {useEffect, useState} from 'react';
 import {connect} from "react-redux";
 import {NavLink} from "react-router-dom";
 import PropTypes from 'prop-types';
@@ -7,35 +9,37 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import * as actions from '../../store/actions'
 import {eMediaType} from "../../enum/mediaType";
-import axiosOrder from "../../axios-order";
 
 export const Post = props => {
-    const {media, author, fetchProfileInfo} = props;
+    const {media, author, getMedia, fetchProfileInfoById} = props;
+    const [mediaURL, setMediaURL] = useState(null);
 
     useEffect(() => {
         if (author !== null) {
-            fetchProfileInfo(author);
+            fetchProfileInfoById(author);
+            const type = media.type === eMediaType.IMAGE.toString() ? eMediaType.IMAGE : eMediaType.VIDEO;
+            getMedia(media.id, type)
+                .then(blobUrl => {
+                    setMediaURL(blobUrl);
+                    }
+                );
         }
-    },[author, fetchProfileInfo]);
+    },[author, media, fetchProfileInfoById, getMedia]);
 
     const checkMediaPlayer = () => {
-        if (media !== null) {
-            const baseURL = axiosOrder.defaults.baseURL;
+        if (media !== null && mediaURL !== null) {
             if (media.type === eMediaType.IMAGE) {
-                const src = process.env.NODE_ENV === 'production' ? `${baseURL}/images/${media.id}`
-                : `http://localhost:3002/images/${media.id}`;
-                return <img alt='post' src={src}/>
+                return <img alt='post' src={mediaURL}/>
             } else {
-                const src = process.env.NODE_ENV === 'production' ? `${baseURL}/videos/${media.id}`
-                    : `http://localhost:3002/videos/${media.id}`;
-                return <video controls src={src} />
+                return <video controls src={mediaURL} />
             }
         }
     };
 
     const creationDate = new Date(props.creationDate).toLocaleString();
+    console.log(props.profileDetail);
     return (
-        <Card>
+        <Card className="card-post">
             <CardHeader>
                 <div>
                     <NavLink to={`/profil/${props.profileDetail.username}`}>
@@ -75,7 +79,8 @@ export const mapStateToProps = state => {
 
 export const mapDispatchToProps = dispatch => {
     return {
-        fetchProfileInfo: id => dispatch(actions.fetchProfileInfo(id)),
+        fetchProfileInfoById: id => dispatch(actions.fetchProfileInfoById(id)),
+        getMedia: (id, type) => dispatch(actions.getMedia(id, type))
     }
 };
 

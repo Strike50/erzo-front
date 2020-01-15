@@ -2,22 +2,16 @@ import * as actionTypes from "./actionTypes";
 import axios from "../../axios-order";
 import {eMediaType} from "../../enum/mediaType";
 
-export const getMedia = (id, typeFile, token) => {
+export const getMedia = (id, typeFile) => {
     return dispatch => {
         dispatch(getMediaStart());
         const url = typeFile === eMediaType.IMAGE ? `/images/${id}` : `/videos/${id}`;
-        return fetch(`http://localhost:3002${url}`, {
-            headers: new Headers({
-                'Authorization': 'Bearer ' + token
-            }),
-            method: 'GET'
+        return axios.get(`http://localhost:3002${url}`, {
+            responseType: "blob"
         })
             .then(response => {
-                return response.blob()
-                    .then((downloadedImg) => {
-                    dispatch(getMediaSuccess());
-                    return URL.createObjectURL(downloadedImg).toString()
-                })
+                dispatch(getMediaSuccess());
+                return URL.createObjectURL(response.data).toString();
             })
             .catch(error => {
                 dispatch(getMediaFail(error));
