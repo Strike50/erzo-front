@@ -20,7 +20,8 @@ export const Timeline = props => {
                       content={post.content}
                       creationDate={post.createdAt}
                       media={post.media}
-                      reactions={post.reactions}/>
+                      reactions={post.reactions}
+                      comments={post.comments}/>
             ))
     ) : null;
 

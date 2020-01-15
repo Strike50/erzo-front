@@ -9,11 +9,11 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import * as actions from '../../store/actions'
 import {eMediaType} from "../../enum/mediaType";
+import {eReactionType} from "../../enum/reactionType";
 
 export const Post = props => {
     const {media, author, getMedia, fetchProfileInfoById} = props;
     const [mediaURL, setMediaURL] = useState(null);
-
     useEffect(() => {
         if (author !== null) {
             fetchProfileInfoById(author);
@@ -36,6 +36,9 @@ export const Post = props => {
         }
     };
 
+    const nbComment = props.comments !== undefined ? props.comments.length : '0';
+    const nbRT = props.comments !== undefined ? props.reactions.filter(reaction => reaction.type === eReactionType.RETWEET).length : '0';
+    const nbLike = props.comments !== undefined ? props.reactions.filter(reaction => reaction.type === eReactionType.LIKE).length : '0';
     const creationDate = new Date(props.creationDate).toLocaleString();
     return (
         <Card className="card-post">
@@ -60,11 +63,20 @@ export const Post = props => {
                 </Row>
             </CardBody>
             <CardFooter>
-                <div textalign="left">
-                    <FontAwesomeIcon marginleft="5%" icon="comment"/>
-                    <FontAwesomeIcon marginleft="33%" icon="retweet"/>
-                    <FontAwesomeIcon marginleft="33%" icon="heart"/>
-                </div>
+                <Row>
+                    <Col md="4">
+                        <FontAwesomeIcon marginleft="5%" icon="comment"/>
+                        <span>{nbComment}</span>
+                    </Col>
+                    <Col md="4">
+                        <FontAwesomeIcon marginleft="33%" icon="retweet"/>
+                        <span>{nbRT}</span>
+                    </Col>
+                    <Col md="4">
+                        <FontAwesomeIcon marginleft="33%" icon="heart"/>
+                        <span>{nbLike}</span>
+                    </Col>
+                </Row>
             </CardFooter>
         </Card>
     );
