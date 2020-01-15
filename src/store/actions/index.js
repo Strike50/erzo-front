@@ -17,5 +17,6 @@ export {
     searchUser
 } from './search';
 export {
+    getMedia,
     postMedia
 } from './media';
