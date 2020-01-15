@@ -29,21 +29,29 @@ export const Notification = props => {
     const notificationBody = () => {
         if (props.notificationType === eNotificationType.FOLLOWS) {
             return (
-                <NavLink to={`/profil/${props.profileDetail.username}`}>
+                <CardBody>
                     <p>
-                        {props.profileDetail.username} vous suit désormais !
+                        <NavLink to={`/profil/${props.profileDetail.username}`}>
+                            <span>{props.profileDetail.username} </span>
+                        </NavLink>
+                        <span>vous suit désormais !</span>
                     </p>
-                </NavLink>
+                </CardBody>
             );
         } else {
             const notificationVerb = props.notificationType === eNotificationType.LIKES ? 'aimé' : 'retweeté';
             return (
-                <p>
-                    <NavLink to={`/profil/${props.profileDetail.username}`}>
-                        <p>{props.profileDetail.username} a {notificationVerb} votre post !</p>
-                    </NavLink>
-                    <p>{postDisplay}</p>
-                </p>
+                <CardBody>
+                    <p>
+                        <p>
+                            <NavLink to={`/profil/${props.profileDetail.username}`}>
+                                <span>{props.profileDetail.username} </span>
+                            </NavLink>
+                            <span>a {notificationVerb} votre post !</span>
+                        </p>
+                        <p>{postDisplay}</p>
+                    </p>
+                </CardBody>
             );
         }
     };
@@ -54,9 +62,7 @@ export const Notification = props => {
                 <div>{props.notifierName}</div>
                 <div>{creationDate}</div>
             </CardHeader>
-            <CardBody>
-                {notificationBody()}
-            </CardBody>
+            {notificationBody()}
         </Card>
     );
 };
