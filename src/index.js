@@ -15,10 +15,12 @@ import createPostReducer from "./store/reducers/create-post.reducer";
 import searchReducer from "./store/reducers/search.reducer";
 import mediaReducer from "./store/reducers/media.reducer";
 import {loadIcons} from "./config/icon-loader";
+import notificationsListReducer from "./store/reducers/notifications-list.reducer";
 
 const rootReducer = combineReducers({
     profile: profileReducer,
     timeline: timelineReducer,
+    notificationsList: notificationsListReducer,
     createPost: createPostReducer,
     search: searchReducer,
     media: mediaReducer

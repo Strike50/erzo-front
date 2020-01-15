@@ -21,3 +21,6 @@ export {
     getMedia,
     postMedia
 } from './media';
+export {
+    fetchNotifications
+} from  './notifications-list';
