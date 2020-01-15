@@ -6,7 +6,8 @@ export const fetchProfile = username => {
         return dispatch(fetchProfileInfoByUsername(username))
             .then(res => {
                 dispatch(fetchFollowing(res.data.user.id));
-                return dispatch(fetchFollowers(res.data.user.id));
+                dispatch(fetchFollowers(res.data.user.id));
+                return res;
         });
     }
 };
