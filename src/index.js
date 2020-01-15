@@ -30,7 +30,7 @@ const store = createStore(rootReducer, applyMiddleware(thunk));
 
 loadIcons();
 
-const keycloak = Keycloak();
+const keycloak = Keycloak('/keycloak.json');
 
 ReactDOM.render(
   <KeycloakProvider keycloak={keycloak} initConfig={{
