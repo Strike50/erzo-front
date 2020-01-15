@@ -18,13 +18,15 @@ export const NotificationsList = props => {
             notifications.push(props.listNotifications[key]);
         });
     }
+    notifications.sort((a, b) => {
+       return (b.notificationTimestamp - a.notificationTimestamp);
+    });
     const listNotifications = notifications.length > 0 ? (
         notifications.map((notification, i) => (
             <Notification key={`notification-${i}`}
                           notificationType={notification.notificationType}
                           notifierId={notification.notifierId}
                           postId={notification.postId}
-                          postContent={notification.postContent}
                           notificationTimestamp={notification.notificationTimestamp}
                           notificationStatus={notification.notificationStatus}/>
         ))

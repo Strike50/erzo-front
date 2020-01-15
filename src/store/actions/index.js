@@ -12,7 +12,8 @@ export {
     fetchTimeline
 } from './timeline';
 export {
-    postTweet
+    postTweet,
+    getPostById
 } from './create-post';
 export {
     searchUser

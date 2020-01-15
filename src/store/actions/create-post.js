@@ -58,3 +58,36 @@ export const postContentSuccess = () => {
     type: actionTypes.POST_CONTENT_SUCCESS
   }
 };
+
+export const getPostById = id => {
+    return dispatch => {
+        dispatch(getPostStart());
+        return axios.get('http://localhost:3003/posts?id=' + id)
+            .then(response => {
+                dispatch(getPostSuccess());
+                return response.data.post;
+            })
+            .catch(error => {
+                dispatch(getPostFail(error));
+            })
+    }
+};
+
+export const getPostStart = () => {
+    return {
+        type: actionTypes.GET_POST_START
+    }
+};
+
+export const getPostFail = error => {
+    return {
+        type: actionTypes.GET_POST_FAIL,
+        errorMessage: error
+    }
+};
+
+export const getPostSuccess = () => {
+    return {
+        type: actionTypes.GET_POST_SUCCESS
+    }
+};
