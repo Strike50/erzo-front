@@ -12,8 +12,14 @@ export const NotificationsList = props => {
         fetchNotifications();
     }, [fetchNotifications]);
 
-    const listNotifications = props.listNotification !== null ? (
-        props.listNotification.map((notification, i) => (
+    const notifications = [];
+    if (props.listNotifications !== null) {
+        Object.keys(props.listNotifications).forEach((key) => {
+            notifications.push(props.listNotifications[key]);
+        });
+    }
+    const listNotifications = notifications.length > 0 ? (
+        notifications.map((notification, i) => (
             <Notification key={`notification-${i}`}
                           notificationType={notification.notificationType}
                           notifierId={notification.notifierId}
@@ -38,7 +44,7 @@ export const NotificationsList = props => {
 
 const mapStateToProps = state => {
     return {
-        listNotification: state.notificationsList.listNotifications
+        listNotifications: state.notificationsList.listNotifications
     }
 };
 

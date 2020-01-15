@@ -30,6 +30,6 @@ export const fetchNotificationsFail = error => {
 export const fetchNotificationsSuccess = response => {
     return {
         type: actionTypes.FETCH_NOTIFICATIONS_SUCCESS,
-        listPost: response.data.notifications
+        listNotifications: response.data
     }
 };
