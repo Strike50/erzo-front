@@ -62,7 +62,7 @@ export const postContentSuccess = () => {
 export const getPostById = id => {
     return dispatch => {
         dispatch(getPostStart());
-        return axios.get('http://localhost:3003/posts?id=' + id)
+        return axios.get('/posts?id=' + id)
             .then(response => {
                 dispatch(getPostSuccess());
                 return response.data.post;

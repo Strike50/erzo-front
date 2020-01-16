@@ -5,10 +5,11 @@ import * as actions from '../../store/actions'
 import {
     Button,
     Card,
-    CardBody,
     CardSubtitle,
     CardText,
     CardTitle,
+    Row,
+    Col,
 } from "reactstrap"
 import Subscriptions from "./subscriptions/subscriptions";
 import OwnTimeline from "./own-timeline/own-timeline";
@@ -17,24 +18,35 @@ import {useKeycloak} from "react-keycloak";
 import EditProfile from "./edit-profile";
 import Switch from "react-switch";
 import {eTheme} from "../../enum/theme";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import Files from "react-files";
+import {eMediaType} from "../../enum/mediaType";
 
 export const Profile = props => {
-    const {resetProfile, fetchProfile, postFollowSomeone, postUnfollowSomeone, loading, patchTheme, profileDetail} = props;
+    const {resetProfile, fetchProfile, postFollowSomeone, postUnfollowSomeone, loading, patchTheme, profileDetail, getMedia} = props;
     const [wrongUsernameRedirect, setWrongUsernameRedirect] = useState(null);
     const [modal, setModal] = useState(false);
     const [editModal, setEditModal] = useState(false);
     const [isFollowing, setIsFollowing] = useState(null);
     const [theme, setTheme] = useState(eTheme.BASIC);
     const [move, setMove] = useState(false);
+    const [userId, setUserId] = useState(null);
+    const [mediaURL, setMediaURL] = useState('/emptyProfile.png');
     const {username} = useParams();
-    const {preferred_username} = useKeycloak().keycloak.tokenParsed;
+    const {preferred_username, sub} = useKeycloak().keycloak.tokenParsed;
 
     useEffect(() => {
         resetProfile();
+        setMediaURL('/emptyProfile.png');
         fetchProfile(username)
             .then(res => {
+                setUserId(res.data.user.id);
+                const mediaId = res.data.user.mediaId;
+                if (mediaId !== null) {
+                    getMedia(mediaId, eMediaType.IMAGE)
+                        .then(blobUrl => {
+                            setMediaURL(blobUrl);
+                        });
+                }
                 checkSwitchThemeStatus(res.data.user.theme);
             })
             .catch(() => {
@@ -63,12 +75,14 @@ export const Profile = props => {
         if (isOwnProfile) {
             return (<Button onClick={toggleEdit} id="modifprof">Modifier mon profil</Button>);
         } else {
-            if (props.followersDetail.filter(follower => {
-                return follower.username.includes(preferred_username)
-            }).length === 1) {
-                return (<Button onClick={onClickUnfollow}>Abonné</Button>);
-            } else {
-                return (<Button onClick={onClickFollow}>M'abonner</Button>);
+            if (props.followersDetail !== {}) {
+                if (props.followersDetail.filter(follower => {
+                    return follower.username.includes(preferred_username)
+                }).length === 1) {
+                    return (<Button onClick={onClickUnfollow}>Abonné</Button>);
+                } else {
+                    return (<Button onClick={onClickFollow}>M'abonner</Button>);
+                }
             }
         }
     };
@@ -105,30 +119,52 @@ export const Profile = props => {
       }
     };
 
+    const handleProfilePicture = e => {
+        if (e.length === 1) {
+            setMediaURL(e[0].preview.url);
+            props.postMedia(e[0], eMediaType.IMAGE)
+                .then(response => {
+                    const objectPicture = {
+                        id: response.headers['content-location'],
+                        type: eMediaType.IMAGE
+                    };
+                    props.patchPicture(objectPicture);
+                })
+        }
+    };
+
+    const imgDisplay = username === preferred_username ? (
+        <Files
+            className="file"
+            accepts={['image/*']}
+            onChange={handleProfilePicture}
+            multiple={false}
+        >
+            <img alt={`Photo de profil de ${username}`} src={mediaURL} width={100} height={100}/>
+        </Files>
+    ) : (<img alt={`Photo de profil de ${username}`} src={mediaURL} width={100} height={100}/>);
+
     const profileDetailDisplay = profileDetail !== null ? (
         <Card>
-            <div className="editPictureClass">
-                <img alt='' src={'../../emptyProfile.png'} width={100} height={100}/>
-                <Files
-                    className="file"
-                    accepts={['image/*', 'video/*']}
-                    multiple={false}
-                >
-                    <FontAwesomeIcon icon="file-image"/>
-                </Files>
-            </div>
-            <CardBody>
-                <CardTitle><h1 className="username">{profileDetail.username}</h1></CardTitle>
-                <CardSubtitle className="mb-2 text-muted">
-                    <h3>{profileDetail.firstName} {profileDetail.lastName}</h3>
-                </CardSubtitle>
-                <CardText>
-                    {profileDetail.email}
-                </CardText>
-                <CardText>
-                {profileDetail.description}{profileDetail.theme}
-                </CardText>
-            </CardBody>
+            <Row>
+                <Col>
+                    <div className="editPictureClass">
+                        {imgDisplay}
+                    </div>
+                </Col>
+                <Col>
+                    <CardTitle><h1 className="username">{profileDetail.username}</h1></CardTitle>
+                    <CardSubtitle className="mb-2 text-muted">
+                        <h3>{profileDetail.firstName} {profileDetail.lastName}</h3>
+                    </CardSubtitle>
+                    <CardText>
+                        {profileDetail.email}
+                    </CardText>
+                    <CardText>
+                    {profileDetail.description}{profileDetail.theme}
+                    </CardText>
+                </Col>
+            </Row>
         </Card>
     ) : null;
 
@@ -163,35 +199,42 @@ export const Profile = props => {
     const editProfile = editModal ?
         <EditProfile profileDetail={profileDetailDisplay} editModal={editModal} toggleEdit={toggleEdit}/> : null;
 
-    const changeTheme =
-        <label>
-        <span>Basic</span>
-        <Switch onChange={handleChange} checked={move} onColor="#86d3ff"
-                onHandleColor="#2693e6"
-                handleDiameter={30}
-                uncheckedIcon={false}
-                checkedIcon={false}
-                boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-                activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-                height={20}
-                width={48}
-                className="react-switch"
-                id="material-switch"/>
-        <span>Dark</span>
-</label>;
+    const checkSwitchThemeButtonStatus = isOwnProfile => {
+       if (isOwnProfile) {
+           return (<label>
+               <span>Basic</span>
+               <Switch onChange={handleChange} checked={move} onColor="#86d3ff"
+                       onHandleColor="#2693e6"
+                       handleDiameter={30}
+                       uncheckedIcon={false}
+                       checkedIcon={false}
+                       boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                       activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                       height={20}
+                       width={48}
+                       className="react-switch"
+                       id="material-switch"/>
+               <span>Dark</span>
+           </label>);
+       } else {
+           return null;
+       }
+    };
 
     return (
-        <Card className="test">
-            {wrongUsernameRedirect}
-            {profileDetailDisplay}
-            {followersDetailDiv}
-            {followingDetail}
-            {subscriptions}
-            {checkProfileButtonStatus(username === preferred_username)}
-            {editProfile}
-            {changeTheme}
-            <OwnTimeline/>
-        </Card>
+        <div>
+            <Card className="test">
+                {wrongUsernameRedirect}
+                {profileDetailDisplay}
+                {followersDetailDiv}
+                {followingDetail}
+                {subscriptions}
+                {checkProfileButtonStatus(username === preferred_username)}
+                {editProfile}
+                {checkSwitchThemeButtonStatus(username === preferred_username)}
+            </Card>
+            <OwnTimeline userId={userId}/>
+        </div>
     )
 };
 
@@ -217,7 +260,9 @@ const mapDispatchToProps = dispatch => {
         postUnfollowSomeone: username => dispatch(actions.postUnfollowSomeone(username)),
         patchTheme: theme => dispatch(actions.patchTheme(theme)),
         patchPicture: picture => dispatch(actions.patchPicture(picture)),
-        resetProfile: () => dispatch(actions.resetProfile())
+        resetProfile: () => dispatch(actions.resetProfile()),
+        getMedia: (id, type) => dispatch(actions.getMedia(id, type)),
+        postMedia: (file, type) => dispatch(actions.postMedia(file, type))
     }
 };
 export default connect(

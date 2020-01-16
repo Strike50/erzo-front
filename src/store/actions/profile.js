@@ -283,7 +283,7 @@ export const patchPictureSuccess = response => {
 export const patchPicture = picture => {
     return dispatch => {
         dispatch(patchPictureStart());
-        axios.patch(`/users`, picture)
+        axios.patch(`/users/media`, picture)
             .then(res => {
                 dispatch(patchPictureSuccess(res));
             })

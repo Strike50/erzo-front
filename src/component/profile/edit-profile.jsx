@@ -29,6 +29,7 @@ export const EditProfile = props => {
     };
 
     const handleSubmit = e => {
+        e.preventDefault();
         const user = {
             id: sub,
             firstName,
@@ -37,14 +38,13 @@ export const EditProfile = props => {
             dateOfBirth,
         };
         props.putEditProfile(user);
-        e.preventDefault();
     };
     
     return (
         <Modal isOpen={props.editModal} toggle={props.toggleEdit}>
             <ModalBody>
                 <FormGroup>
-                    <Form onSubmit={handleSubmit}>
+                    <Form>
                         <h6>Prénom</h6>
                         <Input type="text" value={firstName} onChange={handleInputChange} name="firstName"/>
                         <h6>Nom</h6>
@@ -53,7 +53,7 @@ export const EditProfile = props => {
                         <Input type="text" value={description}  onChange={handleInputChange} name="description"/>
                         <h6>Date de naissance</h6>
                         <Input type="text" value={dateOfBirth} onChange={handleInputChange} name="dateOfBirth"/>
-                        <Button type="submit">Valider</Button>
+                        <Button onClick={handleSubmit}>Valider</Button>
                     </Form>
                 </FormGroup>
             </ModalBody>

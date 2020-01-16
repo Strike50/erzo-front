@@ -10,7 +10,8 @@ export {
     resetProfile
 } from './profile';
 export {
-    fetchTimeline
+    fetchTimeline,
+    fetchOwnTimeline
 } from './timeline';
 export {
     postTweet,

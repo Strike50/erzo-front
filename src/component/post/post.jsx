@@ -26,12 +26,16 @@ export const Post = props => {
     const idUser = tokenParsed.sub;
 
     useEffect(() => {
-        if (author !== null && reactions !== null && media !== null && media !== undefined) {
+        if (reactions !== null) {
             checkReactionsStatus();
+        }
+        if (author !== null) {
             fetchProfileInfoById(author)
                 .then(response => {
                     setProfileDetail(response.data.user);
                 });
+        }
+        if (media !== null && media !== undefined) {
             const type = media.type === eMediaType.IMAGE.toString() ? eMediaType.IMAGE : eMediaType.VIDEO;
             getMedia(media.id, type)
                 .then(blobUrl => {
@@ -103,19 +107,23 @@ export const Post = props => {
         }
     };
 
+    const authorDetail = profileDetail !== null ? (
+        <div>
+            <NavLink to={`/profil/${profileDetail.username}`}>
+                <strong>
+                    {profileDetail.lastName} {profileDetail.firstName}
+                </strong>
+            </NavLink>
+            &nbsp;
+            {profileDetail.username}
+        </div>
+    ) : null;
+
     const creationDate = new Date(props.creationDate).toLocaleString();
     return (
         <Card className="card-post">
             <CardHeader>
-                <div>
-                    <NavLink to={`/profil/${profileDetail.username}`}>
-                        <strong>
-                            {profileDetail.lastName} {profileDetail.firstName}
-                        </strong>
-                    </NavLink>
-                    &nbsp;
-                    {profileDetail.username}
-                </div>
+                {authorDetail}
                 <div>{`Publié le ${creationDate}`}</div>
             </CardHeader>
             <CardBody>

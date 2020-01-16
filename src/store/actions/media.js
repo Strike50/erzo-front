@@ -6,7 +6,7 @@ export const getMedia = (id, typeFile) => {
     return dispatch => {
         dispatch(getMediaStart());
         const url = typeFile === eMediaType.IMAGE ? `/images/${id}` : `/videos/${id}`;
-        return axios.get(`http://localhost:3002${url}`, {
+        return axios.get(url, {
             responseType: "blob"
         })
             .then(response => {
@@ -15,6 +15,7 @@ export const getMedia = (id, typeFile) => {
             })
             .catch(error => {
                 dispatch(getMediaFail(error));
+                return error
             })
     }
 };
@@ -42,7 +43,7 @@ export const postMedia = (file, typeFile) => {
     return dispatch => {
         dispatch(postMediaStart());
         if (typeFile !== null) {
-            const url = typeFile === eMediaType.IMAGE ? 'http://localhost:3002/images' : 'http://localhost:3002/videos';
+            const url = typeFile === eMediaType.IMAGE ? '/images' : '/videos';
             const data = new FormData();
             data.append('file', file);
             return axios.post(url, data)

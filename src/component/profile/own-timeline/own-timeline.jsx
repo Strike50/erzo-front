@@ -4,17 +4,18 @@ import Post from "../../post/post";
 import * as actions from "../../../store/actions";
 import {connect} from "react-redux";
 
-
 export const OwnTimeline = props => {
 
-    const { listPost, fetchTimeline } = props;
+    const { userId, listOwnPost, fetchOwnTimeline } = props;
 
     useEffect (() => {
-        fetchTimeline();
-    }, [fetchTimeline]);
+        if (userId !== null) {
+            fetchOwnTimeline(userId);
+        }
+    }, [userId, fetchOwnTimeline]);
 
-    const listPostDisplay = listPost !== null && listPost !== undefined ? (
-        listPost.map((post, i) => (
+    const listPostDisplay = listOwnPost !== null && listOwnPost !== undefined ? (
+        listOwnPost.map((post, i) => (
             <Post key={`post-${i}`}
                   id={post.id}
                   author={post.userId}
@@ -39,13 +40,13 @@ export const OwnTimeline = props => {
 };
 const mapStateToProps = state => {
     return {
-        listPost: state.timeline.listPost
+        listOwnPost: state.timeline.listOwnPost
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchTimeline: () => dispatch(actions.fetchTimeline())
+        fetchOwnTimeline: id => dispatch(actions.fetchOwnTimeline(id))
     }
 };
 export default connect(
