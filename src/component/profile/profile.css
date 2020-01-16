@@ -66,9 +66,11 @@
 #modifprof{
   display: block;
   margin: auto;
-  margin-top:10px;
+  margin-top: 3%;
 }
-
+.SwitchButton{
+  margin-top: 1%;
+}
 
 
 
