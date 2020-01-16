@@ -6,7 +6,7 @@ export const getMedia = (id, typeFile) => {
     return dispatch => {
         dispatch(getMediaStart());
         const url = typeFile === eMediaType.IMAGE ? `/images/${id}` : `/videos/${id}`;
-        return axios.get(`http://localhost:3002${url}`, {
+        return axios.get(url, {
             responseType: "blob"
         })
             .then(response => {

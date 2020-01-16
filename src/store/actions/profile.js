@@ -15,7 +15,7 @@ export const fetchProfile = username => {
 export const fetchProfileInfoByUsername = username => {
     return dispatch => {
         dispatch(fetchProfileStart());
-        return axios.get(`http://localhost:3003/users?username=${username}`)
+        return axios.get(`/users?username=${username}`)
             .then(res => {
                 dispatch(fetchProfileSuccess(res));
                 return res
@@ -30,7 +30,7 @@ export const fetchProfileInfoByUsername = username => {
 export const fetchProfileInfoById = id => {
     return dispatch => {
         dispatch(fetchProfileStart());
-        return axios.get(`http://localhost:3003/users?id=${id}`)
+        return axios.get(`/users?id=${id}`)
             .then(res => {
                 dispatch(fetchProfileSuccess(res));
                 return res
