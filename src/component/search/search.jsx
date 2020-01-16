@@ -22,6 +22,13 @@ class Search extends React.Component {
         }
     };
 
+    onClickClearSearch = () => {
+        this.setState({
+            ...this.state,
+            contentSearch: ''
+        });
+    };
+
     render() {
         return (
             <Form inline>
@@ -31,7 +38,7 @@ class Search extends React.Component {
                            <ListGroup>
                                {this.props.userList !== null && this.state.contentSearch !== '' ? this.props.userList.map((user, i) => (
                                    <ListGroupItem key={`userSearch-${i}`}>
-                                       <NavLink to={`/profil/${user.username}`}>
+                                       <NavLink to={`/profil/${user.username}`} onClick={this.onClickClearSearch}>
                                            {user.firstName} {user.lastName} - {user.username}
                                        </NavLink>
                                    </ListGroupItem>
