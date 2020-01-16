@@ -1,3 +1,4 @@
+import './notification.css';
 import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {Card, CardBody, CardHeader} from "reactstrap";
@@ -5,6 +6,7 @@ import * as actions from "../../store/actions";
 import {connect} from "react-redux";
 import {NavLink} from "react-router-dom";
 import {eNotificationType} from "../../enum/notificationType";
+import {eNotificationStatus} from "../../enum/notificationStatus";
 
 export const Notification = props => {
     const {postId, notifierId, fetchProfileInfoById, getPostById} = props;
@@ -33,6 +35,7 @@ export const Notification = props => {
     const postDisplay = post !== null ? post.content : null;
 
     const notificationBody = () => {
+        console.log(props.notificationStatus);
         if (profileDetail.username !== undefined) {
             if (props.notificationType === eNotificationType.FOLLOWS) {
                 return (
@@ -66,7 +69,7 @@ export const Notification = props => {
     };
 
     return (
-        <Card>
+        <Card className={"card_notification " + (props.notificationStatus === eNotificationStatus.NOT_SEEN ? "not_seen" : "")}>
             <CardHeader>
                 <div>{props.notifierName}</div>
                 <div>{creationDate}</div>
@@ -87,12 +90,6 @@ export default connect(
     null,
     mapDispatchToProps
 )(Notification);
-
-/*
-const eNotificationStatus = {
-    NOT_SEEN: 'NOT_SEEN',
-    SEEN: 'SEEN',
-}; */
 
 Notification.propTypes = {
     notificationType: PropTypes.string.isRequired,
