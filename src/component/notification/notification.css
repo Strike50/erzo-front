@@ -1,0 +1,10 @@
+.not_seen {
+    background-color: rgba(100, 200, 100, 0.5);
+}
+
+.card-notification {
+    margin-top: 3%;
+    cursor: pointer;
+}
+
+
