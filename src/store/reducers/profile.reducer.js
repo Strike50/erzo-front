@@ -47,6 +47,8 @@ const profileReducer = (state = initialState, action) => {
         case actionTypes.PATCH_PICTURE_FAIL: return patchPictureFail(state, action);
         case actionTypes.PATCH_PICTURE_SUCCESS: return patchPictureSuccess(state, action);
 
+        case actionTypes.RESET_PROFILE: return resetProfile(state);
+
         default: return state;
     }
 };
@@ -209,4 +211,14 @@ const patchPictureSuccess = (state, action) => {
         patchPictureDetail: action.patchPictureDetail
     }
 };
+
+const resetProfile = state => {
+    return {
+        ...state,
+        profileDetail: {},
+        followersDetail: [],
+        followingDetail: []
+    }
+};
+
 export default profileReducer;

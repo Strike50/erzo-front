@@ -292,3 +292,9 @@ export const patchPicture = picture => {
             })
     }
 };
+
+export const resetProfile = () => {
+    return {
+        type: actionTypes.RESET_PROFILE,
+    }
+};

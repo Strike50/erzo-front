@@ -6,7 +6,8 @@ export {
     patchTheme,
     patchPicture,
     postFollowSomeone,
-    postUnfollowSomeone
+    postUnfollowSomeone,
+    resetProfile
 } from './profile';
 export {
     fetchTimeline

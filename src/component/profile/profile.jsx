@@ -20,7 +20,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import Files from "react-files";
 
 export const Profile = props => {
-    const {fetchProfile, postFollowSomeone, postUnfollowSomeone, loading, patchTheme, profileDetail} = props;
+    const {resetProfile, fetchProfile, postFollowSomeone, postUnfollowSomeone, loading, patchTheme, profileDetail} = props;
     const [wrongUsernameRedirect, setWrongUsernameRedirect] = useState(null);
     const [modal, setModal] = useState(false);
     const [editModal, setEditModal] = useState(false);
@@ -31,27 +31,25 @@ export const Profile = props => {
     const {preferred_username} = useKeycloak().keycloak.tokenParsed;
 
     useEffect(() => {
+        resetProfile();
         fetchProfile(username)
             .then(res => {
                 checkSwitchThemeStatus(res.data.user.theme);
             })
-            .catch(error => {
-                setWrongUsernameRedirect(
-                    <Redirect to={"/"} />
-                );
+            .catch(() => {
+                setWrongUsernameRedirect(<Redirect to={"/"} />);
             });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [username, loading]);
 
-    const checkSwitchThemeStatus = theme => {
-        if(theme !== undefined) {
-            console.log(theme);
-            theme === eTheme.DARK ? setMove(true): setMove(false);
-            setTheme(theme === eTheme.DARK ? eTheme.DARK : eTheme.BASIC );
+    const checkSwitchThemeStatus = themeParam => {
+        if (themeParam !== undefined) {
+            console.log(themeParam);
+            themeParam === eTheme.DARK ? setMove(true): setMove(false);
+            setTheme(themeParam === eTheme.DARK ? eTheme.DARK : eTheme.BASIC );
 
         }
-        else
-        {
+        else {
             console.log('On est dans le ELSE');
         }
     };
@@ -207,7 +205,8 @@ const mapDispatchToProps = dispatch => {
         postFollowSomeone: username => dispatch(actions.postFollowSomeone(username)),
         postUnfollowSomeone: username => dispatch(actions.postUnfollowSomeone(username)),
         patchTheme: theme => dispatch(actions.patchTheme(theme)),
-        patchPicture: picture => dispatch(actions.patchPicture(picture))
+        patchPicture: picture => dispatch(actions.patchPicture(picture)),
+        resetProfile: () => dispatch(actions.resetProfile())
     }
 };
 export default connect(
