@@ -2,15 +2,7 @@ import './profile.css';
 import React, {useEffect, useState,} from 'react';
 import {connect} from "react-redux";
 import * as actions from '../../store/actions'
-import {
-    Button,
-    Card,
-    CardSubtitle,
-    CardText,
-    CardTitle,
-    Row,
-    Col,
-} from "reactstrap"
+import {Button, Card, CardSubtitle, CardText, CardTitle, Col, Row,} from "reactstrap"
 import Subscriptions from "./subscriptions/subscriptions";
 import OwnTimeline from "./own-timeline/own-timeline";
 import {Redirect, useParams} from "react-router";
@@ -57,7 +49,6 @@ export const Profile = props => {
 
     const checkSwitchThemeStatus = themeParam => {
         if (themeParam !== undefined) {
-            console.log(themeParam);
             themeParam === eTheme.DARK ? setMove(true): setMove(false);
             setTheme(themeParam === eTheme.DARK ? eTheme.DARK : eTheme.BASIC );
           if (themeParam === "DARK"){
@@ -65,9 +56,6 @@ export const Profile = props => {
           } else {
             document.getElementById("root").className = "basictheme";
           }
-        }
-        else {
-            console.log('On est dans le ELSE');
         }
     };
 
@@ -109,7 +97,6 @@ export const Profile = props => {
 
     const handleChange = () => {
         setTheme(move ? eTheme.DARK : eTheme.BASIC);
-        console.log("handle change theme " + theme);
         patchTheme(theme);
         setMove(!move);
       if (theme === "DARK"){

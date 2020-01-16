@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {connect} from "react-redux";
 import {useParams} from "react-router";
-import {Col, Spinner} from 'reactstrap';
+import {Col, Row, Spinner} from 'reactstrap';
 import * as actions from "../../store/actions";
 import PostDisplay from "./postDisplay";
 import CreatePost from "../create-post/create-post";
@@ -29,41 +29,55 @@ export const Post = props => {
 
     }, [postId, getPostById, getCommentsOfPostById]);
 
-    console.log(postObject.comments, postObject.id)
+    const checkComment = () => {
+        if (postObject.id !== undefined && postObject.comments.length > 0) {
+            return comments.length > 0 ? comments.map((comment, i) => (
+                <PostDisplay
+                    key={`comment-${i}`}
+                    id={comment.id}
+                    author={comment.userId}
+                    content={comment.content}
+                    creationDate={comment.createdAt}
+                    media={comment.media}
+                    reactionerId={comment.reactionerId}
+                    reactionType={comment.reactionType}
+                    reactions={comment.reactions}
+                    comments={comment.comments}
+                />
+            )) : <Spinner color="black" />;
+        } else {
+            return null;
+        }
+    };
 
     return postObject.id !== undefined ? (
-        <div>
-            <Col md="2" />
-            <Col>
-                <PostDisplay
-                    id={postObject.id}
-                    author={postObject.userId}
-                    content={postObject.content}
-                    creationDate={postObject.createdAt}
-                    media={postObject.media}
-                    reactionerId={postObject.reactionerId}
-                    reactionType={postObject.reactionType}
-                    reactions={postObject.reactions}
-                    comments={postObject.comments}
-                />
-                <CreatePost postParentId={postObject.id}/>
-                {comments.map((comment, i) => (
+        <>
+            <Row>
+                <Col sm="2" />
+                <Col>
                     <PostDisplay
-                        key={`comment-${i}`}
-                        id={comment.id}
-                        author={comment.userId}
-                        content={comment.content}
-                        creationDate={comment.createdAt}
-                        media={comment.media}
-                        reactionerId={comment.reactionerId}
-                        reactionType={comment.reactionType}
-                        reactions={comment.reactions}
-                        comments={comment.comments}
+                        id={postObject.id}
+                        author={postObject.userId}
+                        content={postObject.content}
+                        creationDate={postObject.createdAt}
+                        media={postObject.media}
+                        reactionerId={postObject.reactionerId}
+                        reactionType={postObject.reactionType}
+                        reactions={postObject.reactions}
+                        comments={postObject.comments}
                     />
-                ))}
-            </Col>
-            <Col md="2"/>
-        </div>
+                    <CreatePost postParentId={postObject.id}/>
+                </Col>
+                <Col sm="2"/>
+            </Row>
+            <Row>
+                <Col md="3" />
+                <Col>
+                    {checkComment()}
+                </Col>
+                <Col md="3"/>
+            </Row>
+        </>
     ) : <Spinner color="dark" />;
 };
 

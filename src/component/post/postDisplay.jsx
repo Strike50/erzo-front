@@ -165,8 +165,6 @@ export const PostDisplay = props => {
         return null;
     };
 
-    console.log(reactions)
-
     const creationDate = new Date(props.creationDate).toLocaleString();
     return (
         <Card className="card-post">

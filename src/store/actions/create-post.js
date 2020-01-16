@@ -196,10 +196,10 @@ export const deletePostSuccess = () => {
 export const getCommentsOfPostById = id => {
     return dispatch => {
         dispatch(getCommentsOfPostByIdStart());
-        return axios.get(`/users/comments/${id}`)
+        return axios.get(`/posts/comments/${id}`)
             .then(response => {
                 dispatch(getCommentsOfPostByIdSuccess());
-                return response;
+                return response.data.posts;
             })
             .catch(error => {
                 dispatch(getCommentsOfPostByIdFail());

@@ -32,7 +32,6 @@ class Search extends React.Component {
     };
 
     onClickClearSearch = () => {
-        console.log('oui')
         this.setState({
             ...this.state,
             contentSearch: ''

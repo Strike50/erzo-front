@@ -88,7 +88,6 @@ const fetchFollowersFail = (state, action) => {
 };
 
 const fetchFollowersSuccess = (state, action) => {
-    console.log('reducer', action.followersDetail.followers.length);
     return {
         ...state,
         followersDetail: action.followersDetail.followers,
