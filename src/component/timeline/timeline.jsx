@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 import {Col, Row} from "reactstrap";
 import * as actions from '../../store/actions/index'
-import Post from '../post/post';
+import PostDisplay from '../post/postDisplay';
 import CreatePost from "../create-post/create-post";
 
 export const Timeline = props => {
@@ -15,7 +15,7 @@ export const Timeline = props => {
 
     const listPostDisplay = listPost !== null && listPost !== undefined ? (
         listPost.map((post, i) => (
-            <Post key={`post-${i}`}
+            <PostDisplay key={`post-${i}`}
                   id={post.id}
                   author={post.userId}
                   content={post.content}
