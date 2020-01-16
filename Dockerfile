@@ -8,7 +8,7 @@ COPY . .
 RUN npm install
 
 # build a production ready app
-RUN npm build
+RUN npm run-script build
 
 # start app
-CMD ["serve", "-s", "build"]
+CMD ["serve -s", "build"]
