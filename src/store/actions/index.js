@@ -17,7 +17,8 @@ export {
     postTweet,
     getPostById,
     postReaction,
-    deleteReaction
+    deleteReaction,
+    deletePost,
 } from './create-post';
 export {
     searchUser
