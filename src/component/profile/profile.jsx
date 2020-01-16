@@ -32,7 +32,7 @@ export const Profile = props => {
     const [userId, setUserId] = useState(null);
     const [mediaURL, setMediaURL] = useState('/emptyProfile.png');
     const {username} = useParams();
-    const {preferred_username, sub} = useKeycloak().keycloak.tokenParsed;
+    const {preferred_username} = useKeycloak().keycloak.tokenParsed;
 
     useEffect(() => {
         resetProfile();
@@ -140,9 +140,9 @@ export const Profile = props => {
             onChange={handleProfilePicture}
             multiple={false}
         >
-            <img alt={`Photo de profil de ${username}`} src={mediaURL} width={100} height={100}/>
+            <img alt={`Profil de ${username}`} src={mediaURL} width={100} height={100}/>
         </Files>
-    ) : (<img alt={`Photo de profil de ${username}`} src={mediaURL} width={100} height={100}/>);
+    ) : (<img alt={`Profil de ${username}`} src={mediaURL} width={100} height={100}/>);
 
     const profileDetailDisplay = profileDetail !== null ? (
         <Card>
