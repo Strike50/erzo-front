@@ -7,5 +7,11 @@ WORKDIR /app
 COPY . .
 RUN npm install
 
+# install serve to launch built project 
+RUN npm install -g serve
+
+# build a production ready app
+RUN npm run-script build
+
 # start app
-CMD ["npm", "start"]
+CMD ["serve -s", "build"]

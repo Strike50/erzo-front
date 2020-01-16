@@ -4,7 +4,7 @@ import * as actionTypes from "./actionTypes";
 export const fetchNotifications = () => {
     return dispatch => {
         dispatch(fetchNotificationsStart());
-        axios.get('notifications')
+        axios.get('/notifications')
             .then(res => {
                 dispatch(fetchNotificationsSuccess(res));
             })
