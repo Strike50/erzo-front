@@ -217,7 +217,6 @@ export const getCommentsOfPostByIdStart = () => {
 export const getCommentsOfPostByIdFail = error => {
     return {
         type: actionTypes.GET_POST_FAIL,
-        errorMessage: error
     }
 };
 
