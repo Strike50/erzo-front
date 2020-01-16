@@ -26,7 +26,7 @@ const CreatePost = props =>{
 
     const handleSubmitTweet = () => {
         if (content !== '') {
-            props.postTweet(content, media);
+            props.postTweet(content, media, props.postParentId);
             setContent('');
             setMedia(null);
         }
@@ -76,7 +76,7 @@ const mapStateToProps = (storeState) => ({
 
 const mapDispatchToProps = dispatch => {
     return {
-        postTweet: (content, media) => dispatch(actions.postTweet(content, media))
+        postTweet: (content, media, postParentId) => dispatch(actions.postTweet(content, media, postParentId))
     }
 };
 

@@ -2,31 +2,42 @@ import React from 'react';
 import {Form, FormGroup, Input, ListGroup, ListGroupItem} from "reactstrap";
 import {connect} from "react-redux";
 import * as actions from "../../store/actions";
-import {NavLink} from "react-router-dom";
+import SearchUser from "./searchUser/searchUser";
 
 class Search extends React.Component {
 
     state = {
-        contentSearch: ''
+        contentSearch: '',
+        typingTimeout: 0
     };
 
     handleSearch = e => {
         const contentSearch = e.target.value;
+        if (contentSearch === "") {
+            this.props.resetUserListSearch();
+        }
+        if (this.state.typingTimeout) {
+            clearTimeout(this.state.typingTimeout);
+        }
         this.setState({
             ...this.state,
-            contentSearch
+            contentSearch,
+            typingTimeout: setTimeout(() => {
+                if (contentSearch !== '') {
+                    this.props.searchUser(contentSearch);
+                }
+            }, 700)
         });
-        if (contentSearch !== '') {
-            this.props.searchUser(contentSearch);
-            e.preventDefault();
-        }
+
     };
 
     onClickClearSearch = () => {
+        console.log('oui')
         this.setState({
             ...this.state,
             contentSearch: ''
         });
+        this.props.resetUserListSearch();
     };
 
     render() {
@@ -36,11 +47,9 @@ class Search extends React.Component {
                     <Input type="text" value={this.state.contentSearch} onChange={this.handleSearch}
                            placeholder="Rechercher un utilisateur ..." className="mr-sm-2" />
                            <ListGroup>
-                               {this.props.userList !== null && this.state.contentSearch !== '' ? this.props.userList.map((user, i) => (
+                               {this.props.userList !== [] ? this.props.userList.map((user, i) => (
                                    <ListGroupItem key={`userSearch-${i}`}>
-                                       <NavLink to={`/profil/${user.username}`} onClick={this.onClickClearSearch}>
-                                           {user.firstName} {user.lastName} - {user.username}
-                                       </NavLink>
+                                       <SearchUser user={user} onClick={this.onClickClearSearch}/>
                                    </ListGroupItem>
                                )) : null}
                            </ListGroup>
@@ -56,7 +65,8 @@ const mapStateToProps = (storeState) => ({
 
 const mapDispatchToProps = dispatch => {
     return {
-        searchUser: contentSearch => dispatch(actions.searchUser(contentSearch))
+        searchUser: contentSearch => dispatch(actions.searchUser(contentSearch)),
+        resetUserListSearch: () => dispatch(actions.resetUserListSearch())
     }
 };
 

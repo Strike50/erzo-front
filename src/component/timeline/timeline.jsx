@@ -15,15 +15,19 @@ export const Timeline = props => {
 
     const listPostDisplay = listPost !== null && listPost !== undefined ? (
         listPost.map((post, i) => (
-            <PostDisplay key={`post-${i}`}
-                  id={post.id}
-                  author={post.userId}
-                  content={post.content}
-                  creationDate={post.createdAt}
-                  media={post.media}
-                  reactions={post.reactions}
-                  comments={post.comments}/>
-                  ))
+            <PostDisplay
+                key={`post-${i}`}
+                id={post.id}
+                author={post.userId}
+                content={post.content}
+                creationDate={post.createdAt}
+                media={post.media}
+                reactionerId={post.reactionerId}
+                reactionType={post.reactionType}
+                reactions={post.reactions}
+                comments={post.comments}
+            />
+            ))
     ) : null;
 
     return (

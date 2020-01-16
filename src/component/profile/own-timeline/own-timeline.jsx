@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react';
 import {Col, Row} from "reactstrap";
-import Post from "../../post/post";
-import * as actions from "../../../store/actions";
 import {connect} from "react-redux";
+import * as actions from "../../../store/actions";
+import PostDisplay from "../../post/postDisplay";
 
 export const OwnTimeline = props => {
 
@@ -16,7 +16,7 @@ export const OwnTimeline = props => {
 
     const listPostDisplay = listOwnPost !== null && listOwnPost !== undefined ? (
         listOwnPost.map((post, i) => (
-            <Post key={`post-${i}`}
+            <PostDisplay key={`post-${i}`}
                   id={post.id}
                   author={post.userId}
                   content={post.content}

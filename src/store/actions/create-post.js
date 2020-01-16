@@ -3,7 +3,7 @@ import axios from "../../axios-order";
 import {eMediaType} from "../../enum/mediaType";
 import {postMedia} from "./media";
 
-export const postTweet = (content, file) => {
+export const postTweet = (content, file, postParentId) => {
     return dispatch => {
         if (file) {
             const typeFile = file.type.includes('image')
@@ -13,6 +13,7 @@ export const postTweet = (content, file) => {
                 .then(res => {
                     const tweetToPost = {
                         content,
+                        postId: postParentId,
                         media: {
                             id: res.headers['content-location'],
                             type: typeFile
@@ -21,7 +22,10 @@ export const postTweet = (content, file) => {
                     return dispatch(postContent(tweetToPost));
             })
         } else {
-            dispatch(postContent({content}));
+            dispatch(postContent({
+                content,
+                postId: postParentId
+            }));
         }
 
     }
@@ -97,7 +101,7 @@ export const postReaction = reaction => {
         dispatch(postReactionStart());
         return axios.post('/reactions', reaction)
             .then(response => {
-                dispatch(postReactionSuccess(response));
+                dispatch(postReactionSuccess());
                 return response;
             })
             .catch(error => {
@@ -120,7 +124,7 @@ export const postReactionFail = error => {
     }
 };
 
-export const postReactionSuccess = response => {
+export const postReactionSuccess = () => {
     return {
         type: actionTypes.POST_REACTION_SUCCESS
     }
@@ -130,8 +134,8 @@ export const deleteReaction = id => {
     return dispatch => {
         dispatch(deleteReactionStart());
         axios.delete(`/reactions/${id}`)
-            .then(response => {
-                dispatch(deleteReactionSuccess(response));
+            .then(() => {
+                dispatch(deleteReactionSuccess());
             })
             .catch(error => {
                 dispatch(deleteReactionFail(error));
@@ -152,7 +156,7 @@ export const deleteReactionFail = error => {
     }
 };
 
-export const deleteReactionSuccess = response => {
+export const deleteReactionSuccess = () => {
     return {
         type: actionTypes.DELETE_REACTION_SUCCESS
     }
@@ -162,11 +166,11 @@ export const deletePost = id => {
     return dispatch => {
         dispatch(deletePostStart());
         axios.delete(`/posts/${id}`)
-            .then(response => {
-                dispatch(deletePostSuccess(response));
+            .then(() => {
+                dispatch(deletePostSuccess());
             })
-            .catch(error => {
-                dispatch(deletePostFail(error));
+            .catch(() => {
+                dispatch(deletePostFail());
             })
     }
 };
@@ -177,15 +181,48 @@ export const deletePostStart = () => {
     }
 };
 
-export const deletePostFail = error => {
+export const deletePostFail = () => {
     return {
-        type: actionTypes.DELETE_POST_FAIL,
+        type: actionTypes.DELETE_POST_FAIL
+    }
+};
+
+export const deletePostSuccess = () => {
+    return {
+        type: actionTypes.DELETE_POST_SUCCESS
+    }
+};
+
+export const getCommentsOfPostById = id => {
+    return dispatch => {
+        dispatch(getCommentsOfPostByIdStart());
+        return axios.get(`/users/comments/${id}`)
+            .then(response => {
+                dispatch(getCommentsOfPostByIdSuccess());
+                return response;
+            })
+            .catch(error => {
+                dispatch(getCommentsOfPostByIdFail());
+                return error;
+            })
+    }
+};
+
+export const getCommentsOfPostByIdStart = () => {
+    return {
+        type: actionTypes.GET_POST_START
+    }
+};
+
+export const getCommentsOfPostByIdFail = error => {
+    return {
+        type: actionTypes.GET_POST_FAIL,
         errorMessage: error
     }
 };
 
-export const deletePostSuccess = response => {
+export const getCommentsOfPostByIdSuccess = () => {
     return {
-        type: actionTypes.DELETE_POST_SUCCESS
+        type: actionTypes.GET_POST_SUCCESS
     }
 };
