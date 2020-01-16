@@ -4,7 +4,7 @@ import axios from "../../axios-order";
 export const searchUser = contentSearch => {
     return dispatch => {
         dispatch(searchBarStart());
-        axios.get('http://localhost:3003/users/keycloak/' + contentSearch)
+        axios.get('/users/keycloak/' + contentSearch)
             .then(res => {
                 dispatch(searchBarSuccess(res));
             })
