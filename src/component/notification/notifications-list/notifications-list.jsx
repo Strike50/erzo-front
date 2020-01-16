@@ -35,7 +35,6 @@ export const NotificationsList = props => {
                     notifications.forEach(notification => notification.notificationStatus = eNotificationStatus.SEEN);
                 }, 5000);
         });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     notifications.sort((a, b) => {
