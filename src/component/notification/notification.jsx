@@ -9,13 +9,18 @@ export const Notification = props => {
     const {postId, notifierId, fetchProfileInfoById, getPostById} = props;
 
     const [post, setPost] = useState(null);
+    const [profileDetail, setProfileDetail] = useState(null);
 
     const creationDate = new Date(props.notificationTimestamp).toLocaleString();
 
     useEffect(() => {
         if (notifierId !== null && notifierId !== undefined) {
-            fetchProfileInfoById(notifierId);
-        } if (postId !== null && postId !== undefined) {
+            fetchProfileInfoById(notifierId)
+                .then(response => {
+                    setProfileDetail(response.data.user);
+                });
+        }
+        if (postId !== null && postId !== undefined) {
             getPostById(postId)
                 .then(postApi => {
                         setPost(postApi);
@@ -31,8 +36,8 @@ export const Notification = props => {
             return (
                 <CardBody>
                     <p>
-                        <NavLink to={`/profil/${props.profileDetail.username}`}>
-                            <span>{props.profileDetail.username} </span>
+                        <NavLink to={`/profil/${profileDetail.username}`}>
+                            <span>{profileDetail.username} </span>
                         </NavLink>
                         <span>vous suit désormais !</span>
                     </p>
@@ -44,8 +49,8 @@ export const Notification = props => {
                 <CardBody>
                     <p>
                         <p>
-                            <NavLink to={`/profil/${props.profileDetail.username}`}>
-                                <span>{props.profileDetail.username} </span>
+                            <NavLink to={`/profil/${profileDetail.username}`}>
+                                <span>{profileDetail.username} </span>
                             </NavLink>
                             <span>a {notificationVerb} votre post !</span>
                         </p>
@@ -67,12 +72,6 @@ export const Notification = props => {
     );
 };
 
-const mapStateToProps = state => {
-    return {
-        profileDetail: state.profile.profileDetail
-    }
-};
-
 const mapDispatchToProps = dispatch => {
     return {
         fetchProfileInfoById: id => dispatch(actions.fetchProfileInfoById(id)),
@@ -81,7 +80,7 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(
-    mapStateToProps,
+    null,
     mapDispatchToProps
 )(Notification);
 

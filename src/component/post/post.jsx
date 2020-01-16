@@ -20,6 +20,7 @@ export const Post = props => {
     const [nbComment, setNbComment] = useState(0);
     const [nbLike, setNbLike] = useState(0);
     const [nbRT, setNbRT] = useState(0);
+    const [profileDetail, setProfileDetail] = useState(null);
 
     const {tokenParsed} = useKeycloak().keycloak;
     const idUser = tokenParsed.sub;
@@ -27,13 +28,15 @@ export const Post = props => {
     useEffect(() => {
         if (author !== null && reactions !== null && media !== null && media !== undefined) {
             checkReactionsStatus();
-            fetchProfileInfoById(author);
+            fetchProfileInfoById(author)
+                .then(response => {
+                    setProfileDetail(response.data.user);
+                });
             const type = media.type === eMediaType.IMAGE.toString() ? eMediaType.IMAGE : eMediaType.VIDEO;
             getMedia(media.id, type)
                 .then(blobUrl => {
                     setMediaURL(blobUrl);
-                    }
-                );
+                    });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[reactions, author, media, fetchProfileInfoById, getMedia]);
@@ -105,13 +108,13 @@ export const Post = props => {
         <Card className="card-post">
             <CardHeader>
                 <div>
-                    <NavLink to={`/profil/${props.profileDetail.username}`}>
+                    <NavLink to={`/profil/${profileDetail.username}`}>
                         <strong>
-                            {props.profileDetail.lastName} {props.profileDetail.firstName}
+                            {profileDetail.lastName} {profileDetail.firstName}
                         </strong>
                     </NavLink>
                     &nbsp;
-                    {props.profileDetail.username}
+                    {profileDetail.username}
                 </div>
                 <div>{`Publié le ${creationDate}`}</div>
             </CardHeader>
@@ -143,12 +146,6 @@ export const Post = props => {
     );
 };
 
-export const mapStateToProps = state => {
-    return {
-        profileDetail: state.profile.profileDetail
-    }
-};
-
 export const mapDispatchToProps = dispatch => {
     return {
         fetchProfileInfoById: id => dispatch(actions.fetchProfileInfoById(id)),
@@ -159,7 +156,7 @@ export const mapDispatchToProps = dispatch => {
 };
 
 export default connect(
-    mapStateToProps,
+    null,
     mapDispatchToProps
 )(Post);
 
