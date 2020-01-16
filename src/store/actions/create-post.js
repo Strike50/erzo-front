@@ -157,3 +157,35 @@ export const deleteReactionSuccess = response => {
         type: actionTypes.DELETE_REACTION_SUCCESS
     }
 };
+
+export const deletePost = id => {
+    return dispatch => {
+        dispatch(deletePostStart());
+        axios.delete(`/posts/${id}`)
+            .then(response => {
+                dispatch(deletePostSuccess(response));
+            })
+            .catch(error => {
+                dispatch(deletePostFail(error));
+            })
+    }
+};
+
+export const deletePostStart = () => {
+    return {
+        type: actionTypes.DELETE_POST_START
+    }
+};
+
+export const deletePostFail = error => {
+    return {
+        type: actionTypes.DELETE_POST_FAIL,
+        errorMessage: error
+    }
+};
+
+export const deletePostSuccess = response => {
+    return {
+        type: actionTypes.DELETE_POST_SUCCESS
+    }
+};

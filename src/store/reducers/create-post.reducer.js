@@ -14,6 +14,12 @@ const createPostReducer = (state = initialState, action) => {
     case actionTypes.POST_REACTION_START: return postReactionStart(state, action);
     case actionTypes.POST_REACTION_FAIL: return postReactionFail(state, action);
     case actionTypes.POST_REACTION_SUCCESS: return postReactionSuccess(state, action);
+    case actionTypes.DELETE_REACTION_START: return deleteReactionStart(state, action);
+    case actionTypes.DELETE_REACTION_FAIL: return deleteReactionFail(state, action);
+    case actionTypes.DELETE_REACTION_SUCCESS: return deleteReactionSuccess(state, action);
+    case actionTypes.DELETE_POST_START: return deletePostStart(state, action);
+    case actionTypes.DELETE_POST_FAIL: return deletePostFail(state, action);
+    case actionTypes.DELETE_POST_SUCCESS: return deletePostSuccess(state, action);
     default: return state;
   }
 };
@@ -59,6 +65,54 @@ const postReactionFail = (state, action) => {
 };
 
 const postReactionSuccess = (state, action) => {
+  return {
+    ...state,
+    loading: false,
+    success: true
+  }
+};
+
+const deleteReactionStart = (state, action) => {
+  return {
+    ...state,
+    loading: true,
+    success: false,
+  }
+};
+
+const deleteReactionFail = (state, action) => {
+  return {
+    ...state,
+    errorMessage: action.errorMessage,
+    loading: false
+  }
+};
+
+const deleteReactionSuccess = (state, action) => {
+  return {
+    ...state,
+    loading: false,
+    success: true
+  }
+};
+
+const deletePostStart = (state, action) => {
+  return {
+    ...state,
+    loading: true,
+    success: false,
+  }
+};
+
+const deletePostFail = (state, action) => {
+  return {
+    ...state,
+    errorMessage: action.errorMessage,
+    loading: false
+  }
+};
+
+const deletePostSuccess = (state, action) => {
   return {
     ...state,
     loading: false,

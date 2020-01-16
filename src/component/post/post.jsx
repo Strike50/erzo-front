@@ -71,6 +71,10 @@ export const Post = props => {
         }
     };
 
+    const onClickDeletePost = () => {
+        props.deletePost(props.id);
+    };
+
     const onClickLike = () => {
         if (idLike !== null) {
             props.deleteReaction(idLike);
@@ -123,6 +127,7 @@ export const Post = props => {
     return (
         <Card className="card-post">
             <CardHeader>
+                <div style={{float: "right", cursor: "pointer"}} onClick={onClickDeletePost}>&#x2716;</div>
                 {authorDetail}
                 <div>{`Publié le ${creationDate}`}</div>
             </CardHeader>
@@ -157,6 +162,7 @@ export const Post = props => {
 export const mapDispatchToProps = dispatch => {
     return {
         fetchProfileInfoById: id => dispatch(actions.fetchProfileInfoById(id)),
+        deletePost: id => dispatch(actions.deletePost(id)),
         getMedia: (id, type) => dispatch(actions.getMedia(id, type)),
         postReaction: reaction => dispatch(actions.postReaction(reaction)),
         deleteReaction: id => dispatch(actions.deleteReaction(id))
