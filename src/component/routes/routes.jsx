@@ -13,16 +13,16 @@ const MessageLazy = lazy(() => import('../message/messageHome'));
 
 const Routes = () => (
   <div className="view-routes">
-    <Switch>
-        <Suspense fallback={<Spinner color="dark" />}>
-          <Route path="/profil/:username" component={ProfileLazy} />
-          <Route path="/notifications" component={NotificationLazy} />
-          <Route path="/post/:postId" component={PostLazy} />
-          <Route path="/messages" component={MessageLazy} />
-          <Route path="/" component={Timeline} exact />
-          <Redirect to="/" />
-        </Suspense>
-    </Switch>
+      <Switch>
+          <Suspense fallback={<Spinner color="dark" />}>
+              <Route path="/profil/:username" component={ProfileLazy} />
+              <Route path="/notifications" component={NotificationLazy} />
+              <Route path="/post/:postId" component={PostLazy} />
+              <Route path="/messages" component={MessageLazy} />
+              <Route path="/" component={Timeline} exact />
+              <Redirect to="/" />
+          </Suspense>
+      </Switch>
   </div>
 );
 

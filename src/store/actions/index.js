@@ -19,9 +19,11 @@ export {
     postReaction,
     deleteReaction,
     deletePost,
+    getCommentsOfPostById
 } from './create-post';
 export {
-    searchUser
+    searchUser,
+    resetUserListSearch
 } from './search';
 export {
     getMedia,

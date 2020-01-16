@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {Card, CardBody, CardHeader} from "reactstrap";
 import * as actions from "../../store/actions";
 import {connect} from "react-redux";
-import {NavLink} from "react-router-dom";
+import {NavLink, Redirect} from "react-router-dom";
 import {eNotificationType} from "../../enum/notificationType";
 import {eNotificationStatus} from "../../enum/notificationStatus";
 
@@ -13,6 +13,7 @@ export const Notification = props => {
 
     const [post, setPost] = useState(null);
     const [profileDetail, setProfileDetail] = useState({});
+    const [redirectPost, setRedirectPost] = useState(null);
 
     const creationDate = new Date(props.notificationTimestamp).toLocaleString();
 
@@ -68,8 +69,15 @@ export const Notification = props => {
         return null;
     };
 
+    const onClickRedirectPost = () => {
+        setRedirectPost(<Redirect to={`/post/${props.id}`} />);
+    };
+
     return (
-        <Card className={"card_notification " + (props.notificationStatus === eNotificationStatus.NOT_SEEN ? "not_seen" : "")}>
+        <Card className={"card_notification " + (props.notificationStatus === eNotificationStatus.NOT_SEEN ? "not_seen" : "")}
+              onClick={onClickRedirectPost}
+        >
+            {redirectPost}
             <CardHeader>
                 <div>{props.notifierName}</div>
                 <div>{creationDate}</div>

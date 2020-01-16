@@ -33,3 +33,9 @@ export const searchBarSuccess = response => {
         userList: response.data.users
     }
 };
+
+export const resetUserListSearch = () => {
+    return {
+        type: actionTypes.RESET_SEARCH_LIST
+    }
+};
