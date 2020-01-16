@@ -48,7 +48,11 @@ export const Profile = props => {
             console.log(themeParam);
             themeParam === eTheme.DARK ? setMove(true): setMove(false);
             setTheme(themeParam === eTheme.DARK ? eTheme.DARK : eTheme.BASIC );
-
+          if (themeParam === "DARK"){
+            document.getElementById("root").className = "dark";
+          } else {
+            document.getElementById("root").className = "basictheme";
+          }
         }
         else {
             console.log('On est dans le ELSE');
@@ -94,6 +98,11 @@ export const Profile = props => {
         console.log("handle change theme " + theme);
         patchTheme(theme);
         setMove(!move);
+      if (theme === "DARK"){
+        document.getElementById("root").className = "dark";
+      } else {
+        document.getElementById("root").className = "basictheme";
+      }
     };
 
     const profileDetailDisplay = profileDetail !== null ? (

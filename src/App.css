@@ -53,11 +53,6 @@
   width: 100%!important;
 }
 
-.form-control{
-  width: calc(100% - 130px)!important;
-  border-radius: 25px;
-}
-
 .btn{
   border-radius: 25px;
   background-color: #007bff;

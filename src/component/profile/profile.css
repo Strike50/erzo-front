@@ -91,42 +91,42 @@ body{
   height: 100%;
 }
 
-#rootdark{
+#root.dark{
   background-color : #142A4C;
   height: 100%;
 }
 
-#rootdark .bg-light{
+#root.dark .bg-light{
   background-color: #142A4C!important;
 }
 
-#rootdark .form-control{
+#root.dark .form-control{
   background-color: darkgrey;
   border: 1px solid darkgrey;
   color: #DEDDDC;
 }
 
-#rootdark input::-webkit-input-placeholder {
+#root.dark input::-webkit-input-placeholder {
   color: #DEDDDC !important;
 }
-#rootdark input:-moz-placeholder { /* Firefox 18- */
+#root.dark input:-moz-placeholder { /* Firefox 18- */
   color: #DEDDDC !important;
 }
-#rootdark input::-moz-placeholder {  /* Firefox 19+ */
+#root.dark input::-moz-placeholder {  /* Firefox 19+ */
   color: #DEDDDC !important;
 }
-#rootdark input:-ms-input-placeholder {
+#root.dark input:-ms-input-placeholder {
   color: #DEDDDC !important;
 }
 
-#rootdark .card{
+#root.dark .card{
   background-color: transparent;
   color: white;
   border: 1px solid white;
 }
 
 @media (max-width: 600px){
-  .form-control{
+  .form-group .form-control{
     width: 250%!important;
   }
   .editPictureClass{
