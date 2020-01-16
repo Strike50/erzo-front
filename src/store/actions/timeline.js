@@ -4,7 +4,7 @@ import * as actionTypes from "./actionTypes";
 export const fetchTimeline = () => {
     return dispatch => {
         dispatch(fetchTimelineStart());
-        axios.get('posts/timeline')
+        axios.get('/posts/timeline')
             .then(res => {
                 dispatch(fetchTimelineSuccess(res));
             })

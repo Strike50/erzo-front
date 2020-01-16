@@ -33,7 +33,7 @@ const Header = () => {
     <>
     <Navbar color="light" expand fixed={"top"} sticky={"top"}>
       <NavbarBrand href="/">
-        <img src={"erzo.png"} className="logo" alt="Logo de Erzo"/>
+        <img src={"/erzo.png"} className="logo" alt="Logo de Erzo"/>
       </NavbarBrand>
       <NavbarToggler onClick={handleClickToggle} />
       <Collapse isOpen={isOpen} navbar>

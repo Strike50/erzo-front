@@ -11,6 +11,7 @@ import {
     CardTitle,
 } from "reactstrap"
 import Subscriptions from "./subscriptions/subscriptions";
+import OwnTimeline from "./own-timeline/own-timeline";
 import {Redirect, useParams} from "react-router";
 import {useKeycloak} from "react-keycloak";
 import EditProfile from "./edit-profile";
@@ -180,6 +181,7 @@ export const Profile = props => {
             {checkProfileButtonStatus(username === preferred_username)}
             {editProfile}
             {changeTheme}
+            <OwnTimeline/>
         </Card>
     )
 };
