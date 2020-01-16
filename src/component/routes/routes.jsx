@@ -1,18 +1,27 @@
-import React from 'react';
+import React, {lazy, Suspense} from 'react';
 import {Redirect, Route, Switch} from 'react-router';
+import {Spinner} from "reactstrap";
 import Timeline from '../timeline/timeline';
-import Profile from '../profile/profile';
-import NotificationsList from '../notification/notifications-list/notifications-list';
+
+const ProfileLazy = lazy(() => import('../profile/profile'));
+
+const NotificationLazy = lazy(() => import('../notification/notifications-list/notifications-list'));
+
+const PostLazy = lazy(() => import('../post/post'));
+
+const MessageLazy = lazy(() => import('../message/messageHome'));
 
 const Routes = () => (
   <div className="view-routes">
     <Switch>
-      <Route path="/profil/:username" component={Profile} />
-      <Route path="/profil"><Profile/></Route>
-      <Route path="/notifications"><NotificationsList /></Route>
-      <Route path="/messages">Message</Route>
-      <Route path="/" component={Timeline} exact />
-      <Redirect to="/" />
+        <Suspense fallback={<Spinner color="dark" />}>
+          <Route path="/profil/:username" component={ProfileLazy} />
+          <Route path="/notifications" component={NotificationLazy} />
+          <Route path="/post/:postId" component={PostLazy} />
+          <Route path="/messages" component={MessageLazy} />
+          <Route path="/" component={Timeline} exact />
+          <Redirect to="/" />
+        </Suspense>
     </Switch>
   </div>
 );
