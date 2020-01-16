@@ -161,7 +161,7 @@ export const Profile = props => {
                         {profileDetail.email}
                     </CardText>
                     <CardText>
-                    {profileDetail.description}{profileDetail.theme}
+                    {profileDetail.description}
                     </CardText>
                 </Col>
             </Row>
@@ -201,7 +201,7 @@ export const Profile = props => {
 
     const checkSwitchThemeButtonStatus = isOwnProfile => {
        if (isOwnProfile) {
-           return (<label>
+           return (<label className="SwitchButton">
                <span>Basic</span>
                <Switch onChange={handleChange} checked={move} onColor="#86d3ff"
                        onHandleColor="#2693e6"

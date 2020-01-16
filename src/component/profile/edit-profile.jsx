@@ -3,15 +3,14 @@ import {Button, Form, FormGroup, Input, Modal, ModalBody} from "reactstrap";
 import * as actions from '../../store/actions/index'
 import {connect} from "react-redux";
 import {useKeycloak} from "react-keycloak";
-
+import Calendar from 'react-calendar';
 export const EditProfile = props => {
 
     const [firstName, setFirstName] = useState(props.profileDetail.firstName);
     const [lastName, setLastName] = useState(props.profileDetail.lastName);
     const [description, setDescription] = useState(props.profileDetail.description);
-    const [dateOfBirth, setDateOfBirth] = useState(props.profileDetail.dateOfBirth);
     const {sub} = useKeycloak().keycloak.tokenParsed;
-
+    const [pickDate, setPickDate] = useState(props.profileDetail.dateOfBirth);
     const handleInputChange = e => {
         const value = e.target.value;
         switch (e.target.name) {
@@ -21,12 +20,13 @@ export const EditProfile = props => {
                 setLastName(value);break;
             case 'description':
                 setDescription(value);break;
-            case 'naissance':
-                setDateOfBirth(value);break;
             default:
                 break;
         }
     };
+     const onChange = () => {
+         setPickDate(pickDate)
+     }
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -35,11 +35,10 @@ export const EditProfile = props => {
             firstName,
             lastName,
             description,
-            dateOfBirth,
+            dateOfBirth: pickDate.toISOString(),
         };
         props.putEditProfile(user);
     };
-    
     return (
         <Modal isOpen={props.editModal} toggle={props.toggleEdit}>
             <ModalBody>
@@ -52,7 +51,10 @@ export const EditProfile = props => {
                         <h6>Description</h6>
                         <Input type="text" value={description}  onChange={handleInputChange} name="description"/>
                         <h6>Date de naissance</h6>
-                        <Input type="text" value={dateOfBirth} onChange={handleInputChange} name="dateOfBirth"/>
+                        <Calendar
+                            onChange={onChange}
+                            value={pickDate}
+                        />
                         <Button onClick={handleSubmit}>Valider</Button>
                     </Form>
                 </FormGroup>
@@ -60,7 +62,6 @@ export const EditProfile = props => {
         </Modal>
     )
 };
-
 const mapDispatchToProps = dispatch => {
     return {
         putEditProfile: user => dispatch (actions.putEditProfile(user)),
@@ -68,6 +69,5 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(
-    null,
     mapDispatchToProps
 )(EditProfile);
