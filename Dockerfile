@@ -7,5 +7,8 @@ WORKDIR /app
 COPY . .
 RUN npm install
 
+# build a production ready app
+RUN npm build
+
 # start app
 CMD ["npm", "start"]
