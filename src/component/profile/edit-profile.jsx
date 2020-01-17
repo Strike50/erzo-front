@@ -40,7 +40,7 @@ export const EditProfile = props => {
         props.putEditProfile(user);
     };
     return (
-        <Modal isOpen={props.editModal} toggle={props.toggleEdit}>
+        <Modal isOpen={props.editModal} toggle={props.toggleEdit} >
             <ModalBody>
                 <FormGroup>
                     <Form>

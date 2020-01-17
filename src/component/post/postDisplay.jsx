@@ -173,7 +173,6 @@ export const PostDisplay = props => {
             <CardHeader>
                 {hasARectioner ? reactionHeader() : null}
                 {authorInfo}
-                <div>{`Publié le ${creationDate}`}</div>
             </CardHeader>
             <CardBody className="icon" onClick={onClickRedirectPost}>
                 <Row>{props.content}</Row>
@@ -184,6 +183,7 @@ export const PostDisplay = props => {
                 </Row>
             </CardBody>
             <CardFooter>
+                <div>{`Publié le ${creationDate}`}</div>
                 <Row>
                     <Col md="4">
                         <FontAwesomeIcon className="icon" icon="comment"/>

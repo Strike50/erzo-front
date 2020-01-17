@@ -95,7 +95,7 @@ body{
 
 #root.dark{
   background-color : #142A4C;
-  height: 100%;
+  height: inherit;
 }
 
 #root.dark .bg-light{

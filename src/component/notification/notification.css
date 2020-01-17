@@ -1,5 +1,5 @@
 .not_seen {
-    background-color: rgba(100, 200, 100, 0.5);
+    background-color: rgba(100, 200, 100, 0.5)!important;
 }
 
 .card-notification {
