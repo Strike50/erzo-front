@@ -1,6 +1,8 @@
 import './header.css';
 
 import React, {useState} from 'react';
+import * as firebase from "firebase";
+import {firebaseConfig} from "../../config/firebase";
 import {
   Collapse,
   Dropdown,
@@ -18,17 +20,34 @@ import {useKeycloak} from 'react-keycloak';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {NavLink as Link} from "react-router-dom";
 import Search from "../search/search";
+import {eNotificationStatus} from "../../enum/notificationStatus";
 
 const Header = () => {
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isOpen, setIsOpen] = useState (false);
+  let [notifsCount] = useState (0);
 
   const toggle = () => setDropdownOpen(!dropdownOpen);
   const handleClickToggle = () => setIsOpen(!isOpen);
 
   const { keycloak } = useKeycloak();
   const username = keycloak.tokenParsed.preferred_username;
+  firebase.initializeApp(firebaseConfig);
+
+  const ref = firebase.database().ref('/' + keycloak.tokenParsed.sub + '/');
+  ref.on("child_added", snap => {
+    if (snap.val().notificationStatus === eNotificationStatus.NOT_SEEN) {
+      console.log("child_added");
+    }
+  });
+
+  ref.on("child_changed", snap => {
+    if (snap.val().notificationStatus === eNotificationStatus.NOT_SEEN) {
+      console.log("child_changed");
+    }
+  });
+
   return (
     <>
     <Navbar color="light" expand fixed={"top"} sticky={"top"}>
@@ -53,7 +72,7 @@ const Header = () => {
           <NavItem>
             <NavLink to="/notifications" tag={Link}>
               <FontAwesomeIcon icon="bell"/>
-              <span>Notifications</span>
+              <span>Notifications {notifsCount}</span>
             </NavLink>
           </NavItem>
           <NavItem>
