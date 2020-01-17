@@ -19,6 +19,7 @@ export const SearchUser = props => {
                     setMediaUrl(blob);
                 })
         }
+        setMediaUrl('/emptyProfile.png');
     }, [user, getMedia]);
 
     return (
