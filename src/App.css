@@ -64,4 +64,20 @@
   margin-right: 0;
 }
 
+@media (max-width: 1300px) {
+  .list-group {
+    top: 84%!important;
+  }
+}
 
+.list-group {
+  position: absolute;   top: 67%;
+}
+
+.dark .list-group-item{
+  background-color: #142A4C;
+}
+
+.dark .list-group-item a{
+  color: #FFF;
+}
