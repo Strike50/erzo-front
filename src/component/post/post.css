@@ -12,4 +12,8 @@
 }
 .imgSearch {
   border-radius: 50%;
+  float: left;
+}
+h3 {
+  color: #DEDDDC;
 }

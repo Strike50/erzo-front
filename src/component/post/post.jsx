@@ -5,7 +5,7 @@ import {Col, Row, Spinner} from 'reactstrap';
 import * as actions from "../../store/actions";
 import PostDisplay from "./postDisplay";
 import CreatePost from "../create-post/create-post";
-
+import './post.css';
 export const Post = props => {
     const {getPostById, getCommentsOfPostById} = props;
 
