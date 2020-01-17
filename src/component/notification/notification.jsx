@@ -53,7 +53,7 @@ export const Notification = props => {
                 const notificationVerb = props.notificationType === eNotificationType.LIKES ? 'aimé' : 'retweeté';
                 return (
                     <CardBody>
-                        <p>
+                        <section>
                             <p>
                                 <NavLink to={`/profil/${profileDetail.username}`}>
                                     <span>{profileDetail.username} </span>
@@ -61,7 +61,7 @@ export const Notification = props => {
                                 <span>a {notificationVerb} votre post !</span>
                             </p>
                             <p>{postDisplay}</p>
-                        </p>
+                        </section>
                     </CardBody>
                 );
             }

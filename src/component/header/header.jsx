@@ -26,27 +26,43 @@ const Header = () => {
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isOpen, setIsOpen] = useState (false);
-  let [notifsCount] = useState (0);
+  const [notificationsNotSeen, setNotificationsNotSeen] = useState([]);
 
   const toggle = () => setDropdownOpen(!dropdownOpen);
   const handleClickToggle = () => setIsOpen(!isOpen);
 
   const { keycloak } = useKeycloak();
   const username = keycloak.tokenParsed.preferred_username;
-  firebase.initializeApp(firebaseConfig);
-
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  }
   const ref = firebase.database().ref('/' + keycloak.tokenParsed.sub + '/');
   ref.on("child_added", snap => {
-    if (snap.val().notificationStatus === eNotificationStatus.NOT_SEEN) {
-      console.log("child_added");
+    if (snap.val().notificationStatus === eNotificationStatus.NOT_SEEN
+    && !notificationsNotSeen.filter(
+            notification => notification.notificationTimestamp === snap.val().notificationTimestamp
+        ).length) {
+      setNotificationsNotSeen(notificationsNotSeen.concat(snap.val()));
+    }
+  });
+  ref.on("child_changed", snap => {
+    if (snap.val().notificationStatus === eNotificationStatus.SEEN) {
+      setNotificationsNotSeen(
+          notificationsNotSeen.filter(
+              notification => notification.notificationTimestamp !== snap.val().notificationTimestamp
+          )
+      );
     }
   });
 
-  ref.on("child_changed", snap => {
-    if (snap.val().notificationStatus === eNotificationStatus.NOT_SEEN) {
-      console.log("child_changed");
+  const displayNotificationsNotSeen = () => {
+    if (notificationsNotSeen.length > 0) {
+      return (
+          <span>{notificationsNotSeen.length}</span>
+      );
     }
-  });
+    return null;
+  };
 
   return (
     <>
@@ -72,7 +88,8 @@ const Header = () => {
           <NavItem>
             <NavLink to="/notifications" tag={Link}>
               <FontAwesomeIcon icon="bell"/>
-              <span>Notifications {notifsCount}</span>
+              {displayNotificationsNotSeen()}
+              <span>Notifications</span>
             </NavLink>
           </NavItem>
           <NavItem>
