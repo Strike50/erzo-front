@@ -1,16 +1,19 @@
 import './profile.css';
+
 import React, {useEffect, useState,} from 'react';
 import {connect} from "react-redux";
-import * as actions from '../../store/actions'
-import {Button, Card, CardSubtitle, CardText, CardTitle, Col, Row,} from "reactstrap"
-import Subscriptions from "./subscriptions/subscriptions";
-import OwnTimeline from "./own-timeline/own-timeline";
+import ExifOrientationImg from 'react-exif-orientation-img';
+import Files from "react-files";
 import {Redirect, useParams} from "react-router";
 import {useKeycloak} from "react-keycloak";
-import EditProfile from "./edit-profile";
 import Switch from "react-switch";
+import {Button, Card, CardSubtitle, CardText, CardTitle, Col, Row,} from "reactstrap"
+
+import Subscriptions from "./subscriptions/subscriptions";
+import OwnTimeline from "./own-timeline/own-timeline";
+import EditProfile from "./edit-profile";
 import {eTheme} from "../../enum/theme";
-import Files from "react-files";
+import * as actions from '../../store/actions'
 import {eMediaType} from "../../enum/mediaType";
 
 export const Profile = props => {
@@ -127,9 +130,9 @@ export const Profile = props => {
             onChange={handleProfilePicture}
             multiple={false}
         >
-            <img alt={`Profil de ${username}`} src={mediaURL} width={100} height={100}/>
+            <ExifOrientationImg alt={`Profil de ${username}`} src={mediaURL} width={100} height={100}/>
         </Files>
-    ) : (<img alt={`Profil de ${username}`} src={mediaURL} width={100} height={100}/>);
+    ) : (<ExifOrientationImg alt={`Profil de ${username}`} src={mediaURL} width={100} height={100}/>);
 
     const profileDetailDisplay = profileDetail !== null ? (
         <Card>

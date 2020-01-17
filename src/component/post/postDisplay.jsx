@@ -6,6 +6,7 @@ import {NavLink, Redirect} from "react-router-dom";
 import PropTypes from 'prop-types';
 import {Card, CardBody, CardFooter, CardHeader, Col, Row, Spinner} from "reactstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import ExifOrientationImg from 'react-exif-orientation-img';
 
 import * as actions from '../../store/actions'
 import {eMediaType} from "../../enum/mediaType";
@@ -84,7 +85,7 @@ export const PostDisplay = props => {
     const checkMediaPlayer = () => {
         if (media !== null && mediaURL !== null) {
             if (media.type === eMediaType.IMAGE) {
-                return <img alt='post' className="mediaPost" src={mediaURL}/>
+                return <ExifOrientationImg alt='post' className="mediaPost" src={mediaURL}/>
             } else {
                 return <video className="mediaPost" controls src={mediaURL} />
             }
@@ -129,7 +130,7 @@ export const PostDisplay = props => {
 
     const authorInfo = profileDetail !== null ? (
         <div>
-            <img alt="" className="imgSearch" src={mediaProfileUrl}/>
+            <ExifOrientationImg alt="" className="imgSearch" src={mediaProfileUrl}/>
             <NavLink to={`/profil/${profileDetail.username}`}>
                 <strong>
                     {profileDetail.lastName} {profileDetail.firstName}

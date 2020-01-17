@@ -13,6 +13,7 @@
     "react": "^16.12.0",
     "react-calendar": "^2.19.2",
     "react-dom": "^16.12.0",
+    "react-exif-orientation-img": "^0.1.5",
     "react-files": "^2.4.8",
     "react-keycloak": "^8.0.0-191118",
     "react-redux": "^7.1.3",

@@ -66,6 +66,7 @@ export const Post = props => {
                         reactions={postObject.reactions}
                         comments={postObject.comments}
                     />
+                    <h3>Ajouter un commentaire</h3>
                     <CreatePost postParentId={postObject.id}/>
                 </Col>
                 <Col sm="2"/>
