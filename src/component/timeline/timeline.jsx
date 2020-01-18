@@ -18,7 +18,9 @@ export const Timeline = props => {
     }, [fetchTimeline]);
 
     const refresh = () => {
-        fetchTimeline();
+        fetchTimeline().then(response => {
+            setDisplayListPost(response.data.posts);
+        });
     };
 
     const addPostToTimeline = post => {
