@@ -15,7 +15,7 @@ export const EditProfile = props => {
     const [pickDateValue, setPickDateValue] = useState(new Date());
 
     useEffect(() => {
-        if(profileDetail !== undefined && profileDetail !== null) {
+        if (profileDetail !== undefined && profileDetail !== null) {
             setFirstNameValue(profileDetail.firstName !== null ? profileDetail.firstName : '');
             setLastNameValue(profileDetail.lastName !== null ? profileDetail.lastName : '');
             setDescriptionValue(profileDetail.description !== null ? profileDetail.description : '');
@@ -38,8 +38,8 @@ export const EditProfile = props => {
                 break;
         }
     };
-     const onChange = () => {
-         setPickDateValue(pickDateValue);
+     const onChangeCalendar = e => {
+         setPickDateValue(e);
      };
 
     const handleSubmit = e => {
@@ -50,7 +50,7 @@ export const EditProfile = props => {
             firstName: firstNameValue,
             lastName: lastNameValue,
             description: descriptionValue,
-            dateOfBirth: pickDateValue.toLocaleDateString(),
+            dateOfBirth: pickDateValue.toDateString(),
         };
         props.putEditProfile(user)
             .then(response => {
@@ -61,6 +61,7 @@ export const EditProfile = props => {
                     }
                 } else {
                     props.toggleEdit();
+                    props.fetchProfileInfoById(sub);
                 }
             });
     };
@@ -80,7 +81,7 @@ export const EditProfile = props => {
                         <Input type="text" value={descriptionValue}  onChange={handleInputChange} name="descriptionValue"/>
                         <h6>Date de naissance</h6>
                         <Calendar
-                            onChange={onChange}
+                            onChange={onChangeCalendar}
                             value={pickDateValue}
                         />
                         <Button onClick={handleSubmit}>Valider</Button>
@@ -95,6 +96,7 @@ export const EditProfile = props => {
 const mapDispatchToProps = dispatch => {
     return {
         putEditProfile: user => dispatch(actions.putEditProfile(user)),
+        fetchProfileInfoById: id => dispatch(actions.fetchProfileInfoById(id))
     }
 };
 

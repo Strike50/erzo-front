@@ -78,6 +78,7 @@ export const Profile = props => {
             }
         }
     };
+
     const toggle = type => {
         if (typeof type === "string") {
             setIsFollowing(type === 'following');
@@ -90,13 +91,19 @@ export const Profile = props => {
     };
 
     const onClickFollow = () => {
-        postFollowSomeone(profileDetail.id);
-        checkProfileButtonStatus(false);
+        postFollowSomeone(profileDetail.id)
+            .then(() => {
+                props.fetchFollowers(profileDetail.id);
+                checkProfileButtonStatus(false);
+            });
     };
 
     const onClickUnfollow = () => {
-        postUnfollowSomeone(profileDetail.id);
-        checkProfileButtonStatus(false);
+        postUnfollowSomeone(profileDetail.id)
+            .then(() => {
+                props.fetchFollowers(profileDetail.id);
+                checkProfileButtonStatus(false);
+            });
     };
 
     const handleChange = () => {
@@ -257,7 +264,8 @@ const mapDispatchToProps = dispatch => {
         patchPicture: picture => dispatch(actions.patchPicture(picture)),
         resetProfile: () => dispatch(actions.resetProfile()),
         getMedia: (id, type) => dispatch(actions.getMedia(id, type)),
-        postMedia: (file, type) => dispatch(actions.postMedia(file, type))
+        postMedia: (file, type) => dispatch(actions.postMedia(file, type)),
+        fetchFollowers: id => dispatch(actions.fetchFollowers(id))
     }
 };
 export default connect(

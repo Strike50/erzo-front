@@ -153,12 +153,14 @@ export const postFollowSomeoneSuccess = response => {
 export const postFollowSomeone = id => {
     return async dispatch => {
         dispatch(postFollowSomeoneStart());
-        axios.post(`/subscriptions/${id}`)
+        return axios.post(`/subscriptions/${id}`)
             .then(res => {
                 dispatch(postFollowSomeoneSuccess(res));
+                return res;
             })
             .catch(error => {
                 dispatch(postFollowSomeoneFail(error));
+                return error;
             })
     }
 };
@@ -186,12 +188,14 @@ export const postUnfollowSomeoneSuccess = response => {
 export const postUnfollowSomeone = id => {
     return async dispatch => {
         dispatch(postUnfollowSomeoneStart());
-        axios.delete(`/subscriptions/${id}`)
+        return axios.delete(`/subscriptions/${id}`)
             .then(res => {
                 dispatch(postUnfollowSomeoneSuccess(res));
+                return res;
             })
             .catch(error => {
                 dispatch(postUnfollowSomeoneFail(error));
+                return error;
             })
     }
 };

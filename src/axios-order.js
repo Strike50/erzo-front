@@ -2,9 +2,8 @@ import axios from 'axios';
 
 const TIMEOUT = 60 * 1000;
 
-const baseUrl = process.env.NODE_ENV === 'production' ? 'http://api.erzo.wtf' : 'http://api.erzo.wtf';
 const axiosOrder = axios.create({
-  baseURL: baseUrl,
+  baseURL: 'http://api.erzo.wtf',
   timeout: TIMEOUT,
 });
 

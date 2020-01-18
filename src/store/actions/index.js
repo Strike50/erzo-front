@@ -2,6 +2,7 @@ export {
     fetchProfile,
     fetchProfileInfoByUsername,
     fetchProfileInfoById,
+    fetchFollowers,
     putEditProfile,
     patchTheme,
     patchPicture,
