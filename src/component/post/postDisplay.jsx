@@ -170,12 +170,24 @@ export const PostDisplay = props => {
         return null;
     };
 
+    const deleteCrossDisplay = props.author === idUser ? (
+        <span
+            className="cross"
+            onClick={() => {
+                onClickDeletePost();
+                props.deletePostToTimeline(props.id);
+            }}
+        >
+            &#x2716;
+        </span>
+    ) : null;
+
     const creationDate = new Date(props.creationDate).toLocaleString();
     return (
         <Card className="card-post">
             {redirectPost}
             <CardHeader>
-                <span className="cross" onClick={() => { onClickDeletePost(); props.deletePostToTimeline(props.id); } }>&#x2716;</span>
+                {deleteCrossDisplay}
                 {hasARectioner ? reactionHeader() : null}
                 {authorInfo}
             </CardHeader>
