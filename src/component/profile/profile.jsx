@@ -18,7 +18,7 @@ import {eMediaType} from "../../enum/mediaType";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 export const Profile = props => {
-    const {resetProfile, fetchProfile, postFollowSomeone, postUnfollowSomeone, loading, patchTheme, profileDetail, getMedia} = props;
+    const {resetProfile, fetchProfile, postFollowSomeone, postUnfollowSomeone, patchTheme, profileDetail, getMedia} = props;
     const [wrongUsernameRedirect, setWrongUsernameRedirect] = useState(null);
     const [modal, setModal] = useState(false);
     const [editModal, setEditModal] = useState(false);
@@ -49,7 +49,7 @@ export const Profile = props => {
                 setWrongUsernameRedirect(<Redirect to={"/"} />);
             });
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [username, loading]);
+    }, [username]);
 
     const checkSwitchThemeStatus = themeParam => {
         if (themeParam !== undefined) {

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {connect} from "react-redux";
-import {useParams} from "react-router";
+import {Redirect, useParams} from "react-router";
 import {Col, Row, Spinner} from 'reactstrap';
 import * as actions from "../../store/actions";
 import PostDisplay from "./postDisplay";
@@ -13,6 +13,7 @@ export const Post = props => {
    const {postId} = useParams();
    const [postObject, setPostObject] = useState({});
    const [comments, setComments] = useState([]);
+   const [redirect, setRedirect] = useState(null);
 
     useEffect(() => {
         if (postId !== null && postId !== undefined) {
@@ -34,6 +35,16 @@ export const Post = props => {
             });
     };
 
+    const deleteComment = id => {
+        setComments(comments.filter(post => {
+            return post.id !== id;
+        }));
+    };
+
+    const deleteOriginalPost = id => {
+        setRedirect(<Redirect to="/" />);
+    };
+
     const checkComment = () => {
         if (postObject.id !== undefined && postObject.comments.length > 0) {
             return comments.length > 0 ? comments.map((comment, i) => (
@@ -48,6 +59,7 @@ export const Post = props => {
                     reactionType={comment.reactionType}
                     reactions={comment.reactions}
                     comments={comment.comments}
+                    deletePostToTimeline={deleteComment}
                 />
             )) : <Spinner color="black" />;
         } else {
@@ -60,6 +72,7 @@ export const Post = props => {
             <Row>
                 <Col sm="2" />
                 <Col>
+                    {redirect}
                     <PostDisplay
                         id={postObject.id}
                         author={postObject.userId}
@@ -70,6 +83,7 @@ export const Post = props => {
                         reactionType={postObject.reactionType}
                         reactions={postObject.reactions}
                         comments={postObject.comments}
+                        deletePostToTimeline={deleteOriginalPost}
                     />
                     <h3>Ajouter un commentaire</h3>
                     <CreatePost refresh={refresh} postParentId={postObject.id}/>

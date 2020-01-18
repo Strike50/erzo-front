@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Col, Row} from "reactstrap";
 import {connect} from "react-redux";
 import * as actions from "../../../store/actions";
@@ -8,22 +8,35 @@ export const OwnTimeline = props => {
 
     const { userId, listOwnPost, fetchOwnTimeline } = props;
 
+    const [displayListPost , setDisplayListPost] = useState(listOwnPost);
+
     useEffect (() => {
         if (userId !== null) {
             fetchOwnTimeline(userId);
         }
     }, [userId, fetchOwnTimeline]);
 
-    const listPostDisplay = listOwnPost !== null && listOwnPost !== undefined ? (
-        listOwnPost.map((post, i) => (
-            <PostDisplay key={`post-${i}`}
-                  id={post.id}
-                  author={post.userId}
-                  content={post.content}
-                  creationDate={post.createdAt}
-                  media={post.media}
-                  reactions={post.reactions}
-                  comments={post.comments}/>
+    const deletePostToTimeline = id => {
+        setDisplayListPost(displayListPost.filter(post => {
+            return post.id !== id;
+        }));
+    };
+
+    const listPostDisplay = displayListPost !== null && displayListPost !== undefined ? (
+        displayListPost.map((post, i) => (
+            <PostDisplay
+                key={`post-${i}`}
+                id={post.id}
+                author={post.userId}
+                content={post.content}
+                creationDate={post.createdAt}
+                media={post.media}
+                reactionerId={post.reactionerId}
+                reactionType={post.reactionType}
+                reactions={post.reactions}
+                comments={post.comments}
+                deletePostToTimeline={deletePostToTimeline}
+            />
         ))
     ) : null;
 
