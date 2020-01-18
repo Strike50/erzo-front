@@ -27,8 +27,11 @@ const CreatePost = props =>{
     const handleSubmitTweet = () => {
         if (content !== '') {
             props.postTweet(content, media, props.postParentId)
-                .then(() => {
-                    props.refresh();
+                .then((response) => {
+                    const id = response.headers['content-location'];
+                    props.getPostById(id).then(post => {
+                        props.addPostToTimeline(post);
+                    });
             });
             setContent('');
             setMedia(null);
@@ -79,7 +82,8 @@ const mapStateToProps = (storeState) => ({
 
 const mapDispatchToProps = dispatch => {
     return {
-        postTweet: (content, media, postParentId) => dispatch(actions.postTweet(content, media, postParentId))
+        postTweet: (content, media, postParentId) => dispatch(actions.postTweet(content, media, postParentId)),
+        getPostById: id => dispatch(actions.getPostById(id))
     }
 };
 

@@ -75,6 +75,7 @@ export const getPostById = id => {
             })
             .catch(error => {
                 dispatch(getPostFail(error));
+                return error;
             })
     }
 };

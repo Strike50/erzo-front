@@ -175,7 +175,7 @@ export const PostDisplay = props => {
         <Card className="card-post">
             {redirectPost}
             <CardHeader>
-                <span className="cross" onClick={() => { onClickDeletePost(); props.refresh();} }>&#x2716;</span>
+                <span className="cross" onClick={() => { onClickDeletePost(); props.deletePostToTimeline(props.id); } }>&#x2716;</span>
                 {hasARectioner ? reactionHeader() : null}
                 {authorInfo}
             </CardHeader>

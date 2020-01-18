@@ -36,7 +36,6 @@ export const Notification = props => {
     const postDisplay = post !== null ? post.content : null;
 
     const notificationBody = () => {
-        console.log(props.notificationStatus);
         if (profileDetail.username !== undefined) {
             if (props.notificationType === eNotificationType.FOLLOWS) {
                 return (

@@ -9,17 +9,30 @@ export const Timeline = props => {
 
     const { listPost, fetchTimeline } = props;
     const [isButtonRefreshDisabled , setIsButtonRefreshDisabled] = useState(false);
+    const [displayListPost , setDisplayListPost] = useState(listPost);
 
     useEffect (() => {
-        fetchTimeline();
+        fetchTimeline().then(response => {
+            setDisplayListPost(response.data.posts);
+        });
     }, [fetchTimeline]);
 
     const refresh = () => {
         fetchTimeline();
     };
 
-    const listPostDisplay = listPost !== null && listPost !== undefined ? (
-        listPost.map((post, i) => (
+    const addPostToTimeline = post => {
+        setDisplayListPost([post].concat(displayListPost));
+    };
+
+    const deletePostToTimeline = id => {
+        setDisplayListPost(displayListPost.filter(post => {
+            return post.id !== id;
+        }));
+    };
+
+    const listPostDisplay = displayListPost !== null && displayListPost !== undefined ? (
+        displayListPost.map((post, i) => (
             <PostDisplay
                 key={`post-${i}`}
                 id={post.id}
@@ -31,7 +44,7 @@ export const Timeline = props => {
                 reactionType={post.reactionType}
                 reactions={post.reactions}
                 comments={post.comments}
-                refresh={refresh}
+                deletePostToTimeline={deletePostToTimeline}
             />
             ))
     ) : null;
@@ -48,7 +61,7 @@ export const Timeline = props => {
         <Row>
             <Col sm="2"/>
             <Col>
-                <CreatePost refresh={refresh} />
+                <CreatePost addPostToTimeline={addPostToTimeline} />
                 <Button disabled={isButtonRefreshDisabled} onClick={onClickRefreshButton}>Actualiser</Button>
                 {listPostDisplay}
             </Col>

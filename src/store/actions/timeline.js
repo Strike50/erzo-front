@@ -4,12 +4,14 @@ import * as actionTypes from "./actionTypes";
 export const fetchTimeline = () => {
     return dispatch => {
         dispatch(fetchTimelineStart());
-        axios.get('/posts/timeline')
+        return axios.get('/posts/timeline')
             .then(res => {
                 dispatch(fetchTimelineSuccess(res));
+                return res;
             })
             .catch(error => {
                 dispatch(fetchTimelineFail(error));
+                return error;
             })
     }
 };
