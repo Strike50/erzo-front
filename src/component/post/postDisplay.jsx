@@ -153,14 +153,12 @@ export const PostDisplay = props => {
         if (props.reactionType !== eReactionType.NONE) {
             if (reactionerUsername !== null) {
                 const isLike = props.reactionType.toString() === eReactionType.LIKE;
-                const reactionerUsernameDisplay = (
-                    <NavLink to={`/profil/${reactionerUsername}`}>
-                        {reactionerUsername}
-                    </NavLink>
-                );
                 return (
                     <div>
-                        {isLike ? `${reactionerUsernameDisplay} a aimé` : `${reactionerUsernameDisplay} a retweeté`}
+                        <NavLink to={`/profil/${reactionerUsername}`}>
+                            <span>{reactionerUsername}</span>
+                        </NavLink>
+                        <span>{isLike ? ' a aimé' : ' a retweeté'}</span>
                     </div>
                 )
             } else {
