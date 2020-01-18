@@ -13,6 +13,10 @@ export const Timeline = props => {
         fetchTimeline();
     }, [fetchTimeline]);
 
+    const refresh = () => {
+        fetchTimeline();
+    };
+
     const listPostDisplay = listPost !== null && listPost !== undefined ? (
         listPost.map((post, i) => (
             <PostDisplay
@@ -26,6 +30,7 @@ export const Timeline = props => {
                 reactionType={post.reactionType}
                 reactions={post.reactions}
                 comments={post.comments}
+                refresh={refresh}
             />
             ))
     ) : null;

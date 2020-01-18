@@ -93,35 +93,35 @@ body{
   height: 100%;
 }
 
-#root.dark{
+.dark{
   background-color : #142A4C;
   height: inherit;
 }
 
-#root.dark .bg-light{
+.dark .bg-light{
   background-color: #142A4C!important;
 }
 
-#root.dark .form-control{
+.dark .form-control{
   background-color: darkgrey;
   border: 1px solid darkgrey;
   color: #DEDDDC;
 }
 
-#root.dark input::-webkit-input-placeholder {
+.dark input::-webkit-input-placeholder {
   color: #DEDDDC !important;
 }
-#root.dark input:-moz-placeholder { /* Firefox 18- */
+.dark input:-moz-placeholder { /* Firefox 18- */
   color: #DEDDDC !important;
 }
-#root.dark input::-moz-placeholder {  /* Firefox 19+ */
+.dark input::-moz-placeholder {  /* Firefox 19+ */
   color: #DEDDDC !important;
 }
-#root.dark input:-ms-input-placeholder {
+.dark input:-ms-input-placeholder {
   color: #DEDDDC !important;
 }
 
-#root.dark .card{
+.dark .card{
   background-color: transparent;
   color: white;
   border: 1px solid white;

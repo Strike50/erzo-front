@@ -55,9 +55,9 @@ export const Profile = props => {
             themeParam === eTheme.DARK ? setMove(true): setMove(false);
             setTheme(themeParam === eTheme.DARK ? eTheme.DARK : eTheme.BASIC );
           if (themeParam === "DARK"){
-            document.getElementById("root").className = "dark";
+            document.body.className = "dark";
           } else {
-            document.getElementById("root").className = "basictheme";
+            document.body.className = "basictheme";
           }
         }
     };

@@ -17,3 +17,8 @@
 h3 {
   color: #DEDDDC;
 }
+
+.cross {
+  float: right;
+  cursor: pointer;
+}

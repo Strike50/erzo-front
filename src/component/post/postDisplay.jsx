@@ -128,6 +128,10 @@ export const PostDisplay = props => {
         }
     };
 
+    const onClickDeletePost = () => {
+        props.deletePost(props.id);
+    };
+
     const authorInfo = profileDetail !== null ? (
         <div>
             <ExifOrientationImg alt="" className="imgSearch" src={mediaProfileUrl}/>
@@ -142,7 +146,7 @@ export const PostDisplay = props => {
     ) : <Spinner color="dark"/>;
 
     const onClickRedirectPost = () => {
-            setRedirectPost(<Redirect to={`/post/${props.id}`} />);
+        setRedirectPost(<Redirect to={`/post/${props.id}`} />);
     };
 
     const reactionHeader = () => {
@@ -171,6 +175,7 @@ export const PostDisplay = props => {
         <Card className="card-post">
             {redirectPost}
             <CardHeader>
+                <span className="cross" onClick={() => { onClickDeletePost(); props.refresh();} }>&#x2716;</span>
                 {hasARectioner ? reactionHeader() : null}
                 {authorInfo}
             </CardHeader>
@@ -206,6 +211,7 @@ export const PostDisplay = props => {
 export const mapDispatchToProps = dispatch => {
     return {
         fetchProfileInfoById: id => dispatch(actions.fetchProfileInfoById(id)),
+        deletePost: id => dispatch(actions.deletePost(id)),
         getMedia: (id, type) => dispatch(actions.getMedia(id, type)),
         postReaction: reaction => dispatch(actions.postReaction(reaction)),
         deleteReaction: id => dispatch(actions.deleteReaction(id))
