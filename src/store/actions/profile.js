@@ -218,12 +218,14 @@ export const putEditProfileSuccess = response => {
 export const putEditProfile = user => {
     return dispatch => {
         dispatch(putEditProfileStart());
-        axios.put(`/users`, user)
+        return axios.put(`/users`, user)
             .then(res => {
                 dispatch(putEditProfileSuccess(res));
+                return res;
             })
             .catch(error => {
                 dispatch(putEditProfileFail(error));
+                return error;
             })
     }
 };

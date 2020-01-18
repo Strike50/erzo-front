@@ -15,6 +15,7 @@ import EditProfile from "./edit-profile";
 import {eTheme} from "../../enum/theme";
 import * as actions from '../../store/actions'
 import {eMediaType} from "../../enum/mediaType";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 export const Profile = props => {
     const {resetProfile, fetchProfile, postFollowSomeone, postUnfollowSomeone, loading, patchTheme, profileDetail, getMedia} = props;
@@ -42,7 +43,7 @@ export const Profile = props => {
                             setMediaURL(blobUrl);
                         });
                 }
-                checkSwitchThemeStatus(res.data.user.theme);
+                checkSwitchThemeStatus(undefined);
             })
             .catch(() => {
                 setWrongUsernameRedirect(<Redirect to={"/"} />);
@@ -153,6 +154,10 @@ export const Profile = props => {
                     <CardText>
                     {profileDetail.description}
                     </CardText>
+                    <CardText>
+                        <FontAwesomeIcon icon="birthday-cake" />
+                        {new Date(profileDetail.dateOfBirth).toLocaleDateString('fr-FR')}
+                    </CardText>
                 </Col>
             </Row>
         </Card>
@@ -187,10 +192,10 @@ export const Profile = props => {
                        isFollowing={isFollowing}/> : null;
 
     const editProfile = editModal ?
-        <EditProfile profileDetail={profileDetailDisplay} editModal={editModal} toggleEdit={toggleEdit}/> : null;
+        <EditProfile profileDetail={props.profileDetail} editModal={editModal} toggleEdit={toggleEdit}/> : null;
 
     const checkSwitchThemeButtonStatus = isOwnProfile => {
-       if (isOwnProfile) {
+       if (false) {
            return (<label className="SwitchButton">
                <span>Basic</span>
                <Switch onChange={handleChange} checked={move} onColor="#86d3ff"

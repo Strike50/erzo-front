@@ -34,6 +34,7 @@ import {faCog} from "@fortawesome/free-solid-svg-icons/faCog";
 import {faEnvelope} from "@fortawesome/free-solid-svg-icons/faEnvelope";
 import {faFileImage} from "@fortawesome/free-solid-svg-icons/faFileImage";
 import {faTimes} from "@fortawesome/free-solid-svg-icons/faTimes";
+import {faBirthdayCake} from "@fortawesome/free-solid-svg-icons/faBirthdayCake";
 
 import {library} from '@fortawesome/fontawesome-svg-core';
 
@@ -74,6 +75,7 @@ export const loadIcons = () => {
       faFileImage,
       faEnvelope,
       faCog,
-      faTimes
+      faTimes,
+      faBirthdayCake
   );
 };

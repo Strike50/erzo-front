@@ -85,7 +85,7 @@ export const PostDisplay = props => {
     const checkMediaPlayer = () => {
         if (media !== null && mediaURL !== null) {
             if (media.type === eMediaType.IMAGE) {
-                return <ExifOrientationImg alt='post' className="mediaPost" src={mediaURL}/>
+                return <div className="mediaPost"><ExifOrientationImg alt='post' src={mediaURL} className="displayMedia"/></div>
             } else {
                 return <video className="mediaPost" controls src={mediaURL} />
             }
@@ -134,7 +134,7 @@ export const PostDisplay = props => {
 
     const authorInfo = profileDetail !== null ? (
         <div>
-            <ExifOrientationImg alt="" className="imgSearch" src={mediaProfileUrl}/>
+            <ExifOrientationImg alt="" className="imgSearch" src={mediaProfileUrl} width={100} height={100}/>
             <NavLink to={`/profil/${profileDetail.username}`}>
                 <strong>
                     {profileDetail.lastName} {profileDetail.firstName}

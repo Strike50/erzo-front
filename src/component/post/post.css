@@ -7,15 +7,22 @@
 }
 
 .mediaPost {
-  max-width: 80%;
-  max-height: 500px;
+  height: 400px;
+  overflow: hidden;
 }
 .imgSearch {
   border-radius: 50%;
   float: left;
+  height: auto;
 }
 h3 {
   color: #DEDDDC;
+}
+.mediaPost img
+{
+  height: inherit;
+  width: inherit;
+  padding-bottom: 10%;
 }
 
 .cross {
