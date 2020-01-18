@@ -22,7 +22,7 @@ export const postTweet = (content, file, postParentId) => {
                     return dispatch(postContent(tweetToPost));
             })
         } else {
-            dispatch(postContent({
+            return dispatch(postContent({
                 content,
                 postId: postParentId
             }));
@@ -34,12 +34,14 @@ export const postTweet = (content, file, postParentId) => {
 export const postContent = content => {
     return dispatch => {
         dispatch(postContentStart());
-        axios.post('/posts', content)
-            .then(() => {
+        return axios.post('/posts', content)
+            .then(response => {
                 dispatch(postContentSuccess());
+                return response;
             })
             .catch(error => {
                 dispatch(postContentFail(error));
+                return error;
             })
     }
 };

@@ -26,7 +26,10 @@ const CreatePost = props =>{
 
     const handleSubmitTweet = () => {
         if (content !== '') {
-            props.postTweet(content, media, props.postParentId);
+            props.postTweet(content, media, props.postParentId)
+                .then(() => {
+                    props.refresh();
+            });
             setContent('');
             setMedia(null);
         }

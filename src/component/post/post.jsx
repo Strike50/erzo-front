@@ -6,6 +6,7 @@ import * as actions from "../../store/actions";
 import PostDisplay from "./postDisplay";
 import CreatePost from "../create-post/create-post";
 import './post.css';
+
 export const Post = props => {
     const {getPostById, getCommentsOfPostById} = props;
 
@@ -15,19 +16,23 @@ export const Post = props => {
 
     useEffect(() => {
         if (postId !== null && postId !== undefined) {
-            getPostById(postId)
-                .then(post => {
+            refresh();
+        } else {
+            setPostObject({});
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [postId]);
+
+    const refresh = () => {
+        getPostById(postId)
+            .then(post => {
                 setPostObject(post);
                 getCommentsOfPostById(post.id)
                     .then(responseComments => {
                         setComments(responseComments);
                     })
             });
-        } else {
-            setPostObject({});
-        }
-
-    }, [postId, getPostById, getCommentsOfPostById]);
+    };
 
     const checkComment = () => {
         if (postObject.id !== undefined && postObject.comments.length > 0) {
@@ -67,7 +72,7 @@ export const Post = props => {
                         comments={postObject.comments}
                     />
                     <h3>Ajouter un commentaire</h3>
-                    <CreatePost postParentId={postObject.id}/>
+                    <CreatePost refresh={refresh} postParentId={postObject.id}/>
                 </Col>
                 <Col sm="2"/>
             </Row>

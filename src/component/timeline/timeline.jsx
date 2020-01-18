@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
-import {Col, Row} from "reactstrap";
+import {Button, Col, Row} from "reactstrap";
 import * as actions from '../../store/actions/index'
 import PostDisplay from '../post/postDisplay';
 import CreatePost from "../create-post/create-post";
@@ -8,6 +8,7 @@ import CreatePost from "../create-post/create-post";
 export const Timeline = props => {
 
     const { listPost, fetchTimeline } = props;
+    const [isButtonRefreshDisabled , setIsButtonRefreshDisabled] = useState(false);
 
     useEffect (() => {
         fetchTimeline();
@@ -35,11 +36,20 @@ export const Timeline = props => {
             ))
     ) : null;
 
+    const onClickRefreshButton = e => {
+        e.preventDefault();
+        setIsButtonRefreshDisabled(true);
+        refresh();
+        // **** here's the timeout ****
+        setTimeout(() => setIsButtonRefreshDisabled(false), 10000);
+    };
+
     return (
         <Row>
             <Col sm="2"/>
             <Col>
-                <CreatePost/>
+                <CreatePost refresh={refresh} />
+                <Button disabled={isButtonRefreshDisabled} onClick={onClickRefreshButton}>Actualiser</Button>
                 {listPostDisplay}
             </Col>
             <Col sm="2"/>
