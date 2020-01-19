@@ -3,6 +3,8 @@ import axios from "../../axios-order";
 import {eMediaType} from "../../enum/mediaType";
 import {postMedia} from "./media";
 
+const signal = axios.CancelToken.source();
+
 export const postTweet = (content, file, postParentId) => {
     return dispatch => {
         if (file) {
@@ -34,7 +36,7 @@ export const postTweet = (content, file, postParentId) => {
 export const postContent = content => {
     return dispatch => {
         dispatch(postContentStart());
-        return axios.post('/posts', content)
+        return axios.post('/posts', content, {cancelToken: signal.token})
             .then(response => {
                 dispatch(postContentSuccess());
                 return response;
@@ -68,7 +70,7 @@ export const postContentSuccess = () => {
 export const getPostById = id => {
     return dispatch => {
         dispatch(getPostStart());
-        return axios.get('/posts?id=' + id)
+        return axios.get('/posts?id=' + id, {cancelToken: signal.token})
             .then(response => {
                 dispatch(getPostSuccess());
                 return response.data.post;
@@ -102,7 +104,7 @@ export const getPostSuccess = () => {
 export const postReaction = reaction => {
     return dispatch => {
         dispatch(postReactionStart());
-        return axios.post('/reactions', reaction)
+        return axios.post('/reactions', reaction, {cancelToken: signal.token})
             .then(response => {
                 dispatch(postReactionSuccess());
                 return response;
@@ -136,7 +138,7 @@ export const postReactionSuccess = () => {
 export const deleteReaction = id => {
     return dispatch => {
         dispatch(deleteReactionStart());
-        axios.delete(`/reactions/${id}`)
+        axios.delete(`/reactions/${id}`, {cancelToken: signal.token})
             .then(() => {
                 dispatch(deleteReactionSuccess());
             })
@@ -168,7 +170,7 @@ export const deleteReactionSuccess = () => {
 export const deletePost = id => {
     return dispatch => {
         dispatch(deletePostStart());
-        axios.delete(`/posts/${id}`)
+        axios.delete(`/posts/${id}`, {cancelToken: signal.token})
             .then(() => {
                 dispatch(deletePostSuccess());
             })
@@ -199,7 +201,7 @@ export const deletePostSuccess = () => {
 export const getCommentsOfPostById = id => {
     return dispatch => {
         dispatch(getCommentsOfPostByIdStart());
-        return axios.get(`/posts/comments/${id}`)
+        return axios.get(`/posts/comments/${id}`, {cancelToken: signal.token})
             .then(response => {
                 dispatch(getCommentsOfPostByIdSuccess());
                 return response.data.posts;

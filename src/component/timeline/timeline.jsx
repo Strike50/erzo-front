@@ -4,6 +4,7 @@ import {Button, Col, Row} from "reactstrap";
 import * as actions from '../../store/actions/index'
 import PostDisplay from '../post/postDisplay';
 import CreatePost from "../create-post/create-post";
+import axiosOrder from "../../axios-order";
 
 export const Timeline = props => {
 
@@ -12,10 +13,19 @@ export const Timeline = props => {
     const [displayListPost , setDisplayListPost] = useState(listPost);
 
     useEffect (() => {
-        fetchTimeline().then(response => {
+        fetchTimeline()
+            .then(response => {
             setDisplayListPost(response.data.posts);
         });
     }, [fetchTimeline]);
+
+    const signal = axiosOrder.CancelToken.source();
+    
+    useEffect(() => {
+        return (() => {
+            signal.cancel('Api is being canceled');
+        })
+    });
 
     const refresh = () => {
         fetchTimeline().then(response => {

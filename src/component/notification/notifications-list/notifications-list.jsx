@@ -4,6 +4,7 @@ import {Col, Row} from "reactstrap";
 import * as actions from '../../../store/actions/index'
 import Notification from '../../notification/notification';
 import {eNotificationStatus} from "../../../enum/notificationStatus";
+import axiosOrder from "../../../axios-order";
 
 export const NotificationsList = props => {
 
@@ -37,6 +38,14 @@ export const NotificationsList = props => {
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    const signal = axiosOrder.CancelToken.source();
+
+    useEffect(() => {
+        return (() => {
+            signal.cancel('Api is being canceled');
+        })
+    });
 
     notifications.sort((a, b) => {
         return (b.notificationTimestamp - a.notificationTimestamp);
