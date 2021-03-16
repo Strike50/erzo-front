@@ -1,6 +1,8 @@
 import axios from "../../axios-order";
 import * as actionTypes from "./actionTypes";
 
+const signal = axios.CancelToken.source();
+
 export const fetchProfile = username => {
     return dispatch => {
         return dispatch(fetchProfileInfoByUsername(username))
@@ -15,7 +17,7 @@ export const fetchProfile = username => {
 export const fetchProfileInfoByUsername = username => {
     return dispatch => {
         dispatch(fetchProfileStart());
-        return axios.get(`/users?username=${username}`)
+        return axios.get(`/users?username=${username}`, {cancelToken: signal.token})
             .then(res => {
                 dispatch(fetchProfileSuccess(res));
                 return res
@@ -30,7 +32,7 @@ export const fetchProfileInfoByUsername = username => {
 export const fetchProfileInfoById = id => {
     return dispatch => {
         dispatch(fetchProfileStart());
-        return axios.get(`/users?id=${id}`)
+        return axios.get(`/users?id=${id}`, {cancelToken: signal.token})
             .then(res => {
                 dispatch(fetchProfileSuccess(res));
                 return res
@@ -65,7 +67,7 @@ export const fetchProfileSuccess = response => {
 export const fetchFollowing = id => {
     return dispatch => {
         dispatch(fetchFollowingStart());
-        axios.get(`/users/follows/${id}`)
+        axios.get(`/users/follows/${id}`, {cancelToken: signal.token})
             .then(res => {
                 dispatch(fetchFollowingSuccess(res));
             })
@@ -98,7 +100,7 @@ export const fetchFollowingSuccess = response => {
 export const fetchFollowers = id => {
     return dispatch => {
         dispatch(fetchFollowersStart());
-        return axios.get(`/users/followers/${id}`)
+        return axios.get(`/users/followers/${id}`, {cancelToken: signal.token})
             .then(res => {
                 dispatch(fetchFollowersSuccess(res));
                 return res;
@@ -130,6 +132,21 @@ export const fetchFollowersSuccess = response => {
     }
 };
 
+export const postFollowSomeone = id => {
+    return async dispatch => {
+        dispatch(postFollowSomeoneStart());
+        return axios.post(`/subscriptions/${id}`, null, {cancelToken: signal.token})
+            .then(res => {
+                dispatch(postFollowSomeoneSuccess(res));
+                return res;
+            })
+            .catch(error => {
+                dispatch(postFollowSomeoneFail(error));
+                return error;
+            })
+    }
+};
+
 export const postFollowSomeoneStart = () => {
     return {
         type: actionTypes.POST_FOLLOWSOMEONE_START
@@ -150,16 +167,16 @@ export const postFollowSomeoneSuccess = response => {
     }
 };
 
-export const postFollowSomeone = id => {
+export const postUnfollowSomeone = id => {
     return async dispatch => {
-        dispatch(postFollowSomeoneStart());
-        return axios.post(`/subscriptions/${id}`)
+        dispatch(postUnfollowSomeoneStart());
+        return axios.delete(`/subscriptions/${id}`, {cancelToken: signal.token})
             .then(res => {
-                dispatch(postFollowSomeoneSuccess(res));
+                dispatch(postUnfollowSomeoneSuccess(res));
                 return res;
             })
             .catch(error => {
-                dispatch(postFollowSomeoneFail(error));
+                dispatch(postUnfollowSomeoneFail(error));
                 return error;
             })
     }
@@ -185,20 +202,21 @@ export const postUnfollowSomeoneSuccess = response => {
     }
 };
 
-export const postUnfollowSomeone = id => {
-    return async dispatch => {
-        dispatch(postUnfollowSomeoneStart());
-        return axios.delete(`/subscriptions/${id}`)
+export const putEditProfile = user => {
+    return dispatch => {
+        dispatch(putEditProfileStart());
+        return axios.put(`/users`, user, {cancelToken: signal.token})
             .then(res => {
-                dispatch(postUnfollowSomeoneSuccess(res));
+                dispatch(putEditProfileSuccess(res));
                 return res;
             })
             .catch(error => {
-                dispatch(postUnfollowSomeoneFail(error));
+                dispatch(putEditProfileFail(error));
                 return error;
             })
     }
 };
+
 export const putEditProfileStart = () => {
     return {
         type: actionTypes.PUT_EDITPROFILE_START
@@ -219,17 +237,15 @@ export const putEditProfileSuccess = response => {
     }
 };
 
-export const putEditProfile = user => {
+export const patchTheme = theme => {
     return dispatch => {
-        dispatch(putEditProfileStart());
-        return axios.put(`/users`, user)
+        dispatch(patchThemeStart());
+        axios.patch(`/users/theme`, {theme}, {cancelToken: signal.token})
             .then(res => {
-                dispatch(putEditProfileSuccess(res));
-                return res;
+                dispatch(patchThemeSuccess(res));
             })
             .catch(error => {
-                dispatch(putEditProfileFail(error));
-                return error;
+                dispatch(patchThemeFail(error));
             })
     }
 };
@@ -254,18 +270,19 @@ export const patchThemeSuccess = response => {
     }
 };
 
-export const patchTheme = theme => {
+export const patchPicture = picture => {
     return dispatch => {
-        dispatch(patchThemeStart());
-        axios.patch(`/users/theme`, {theme})
+        dispatch(patchPictureStart());
+        axios.patch(`/users/media`, picture, {cancelToken: signal.token})
             .then(res => {
-                dispatch(patchThemeSuccess(res));
+                dispatch(patchPictureSuccess(res));
             })
             .catch(error => {
-                dispatch(patchThemeFail(error));
+                dispatch(patchPictureFail(error));
             })
     }
 };
+
 export const patchPictureStart = () => {
     return {
         type: actionTypes.PATCH_PICTURE_START
@@ -283,19 +300,6 @@ export const patchPictureSuccess = response => {
     return {
         type: actionTypes.PATCH_PICTURE_SUCCESS,
         patchPictureDetail: response.data
-    }
-};
-
-export const patchPicture = picture => {
-    return dispatch => {
-        dispatch(patchPictureStart());
-        axios.patch(`/users/media`, picture)
-            .then(res => {
-                dispatch(patchPictureSuccess(res));
-            })
-            .catch(error => {
-                dispatch(patchPictureFail(error));
-            })
     }
 };
 

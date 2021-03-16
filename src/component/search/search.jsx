@@ -1,62 +1,60 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Form, FormGroup, Input, ListGroup, ListGroupItem} from "reactstrap";
 import {connect} from "react-redux";
 import * as actions from "../../store/actions";
 import SearchUser from "./searchUser/searchUser";
+import axiosOrder from "../../axios-order";
 
-class Search extends React.Component {
+const Search = props => {
 
-    state = {
-        contentSearch: '',
-        typingTimeout: 0
-    };
+    const [contentSearch, setContentSearch] = useState('');
+    const [typingTimeout, setTypingTimeout] = useState(0);
 
-    handleSearch = e => {
-        const contentSearch = e.target.value;
-        if (contentSearch === "") {
-            this.props.resetUserListSearch();
+    const signal = axiosOrder.CancelToken.source();
+
+    useEffect(() => {
+        return (() => {
+            signal.cancel('Api is being canceled');
+        })
+    });
+
+    const handleSearch = e => {
+        const contentSearchEvent = e.target.value;
+        if (contentSearchEvent === "") {
+            props.resetUserListSearch();
         }
-        if (this.state.typingTimeout) {
-            clearTimeout(this.state.typingTimeout);
+        if (typingTimeout) {
+            clearTimeout(typingTimeout);
         }
-        this.setState({
-            ...this.state,
-            contentSearch,
-            typingTimeout: setTimeout(() => {
+        setContentSearch(contentSearchEvent);
+        setTypingTimeout( setTimeout(() => {
                 if (contentSearch !== '') {
                     this.props.searchUser(contentSearch);
                 }
-            }, 700)
-        });
-
+            }, 700));
     };
 
-    onClickClearSearch = () => {
-        this.setState({
-            ...this.state,
-            contentSearch: ''
-        });
-        this.props.resetUserListSearch();
+    const onClickClearSearch = () => {
+        setContentSearch('');
+        props.resetUserListSearch();
     };
 
-    render() {
-        return (
-            <Form inline>
-                <FormGroup>
-                    <Input type="text" value={this.state.contentSearch} onChange={this.handleSearch}
-                           placeholder="Rechercher un utilisateur ..." className="mr-sm-2" />
-                           <ListGroup>
-                               {this.props.userList !== [] ? this.props.userList.map((user, i) => (
-                                   <ListGroupItem key={`userSearch-${i}`}>
-                                       <SearchUser user={user} onClick={this.onClickClearSearch}/>
-                                   </ListGroupItem>
-                               )) : null}
-                           </ListGroup>
-                </FormGroup>
-            </Form>
-        )
-    }
-}
+    return (
+        <Form inline>
+            <FormGroup>
+                <Input type="text" value={contentSearch} onChange={handleSearch}
+                       placeholder="Rechercher un utilisateur ..." className="mr-sm-2" />
+                       <ListGroup>
+                           {props.userList !== [] ? props.userList.map((user, i) => (
+                               <ListGroupItem key={`userSearch-${i}`}>
+                                   <SearchUser user={user} onClick={onClickClearSearch}/>
+                               </ListGroupItem>
+                           )) : null}
+                       </ListGroup>
+            </FormGroup>
+        </Form>
+    )
+};
 
 const mapStateToProps = (storeState) => ({
     userList: storeState.search.userList

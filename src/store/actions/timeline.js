@@ -1,10 +1,12 @@
 import axios from "../../axios-order";
 import * as actionTypes from "./actionTypes";
 
+const signal = axios.CancelToken.source();
+
 export const fetchTimeline = () => {
     return dispatch => {
         dispatch(fetchTimelineStart());
-        return axios.get('/posts/timeline')
+        return axios.get('/posts/timeline', {cancelToken: signal.token} )
             .then(res => {
                 dispatch(fetchTimelineSuccess(res));
                 return res;
@@ -39,7 +41,7 @@ export const fetchTimelineSuccess = response => {
 export const fetchOwnTimeline = idUser => {
     return dispatch => {
         dispatch(fetchOwnTimelineStart());
-        axios.get(`/posts/user/${idUser}`)
+        axios.get(`/posts/user/${idUser}`,{cancelToken: signal.token} )
             .then(res => {
                 dispatch(fetchOwnTimelineSuccess(res));
             })

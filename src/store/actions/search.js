@@ -1,10 +1,12 @@
 import * as actionTypes from "./actionTypes";
 import axios from "../../axios-order";
 
+const signal = axios.CancelToken.source();
+
 export const searchUser = contentSearch => {
     return dispatch => {
         dispatch(searchBarStart());
-        axios.get('/users/keycloak/' + contentSearch)
+        axios.get('/users/keycloak/' + contentSearch, {cancelToken: signal.token})
             .then(res => {
                 dispatch(searchBarSuccess(res));
             })

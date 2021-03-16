@@ -1,10 +1,12 @@
 import axios from "../../axios-order";
 import * as actionTypes from "./actionTypes";
 
+const signal = axios.CancelToken.source();
+
 export const fetchNotifications = () => {
     return dispatch => {
         dispatch(fetchNotificationsStart());
-        return axios.get('/notifications')
+        return axios.get('/notifications', {cancelToken: signal.token})
             .then(res => {
                 dispatch(fetchNotificationsSuccess(res));
                 return res;
@@ -40,7 +42,7 @@ export const putNotifications = notifications => {
     return dispatch => {
         dispatch(putNotificationsStart());
         console.log(notifications);
-        axios.put('/notifications', {notifications})
+        axios.put('/notifications', {notifications}, {cancelToken: signal.token})
             .then(res => {
                 dispatch(putNotificationsSuccess(res));
             })
@@ -63,7 +65,7 @@ export const putNotificationsFail = error => {
     }
 };
 
-export const putNotificationsSuccess = response => {
+export const putNotificationsSuccess = () => {
     return {
         type: actionTypes.PUT_NOTIFICATIONS_SUCCESS
     }

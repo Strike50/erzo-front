@@ -16,6 +16,7 @@ import {eTheme} from "../../enum/theme";
 import * as actions from '../../store/actions'
 import {eMediaType} from "../../enum/mediaType";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import axiosOrder from "../../axios-order";
 
 export const Profile = props => {
     const {resetProfile, fetchProfile, postFollowSomeone, postUnfollowSomeone, patchTheme, profileDetail, getMedia} = props;
@@ -50,6 +51,14 @@ export const Profile = props => {
             });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [username]);
+
+    const signal = axiosOrder.CancelToken.source();
+
+    useEffect(() => {
+        return (() => {
+            signal.cancel('Api is being canceled');
+        })
+    });
 
     const checkSwitchThemeStatus = themeParam => {
         if (themeParam !== undefined) {

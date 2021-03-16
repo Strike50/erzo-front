@@ -2,11 +2,14 @@ import * as actionTypes from "./actionTypes";
 import axios from "../../axios-order";
 import {eMediaType} from "../../enum/mediaType";
 
+const signal = axios.CancelToken.source();
+
 export const getMedia = (id, typeFile) => {
     return dispatch => {
         dispatch(getMediaStart());
         const url = typeFile === eMediaType.IMAGE ? `/images/${id}` : `/videos/${id}`;
         return axios.get(url, {
+            cancelToken: signal.token,
             responseType: "blob"
         })
             .then(response => {
@@ -46,7 +49,7 @@ export const postMedia = (file, typeFile) => {
             const url = typeFile === eMediaType.IMAGE ? '/images' : '/videos';
             const data = new FormData();
             data.append('file', file);
-            return axios.post(url, data)
+            return axios.post(url, data, {cancelToken: signal.token})
                 .then(res => {
                     dispatch(postMediaSuccess());
                     return res;
